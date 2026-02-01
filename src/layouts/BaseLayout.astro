@@ -4,7 +4,8 @@ import { SITE } from '../consts';
 const {
   title = SITE.title,
   description = SITE.description,
-  ogImage = '/og.png',
+  // Keep a working default (we ship public/og.svg)
+  ogImage = '/og.svg',
   canonical,
 } = Astro.props;
 
@@ -30,7 +31,7 @@ const canonicalUrl = canonical
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {siteUrl ? <meta property="og:url" content={canonicalUrl?.toString() ?? siteUrl.toString()} /> : null}
-    <meta property="og:image" content={ogImage || '/og.svg'} />
+    <meta property="og:image" content={ogImage} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
