@@ -6,14 +6,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="section glass" style="max-width: 900px;">
     <h2>Now</h2>
     <p style="color: var(--muted); margin-top: 10px;">
-      这里是短更新区：记录我最近在做什么、学到什么、下一步计划。
+      这里是短更新区：记录我最近在做什么、学到什么、下一步计划。<br />
+      格式：日期 → 一句话结论 → 3 个 bullet → 下一步。
     </p>
 
-    <div style="margin-top: 18px; display: grid; gap: 14px;">
+    <div style="margin-top: 24px; display: grid; gap: 20px;">
+
       <article class="project-card" style="transform:none;">
-        <h3>2026-02-01</h3>
-        <p>把个人站点从空页面升级到 Astro + Writing + RSS + Pages 部署。</p>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
+          <h3>2026-02-01</h3>
+          <span style="color: var(--primary); font-size: 0.85rem;">Website / AI / Life</span>
+        </div>
+        <p style="margin-top: 8px;">把个人站点从空页面升级到 Astro + Writing + RSS + Pages 部署。</p>
+        <ul style="margin: 12px 0 0 18px; color: var(--muted); font-size: 0.92rem; line-height: 1.6;">
+          <li>完成首页定位（代码/游戏/臭屁宝）</li>
+          <li>文章阅读体验增强（排版/TOC/SEO）</li>
+          <li>准备 Games/Life/Now 占位页</li>
+        </ul>
+        <p style="margin-top: 10px;"><strong>下一步：</strong>合并 PR，继续优化文章页与站内搜索。</p>
       </article>
+
     </div>
   </section>
 </BaseLayout>
