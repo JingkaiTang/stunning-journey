@@ -23,7 +23,17 @@ const posts = (await getCollection('writing'))
             </a>
           </h3>
           {post.data.description ? <p style="color: var(--muted);">{post.data.description}</p> : null}
-          <span>{post.data.pubDate.toISOString().slice(0, 10)} · {post.data.tags.join(' / ')}</span>
+          <span>
+            {post.data.pubDate.toISOString().slice(0, 10)}
+            {post.data.tags.length ? (
+              <> · {post.data.tags.map((t, i) => (
+                <>
+                  <a href={`/tags/${encodeURIComponent(t)}/`} style="color: var(--muted); text-decoration:none;">{t}</a>
+                  {i < post.data.tags.length - 1 ? ' / ' : ''}
+                </>
+              ))}</>
+            ) : null}
+          </span>
         </article>
       ))}
 

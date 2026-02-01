@@ -10,19 +10,45 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+
+const toc = (headings ?? []).filter((h) => h.depth >= 2 && h.depth <= 3);
 ---
 
 <BaseLayout title={`${post.data.title} | 唐靖凯`} description={post.data.description}>
-  <section class="section glass" style="max-width: 900px;">
-    <h1 style="font-size: 2rem; line-height: 1.2;">{post.data.title}</h1>
-    <p style="color: var(--muted); margin-top: 10px;">
-      {post.data.pubDate.toISOString().slice(0, 10)}
-      {post.data.tags.length ? ` · ${post.data.tags.join(' / ')}` : ''}
-    </p>
+  <section class="section glass" style="max-width: 980px;">
+    <div class="post-shell">
+      <article class="post">
+        <h1 class="post-title">{post.data.title}</h1>
+        <p class="post-meta">
+          {post.data.pubDate.toISOString().slice(0, 10)}
+          {post.data.tags.length ? (
+            <> · {post.data.tags.map((t, i) => (
+              <>
+                <a href={`/tags/${encodeURIComponent(t)}/`}>{t}</a>
+                {i < post.data.tags.length - 1 ? ' / ' : ''}
+              </>
+            ))}</>
+          ) : null}
+        </p>
 
-    <div style="margin-top: 24px; color: var(--text);">
-      <Content />
+        <div class="post-content">
+          <Content />
+        </div>
+      </article>
+
+      {toc.length ? (
+        <aside class="toc">
+          <div class="toc-title">目录</div>
+          <ol>
+            {toc.map((h) => (
+              <li class={h.depth === 3 ? 'd3' : 'd2'}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ol>
+        </aside>
+      ) : null}
     </div>
   </section>
 </BaseLayout>

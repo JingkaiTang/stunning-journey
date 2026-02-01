@@ -1,5 +1,19 @@
 ---
-const { title = '唐靖凯', description } = Astro.props;
+import { SITE } from '../consts';
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+  ogImage = '/og.png',
+  canonical,
+} = Astro.props;
+
+const siteUrl = Astro.site;
+const canonicalUrl = canonical
+  ? new URL(canonical, siteUrl)
+  : siteUrl
+    ? new URL(Astro.url.pathname, siteUrl)
+    : null;
 ---
 
 <!doctype html>
@@ -8,7 +22,21 @@ const { title = '唐靖凯', description } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    {description ? <meta name="description" content={description} /> : null}
+    <meta name="description" content={description} />
+
+    {canonicalUrl ? <link rel="canonical" href={canonicalUrl.toString()} /> : null}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {siteUrl ? <meta property="og:url" content={canonicalUrl?.toString() ?? siteUrl.toString()} /> : null}
+    <meta property="og:image" content={ogImage || '/og.svg'} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <title>{title}</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
@@ -19,6 +47,8 @@ const { title = '唐靖凯', description } = Astro.props;
         <a class="logo" href="/">JINGKAI//TANG</a>
         <div class="nav-links">
           <a href="/writing">文章</a>
+          <a href="/games">游戏</a>
+          <a href="/life">生活</a>
           <a href="/now">Now</a>
           <a href="/rss.xml">RSS</a>
         </div>
