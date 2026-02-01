@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Now | 唐靖凯" description="我最近在做什么（短更新）">
+  <section class="section glass" style="max-width: 900px;">
+    <h2>Now</h2>
+    <p style="color: var(--muted); margin-top: 10px;">
+      这里是短更新区：记录我最近在做什么、学到什么、下一步计划。
+    </p>
+
+    <div style="margin-top: 18px; display: grid; gap: 14px;">
+      <article class="project-card" style="transform:none;">
+        <h3>2026-02-01</h3>
+        <p>把个人站点从空页面升级到 Astro + Writing + RSS + Pages 部署。</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

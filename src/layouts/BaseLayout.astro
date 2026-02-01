@@ -1,0 +1,40 @@
+---
+const { title = '唐靖凯', description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    {description ? <meta name="description" content={description} /> : null}
+    <title>{title}</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient-glow"></div>
+    <header class="site-header" style="padding-bottom: 24px;">
+      <nav class="nav">
+        <a class="logo" href="/">JINGKAI//TANG</a>
+        <div class="nav-links">
+          <a href="/writing">文章</a>
+          <a href="/now">Now</a>
+          <a href="/rss.xml">RSS</a>
+        </div>
+      </nav>
+    </header>
+
+    <main style="padding-top: 0;">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <span>© {new Date().getFullYear()} 唐靖凯</span>
+      <div>
+        <a href="/">Home</a>
+        <a href="/writing">Writing</a>
+      </div>
+    </footer>
+  </body>
+</html>

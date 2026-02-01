@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout title="Writing | 唐靖凯" description="AI 相关文章与实践记录">
+  <section class="section glass">
+    <div class="section-head">
+      <h2>Writing</h2>
+      <p>AI 相关文章与实践记录（按时间倒序）。</p>
+    </div>
+
+    <div style="display:grid; gap:16px;">
+      {posts.map((post) => (
+        <article class="project-card" style="transform:none;">
+          <h3 style="margin-bottom: 6px;">
+            <a href={`/writing/${post.slug}/`} style="color: var(--text); text-decoration:none;">
+              {post.data.title}
+            </a>
+          </h3>
+          {post.data.description ? <p style="color: var(--muted);">{post.data.description}</p> : null}
+          <span>{post.data.pubDate.toISOString().slice(0, 10)} · {post.data.tags.join(' / ')}</span>
+        </article>
+      ))}
+
+      {posts.length === 0 ? <p style="color: var(--muted);">还没有文章。</p> : null}
+    </div>
+  </section>
+</BaseLayout>

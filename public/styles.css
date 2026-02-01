@@ -82,6 +82,11 @@ body {
   font-weight: 600;
   cursor: pointer;
   box-shadow: var(--glow);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .hero {
@@ -129,6 +134,11 @@ body {
   cursor: pointer;
   border: 1px solid transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .primary {
@@ -300,12 +310,15 @@ main {
   gap: 16px;
 }
 
-.stack-list div {
+.stack-list div,
+.stack-list a {
   padding: 10px 18px;
   border-radius: 999px;
   background: rgba(124, 249, 255, 0.1);
   border: 1px solid rgba(124, 249, 255, 0.2);
   color: var(--primary);
+  text-decoration: none;
+  display: inline-flex;
 }
 
 .contact {

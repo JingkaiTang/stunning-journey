@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing');
+  return posts
+    .filter((p) => !p.data.draft)
+    .map((p) => ({ params: { slug: p.slug }, props: { post: p } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} | 唐靖凯`} description={post.data.description}>
+  <section class="section glass" style="max-width: 900px;">
+    <h1 style="font-size: 2rem; line-height: 1.2;">{post.data.title}</h1>
+    <p style="color: var(--muted); margin-top: 10px;">
+      {post.data.pubDate.toISOString().slice(0, 10)}
+      {post.data.tags.length ? ` · ${post.data.tags.join(' / ')}` : ''}
+    </p>
+
+    <div style="margin-top: 24px; color: var(--text);">
+      <Content />
+    </div>
+  </section>
+</BaseLayout>

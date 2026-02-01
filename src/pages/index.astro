@@ -1,0 +1,149 @@
+---
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>唐靖凯 | AI 文章与项目</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient-glow"></div>
+    <header class="site-header">
+      <nav class="nav">
+        <div class="logo">JINGKAI//TANG</div>
+        <div class="nav-links">
+          <a href="#about">关于</a>
+          <a href="/writing">文章</a>
+          <a href="#projects">项目</a>
+          <a href="#contact">联系</a>
+        </div>
+        <a class="cta" href="#contact">联系我</a>
+      </nav>
+
+      <section class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">个人主页 / AI 写作与实验</p>
+          <h1>
+            你好，我是<span>唐靖凯</span>，
+            <br />记录 AI 相关思考与实践。
+          </h1>
+          <p class="lead">
+            这里会持续更新：Agent、工具链、工程实践、读书/读论文笔记，以及可复用的模板与代码。
+          </p>
+          <div class="hero-actions">
+            <a class="primary" href="/writing">阅读文章</a>
+            <a class="ghost" href="#projects">查看项目</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <strong>AI</strong>
+              <span>主题</span>
+            </div>
+            <div>
+              <strong>持续</strong>
+              <span>更新</span>
+            </div>
+            <div>
+              <strong>开源</strong>
+              <span>优先</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="pulse"></div>
+          <div class="card-header">
+            <span>状态</span>
+            <span class="status">写作/构建中</span>
+          </div>
+          <h3>Profile</h3>
+          <ul>
+            <li>定位：AI 工程与应用实践</li>
+            <li>内容：文章 / 代码 / 模板</li>
+            <li>原则：隐私优先（不公开敏感信息）</li>
+          </ul>
+          <div class="card-footer">
+            <span>订阅</span>
+            <a class="signature" href="/rss.xml">/rss.xml</a>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section id="about" class="section glass">
+        <div>
+          <h2>关于</h2>
+          <p>
+            这是我的个人主页与写作区：记录我在 AI 相关方向的学习、实验、踩坑与复盘。
+            页面只展示少量公开信息，其它敏感内容默认不放在仓库与网页里。
+          </p>
+        </div>
+        <div class="metrics">
+          <div>
+            <h4>主题</h4>
+            <p>Agent / LLM / 工具链 / 工程实践</p>
+          </div>
+          <div>
+            <h4>形式</h4>
+            <p>短更新 + 长文复盘 + 可复用模板</p>
+          </div>
+          <div>
+            <h4>目标</h4>
+            <p>持续积累、可检索、可复用</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="section-head">
+          <h2>项目</h2>
+          <p>这里放公开 demo / 开源仓库链接（逐步补全）。</p>
+        </div>
+        <div class="project-grid">
+          <article class="project-card">
+            <h3>个人主页（本网站）</h3>
+            <p>基于 Astro + GitHub Pages，支持文章与 RSS。</p>
+            <span>2026 / Static site</span>
+          </article>
+          <article class="project-card">
+            <h3>AI 文章更新</h3>
+            <p>持续写作：从“结论”到“可复现步骤”。</p>
+            <span>Ongoing / Writing</span>
+          </article>
+          <article class="project-card">
+            <h3>模板与工具</h3>
+            <p>把常用流程沉淀成脚本/模板，减少重复劳动。</p>
+            <span>Ongoing / Tooling</span>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact">
+        <div>
+          <h2>联系</h2>
+          <p>
+            建议通过 GitHub 发起 issue / discussion，或在社交平台私信。
+            （避免在页面公开邮箱，减少爬虫骚扰）
+          </p>
+        </div>
+        <div class="stack-list">
+          <a href="https://github.com/JingkaiTang" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="/writing">Writing</a>
+          <a href="/rss.xml">RSS</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© {new Date().getFullYear()} 唐靖凯</span>
+      <div>
+        <a href="/writing">文章</a>
+        <a href="/rss.xml">RSS</a>
+      </div>
+    </footer>
+  </body>
+</html>
