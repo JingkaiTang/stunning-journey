@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing')).filter((p) => !p.data.draft);
+
+const tagCounts = new Map<string, number>();
+for (const p of posts) {
+  for (const t of p.data.tags ?? []) {
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  }
+}
+
+const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+---
+
+<BaseLayout title="Tags | 唐靖凯" description="文章标签">
+  <section class="section glass" style="max-width: 900px;">
+    <div class="section-head">
+      <h2>Tags</h2>
+      <p>按标签浏览文章。</p>
+    </div>
+
+    <div class="stack-list" style="margin-top: 16px;">
+      {tags.map(([tag, count]) => (
+        <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag} ({count})</a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

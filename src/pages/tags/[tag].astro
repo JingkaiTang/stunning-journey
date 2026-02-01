@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('writing')).filter((p) => !p.data.draft);
+  const tagSet = new Set<string>();
+  for (const p of posts) for (const t of p.data.tags ?? []) tagSet.add(t);
+
+  return [...tagSet].map((tag) => ({
+    params: { tag: encodeURIComponent(tag) },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+
+const posts = (await getCollection('writing'))
+  .filter((p) => !p.data.draft)
+  .filter((p) => (p.data.tags ?? []).includes(tag))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout title={`${tag} | Tags | 唐靖凯`} description={`标签：${tag}`}
+>
+  <section class="section glass" style="max-width: 900px;">
+    <div class="section-head">
+      <h2>#{tag}</h2>
+      <p>{posts.length} 篇</p>
+    </div>
+
+    <div style="display:grid; gap:16px; margin-top: 12px;">
+      {posts.map((post) => (
+        <article class="project-card" style="transform:none;">
+          <h3 style="margin-bottom: 6px;">
+            <a href={`/writing/${post.slug}/`} style="color: var(--text); text-decoration:none;">
+              {post.data.title}
+            </a>
+          </h3>
+          {post.data.description ? <p style="color: var(--muted);">{post.data.description}</p> : null}
+          <span>{post.data.pubDate.toISOString().slice(0, 10)}</span>
+        </article>
+      ))}
+    </div>
+
+    <p style="margin-top: 18px;"><a href="/tags">← 返回标签列表</a></p>
+  </section>
+</BaseLayout>

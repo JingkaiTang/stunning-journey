@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#05050b"/>
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7cf9ff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <text x="600" y="280" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="64" fill="#e6ecff" text-anchor="middle" font-weight="600">唐靖凯</text>
+  <text x="600" y="360" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="28" fill="#a0a7c5" text-anchor="middle">代码、游戏与臭屁宝</text>
+  <text x="600" y="420" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#7cf9ff" text-anchor="middle">jingkaitang.github.io</text>
+</svg>
