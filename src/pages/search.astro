@@ -6,6 +6,10 @@ const description = '站内搜索（离线索引，纯静态）。';
 ---
 
 <BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  </Fragment>
+
   <section class="section glass" style="max-width: 980px;">
     <h1 class="post-title" style="margin-top: 0;">Search</h1>
     <p class="post-meta">纯静态搜索（Pagefind），不需要后端。</p>
@@ -24,6 +28,4 @@ const description = '站内搜索（离线索引，纯静态）。';
       });
     })();
   </script>
-
-  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
 </BaseLayout>
