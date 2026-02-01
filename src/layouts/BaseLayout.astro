@@ -40,6 +40,7 @@ const canonicalUrl = canonical
 
     <title>{title}</title>
     <link rel="stylesheet" href="/styles.css" />
+    <slot name="head" />
   </head>
   <body>
     <div class="ambient-glow"></div>
@@ -51,6 +52,7 @@ const canonicalUrl = canonical
           <a href="/games">游戏</a>
           <a href="/life">生活</a>
           <a href="/now">Now</a>
+          <a href="/search">Search</a>
           <a href="/rss.xml">RSS</a>
         </div>
       </nav>

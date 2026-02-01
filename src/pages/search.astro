@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Search | 唐靖凯';
+const description = '站内搜索（离线索引，纯静态）。';
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  </Fragment>
+
+  <section class="section glass" style="max-width: 980px;">
+    <h1 class="post-title" style="margin-top: 0;">Search</h1>
+    <p class="post-meta">纯静态搜索（Pagefind），不需要后端。</p>
+
+    <div id="pagefind" class="post-content"></div>
+  </section>
+
+  <script is:inline type="module">
+    // Pagefind assets are generated at build time into /pagefind.
+    // Vite can't resolve them during build, so we explicitly ignore bundling.
+    (async () => {
+      const { PagefindUI } = await import(/* @vite-ignore */ '/pagefind/pagefind-ui.js');
+      new PagefindUI({
+        element: '#pagefind',
+        showSubResults: true,
+      });
+    })();
+  </script>
+</BaseLayout>
