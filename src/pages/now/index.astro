@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { pickCover } from '../../utils/contentPreview';
+import { pickCover, resolveMaybeRelativeUrl } from '../../utils/contentPreview';
 
 const posts = (await getCollection('now'))
   .filter((p) => !p.data.draft)
@@ -18,12 +18,14 @@ const posts = (await getCollection('now'))
 
     <div style="margin-top: 24px; display: grid; gap: 16px;">
       {posts.map((post) => {
-        const cover = pickCover(post);
+        const href = `/now/${post.slug.replace(/\/index$/, '')}/`;
+        const coverRaw = pickCover(post);
+        const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
         return (
           <article class="project-card" style="transform:none;">
-            <div style="display:grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start;">
+            <div style={`display:grid; ${cover ? 'grid-template-columns: 140px 1fr; gap: 14px; align-items: start;' : ''}`}>
               {cover ? (
-                <a href={`/now/${post.slug.replace(/\/index$/, '')}/`} style="display:block;">
+                <a href={href} style="display:block;">
                   <img
                     src={cover}
                     alt={post.data.title}
@@ -31,12 +33,7 @@ const posts = (await getCollection('now'))
                     style="width: 140px; height: 92px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border);"
                   />
                 </a>
-              ) : (
-                <div
-                  aria-hidden="true"
-                  style="width: 140px; height: 92px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,.04);"
-                ></div>
-              )}
+              ) : null}
 
               <div>
                 <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
