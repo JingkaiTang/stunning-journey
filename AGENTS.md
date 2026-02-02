@@ -22,6 +22,9 @@
   - `fix/...` bug 修复
   - `chore/...` 杂项/整理/迁移
 - **提交粒度**：一个 PR 做一件事（例如 Now 架构改造不要夹杂首页文案）。
+- **发布策略（重要）**：
+  - **Writing（长文）必须走 PR**：开分支 → 提交 → PR → review → merge。
+  - **Now（短更新）不需要 PR**：允许直接 commit 到 `main` 并 push（以速度优先）。
 - **合并前自检**：
   - `npm install`（或 `npm ci`）
   - `npm run build`
