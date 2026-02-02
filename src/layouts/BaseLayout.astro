@@ -78,9 +78,10 @@ const canonicalUrl = canonical
           gap: 10px;
         }
 
-        .content-card .content-card__thumb {
-          width: 100% !important;
-          height: 180px !important;
+        /* More specific selector to win the cascade without !important */
+        .project-card.content-card .content-card__thumb {
+          width: 100%;
+          height: 180px;
         }
       }
     </style>
