@@ -20,6 +20,8 @@ const { Content } = await render(post);
   title={`${post.data.title} | 唐靖凯`}
   description={post.data.description}
   canonical={`/now/${post.slug.replace(/\/index$/, '')}/`}
+  ogType="article"
+  publishedTime={post.data.pubDate.toISOString()}
 >
   <section class="section glass" style="max-width: 980px;">
     <article class="post">

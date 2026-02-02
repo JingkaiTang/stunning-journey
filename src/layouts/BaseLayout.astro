@@ -7,6 +7,8 @@ const {
   // Keep a working default (we ship public/og.svg)
   ogImage = '/og.svg',
   canonical,
+  ogType = 'website',
+  publishedTime,
 } = Astro.props;
 
 const siteUrl = Astro.site;
@@ -27,7 +29,10 @@ const canonicalUrl = canonical
 
     {canonicalUrl ? <link rel="canonical" href={canonicalUrl.toString()} /> : null}
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    {ogType === 'article' && publishedTime ? (
+      <meta property="article:published_time" content={publishedTime} />
+    ) : null}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {siteUrl ? <meta property="og:url" content={canonicalUrl?.toString() ?? siteUrl.toString()} /> : null}
