@@ -1,4 +1,5 @@
 import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
 
 function sh(cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, { stdio: 'inherit', ...opts });
@@ -35,9 +36,7 @@ if (!slug) {
 }
 
 const nowPath = `src/content/now/${slug}/index.md`;
-try {
-  shOut('bash', ['-lc', `test -f ${nowPath} && echo ok`]);
-} catch {
+if (!fs.existsSync(nowPath)) {
   console.error(`Now entry not found: ${nowPath}`);
   process.exit(2);
 }

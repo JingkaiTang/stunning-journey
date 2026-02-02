@@ -1,4 +1,5 @@
 import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
 
 function sh(cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, { stdio: 'inherit', ...opts });
@@ -50,18 +51,17 @@ if (porcelain) {
 
 // Verify post exists
 const postPath = `src/content/writing/${slug}/index.md`;
-try {
-  shOut('bash', ['-lc', `test -f ${postPath} && echo ok`]);
-} catch {
+if (!fs.existsSync(postPath)) {
   console.error(`Post not found: ${postPath}`);
   process.exit(2);
 }
 
 // Optional: ensure not draft
 if (!draftOk) {
-  const draft = shOut('bash', ['-lc', `node -e "const fs=require('fs');const t=fs.readFileSync('${postPath}','utf8');console.log(/\n\s*draft:\s*true\s*\n/.test(t)?'true':'false')"`]);
-  if (draft === 'true') {
-    console.error('Post is still draft:true. Pass --draftOk to override.');
+  const t = fs.readFileSync(postPath, 'utf8');
+  const isDraft = /\n\s*draft:\s*true\s*\n/i.test(t);
+  if (isDraft) {
+    console.error('Post is still draft:true. Pass --draft-ok to override.');
     process.exit(2);
   }
 }
