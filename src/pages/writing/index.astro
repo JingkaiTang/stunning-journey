@@ -2,6 +2,24 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
+type PostEntry = Awaited<ReturnType<typeof getCollection<'writing'>>>[number];
+
+function pickFirstImageFromMarkdown(md: string): string | null {
+  // Markdown image: ![alt](url "title")
+  const m1 = md.match(/!\[[^\]]*\]\(([^\s)]+)(?:\s+"[^"]*")?\)/);
+  if (m1?.[1]) return m1[1];
+
+  // HTML image: <img src="...">
+  const m2 = md.match(/<img[^>]*\ssrc=["']([^"']+)["'][^>]*>/i);
+  if (m2?.[1]) return m2[1];
+
+  return null;
+}
+
+function pickCover(post: PostEntry): string | null {
+  return post.data.cover ?? pickFirstImageFromMarkdown(post.body);
+}
+
 const posts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
@@ -15,27 +33,50 @@ const posts = (await getCollection('writing'))
     </div>
 
     <div style="display:grid; gap:16px;">
-      {posts.map((post) => (
-        <article class="project-card" style="transform:none;">
-          <h3 style="margin-bottom: 6px;">
-            <a href={`/writing/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
-              {post.data.title}
-            </a>
-          </h3>
-          {post.data.description ? <p style="color: var(--muted);">{post.data.description}</p> : null}
-          <span>
-            {post.data.pubDate.toISOString().slice(0, 10)}
-            {post.data.tags.length ? (
-              <> · {post.data.tags.map((t, i) => (
-                <>
-                  <a href={`/tags/${encodeURIComponent(t)}/`} style="color: var(--muted); text-decoration:none;">{t}</a>
-                  {i < post.data.tags.length - 1 ? ' / ' : ''}
-                </>
-              ))}</>
-            ) : null}
-          </span>
-        </article>
-      ))}
+      {posts.map((post) => {
+        const cover = pickCover(post);
+        return (
+          <article class="project-card" style="transform:none;">
+            <div style="display:grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start;">
+              {cover ? (
+                <a href={`/writing/${post.slug.replace(/\/index$/, '')}/`} style="display:block;">
+                  <img
+                    src={cover}
+                    alt={post.data.title}
+                    loading="lazy"
+                    style="width: 140px; height: 92px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border);"
+                  />
+                </a>
+              ) : (
+                <div
+                  aria-hidden="true"
+                  style="width: 140px; height: 92px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,.04);"
+                ></div>
+              )}
+
+              <div>
+                <h3 style="margin:0 0 6px;">
+                  <a href={`/writing/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
+                    {post.data.title}
+                  </a>
+                </h3>
+                {post.data.description ? <p style="margin: 0 0 10px; color: var(--muted);">{post.data.description}</p> : null}
+                <span>
+                  {post.data.pubDate.toISOString().slice(0, 10)}
+                  {post.data.tags.length ? (
+                    <> · {post.data.tags.map((t, i) => (
+                      <>
+                        <a href={`/tags/${encodeURIComponent(t)}/`} style="color: var(--muted); text-decoration:none;">{t}</a>
+                        {i < post.data.tags.length - 1 ? ' / ' : ''}
+                      </>
+                    ))}</>
+                  ) : null}
+                </span>
+              </div>
+            </div>
+          </article>
+        );
+      })}
 
       {posts.length === 0 ? <p style="color: var(--muted);">还没有文章。</p> : null}
     </div>

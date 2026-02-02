@@ -2,6 +2,22 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
+type PostEntry = Awaited<ReturnType<typeof getCollection<'now'>>>[number];
+
+function pickFirstImageFromMarkdown(md: string): string | null {
+  const m1 = md.match(/!\[[^\]]*\]\(([^\s)]+)(?:\s+"[^"]*")?\)/);
+  if (m1?.[1]) return m1[1];
+
+  const m2 = md.match(/<img[^>]*\ssrc=["']([^"']+)["'][^>]*>/i);
+  if (m2?.[1]) return m2[1];
+
+  return null;
+}
+
+function pickCover(post: PostEntry): string | null {
+  return post.data.cover ?? pickFirstImageFromMarkdown(post.body);
+}
+
 const posts = (await getCollection('now'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
@@ -16,25 +32,48 @@ const posts = (await getCollection('now'))
     </p>
 
     <div style="margin-top: 24px; display: grid; gap: 16px;">
-      {posts.map((post) => (
-        <article class="project-card" style="transform:none;">
-          <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
-            <h3 style="margin:0;">
-              <a href={`/now/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
-                {post.data.pubDate.toISOString().slice(0, 10)} · {post.data.title.replace(/^Now:\s*/, '')}
-              </a>
-            </h3>
-            <span style="color: var(--primary); font-size: 0.85rem;">Now</span>
-          </div>
+      {posts.map((post) => {
+        const cover = pickCover(post);
+        return (
+          <article class="project-card" style="transform:none;">
+            <div style="display:grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start;">
+              {cover ? (
+                <a href={`/now/${post.slug.replace(/\/index$/, '')}/`} style="display:block;">
+                  <img
+                    src={cover}
+                    alt={post.data.title}
+                    loading="lazy"
+                    style="width: 140px; height: 92px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border);"
+                  />
+                </a>
+              ) : (
+                <div
+                  aria-hidden="true"
+                  style="width: 140px; height: 92px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,.04);"
+                ></div>
+              )}
 
-          {post.data.description ? <p style="margin-top: 8px; color: var(--muted);">{post.data.description}</p> : null}
+              <div>
+                <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
+                  <h3 style="margin:0;">
+                    <a href={`/now/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
+                      {post.data.pubDate.toISOString().slice(0, 10)} · {post.data.title.replace(/^Now:\s*/, '')}
+                    </a>
+                  </h3>
+                  <span style="color: var(--primary); font-size: 0.85rem;">Now</span>
+                </div>
 
-          <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
-            <a href={`/now/${post.slug.replace(/\/index$/, '')}/`}>阅读全文 →</a>
-            <a href="/tags/now/" style="color: var(--muted);">#now</a>
-          </div>
-        </article>
-      ))}
+                {post.data.description ? <p style="margin-top: 8px; color: var(--muted);">{post.data.description}</p> : null}
+
+                <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
+                  <a href={`/now/${post.slug.replace(/\/index$/, '')}/`}>阅读全文 →</a>
+                  <a href="/tags/now/" style="color: var(--muted);">#now</a>
+                </div>
+              </div>
+            </div>
+          </article>
+        );
+      })}
 
       {posts.length === 0 ? <p style="color: var(--muted);">还没有 Now 更新。</p> : null}
     </div>

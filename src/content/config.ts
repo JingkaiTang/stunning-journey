@@ -8,6 +8,9 @@ const baseSchema = z.object({
   tags: z.array(z.string()).default([]),
   draft: z.boolean().default(false),
 
+  // Preview image for list/OG (preferred)
+  cover: z.string().optional(),
+
   // Authorship
   by: z
     .object({
