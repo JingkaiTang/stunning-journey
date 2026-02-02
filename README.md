@@ -59,9 +59,12 @@ src/content/writing/
 npm run new:post
 npm run new:post -- --title "标题" --slug my-post --tags "ai,tooling" --date 2026-02-02
 
-# 新建 Now（独立 collection，slug=YYYYMMDDHHmm-<suffix>，Asia/Shanghai）
+# 新建 Now（独立 collection，默认 slug=YYYYMMDDHHmmss，Asia/Shanghai）
 npm run new:now
 npm run new:now -- --title "今天做了什么" --tags "openclaw,setup"
+
+# 可选：把标题附到 slug 后（URL 更长但更可读）
+npm run new:now -- --title "今天做了什么" --tags "openclaw,setup" --withTitle
 
 # 同步文章/Now 资源到 public（构建/开发前可单独跑）
 npm run sync:assets
