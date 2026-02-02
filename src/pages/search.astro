@@ -7,7 +7,7 @@ const description = '站内搜索（离线索引，纯静态）。';
 
 <BaseLayout title={title} description={description}>
   <Fragment slot="head">
-    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+    <link rel="stylesheet" href={`${import.meta.env.BASE_URL}pagefind/pagefind-ui.css`} />
   </Fragment>
 
   <section class="section glass" style="max-width: 980px;">
@@ -19,13 +19,31 @@ const description = '站内搜索（离线索引，纯静态）。';
 
   <script is:inline type="module">
     // Pagefind assets are generated at build time into /pagefind.
-    // Vite can't resolve them during build, so we explicitly ignore bundling.
+    // On GitHub Pages (project pages), we must respect BASE_URL.
     (async () => {
-      const { PagefindUI } = await import(/* @vite-ignore */ '/pagefind/pagefind-ui.js');
-      new PagefindUI({
-        element: '#pagefind',
-        showSubResults: true,
-      });
+      const base = import.meta.env.BASE_URL;
+      try {
+        const uiUrl = `${base}pagefind/pagefind-ui.js`;
+        const { PagefindUI } = await import(/* @vite-ignore */ uiUrl);
+        new PagefindUI({
+          element: '#pagefind',
+          showSubResults: true,
+        });
+      } catch (e) {
+        const el = document.querySelector('#pagefind');
+        if (el) {
+          // Build error message safely without using innerHTML
+          el.textContent = '';
+          const p = document.createElement('p');
+          p.append(document.createTextNode('搜索组件加载失败：请确认构建产物包含 '));
+          const code = document.createElement('code');
+          code.textContent = '/pagefind';
+          p.append(code);
+          p.append(document.createTextNode(' 目录。'));
+          el.appendChild(p);
+        }
+        console.error('[search] failed to load pagefind', e);
+      }
     })();
   </script>
 </BaseLayout>
