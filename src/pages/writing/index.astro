@@ -1,24 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-
-type PostEntry = Awaited<ReturnType<typeof getCollection<'writing'>>>[number];
-
-function pickFirstImageFromMarkdown(md: string): string | null {
-  // Markdown image: ![alt](url "title")
-  const m1 = md.match(/!\[[^\]]*\]\(([^\s)]+)(?:\s+"[^"]*")?\)/);
-  if (m1?.[1]) return m1[1];
-
-  // HTML image: <img src="...">
-  const m2 = md.match(/<img[^>]*\ssrc=["']([^"']+)["'][^>]*>/i);
-  if (m2?.[1]) return m2[1];
-
-  return null;
-}
-
-function pickCover(post: PostEntry): string | null {
-  return post.data.cover ?? pickFirstImageFromMarkdown(post.body);
-}
+import { pickCover } from '../../utils/contentPreview';
 
 const posts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
