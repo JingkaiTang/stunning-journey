@@ -18,7 +18,7 @@ const posts = (await getCollection('writing'))
       {posts.map((post) => (
         <article class="project-card" style="transform:none;">
           <h3 style="margin-bottom: 6px;">
-            <a href={`/writing/${post.slug}/`} style="color: var(--text); text-decoration:none;">
+            <a href={`/writing/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
               {post.data.title}
             </a>
           </h3>

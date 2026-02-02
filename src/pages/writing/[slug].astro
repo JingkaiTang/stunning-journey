@@ -6,7 +6,10 @@ export async function getStaticPaths() {
   const posts = await getCollection('writing');
   return posts
     .filter((p) => !p.data.draft)
-    .map((p) => ({ params: { slug: p.slug }, props: { post: p } }));
+    .map((p) => ({
+      params: { slug: p.slug.replace(/\/index$/, '') },
+      props: { post: p },
+    }));
 }
 
 const { post } = Astro.props;
@@ -15,7 +18,11 @@ const { Content, headings } = await render(post);
 const toc = (headings ?? []).filter((h) => h.depth >= 2 && h.depth <= 3);
 ---
 
-<BaseLayout title={`${post.data.title} | 唐靖凯`} description={post.data.description}>
+<BaseLayout
+  title={`${post.data.title} | 唐靖凯`}
+  description={post.data.description}
+  canonical={`/writing/${post.slug.replace(/\/index$/, '')}/`}
+>
   <section class="section glass" style="max-width: 980px;">
     <div class="post-shell">
       <article class="post">

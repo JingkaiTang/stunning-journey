@@ -4,13 +4,17 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist",
+    "dev:watch": "node scripts/dev-watch.mjs",
+    "sync:assets": "node scripts/sync-writing-assets.mjs",
+    "new:post": "node scripts/new-post.mjs",
+    "build": "npm run sync:assets && astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.15",
     "astro": "^5.17.1",
+    "chokidar": "^3.6.0",
     "pagefind": "^1.3.0"
   }
 }
