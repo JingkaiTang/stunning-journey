@@ -1,7 +1,7 @@
 ---
 title: "Now: 站点从空页面升级到可持续更新（Astro + RSS + Pages）"
 description: "把个人站点从空页面升级到 Astro + Writing + RSS + Pages 部署。"
-pubDate: 2026-02-01
+pubDate: 2026-02-01T12:00:00+08:00
 tags: ["now", "site", "astro", "github-pages", "writing"]
 draft: false
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Now: 周末试用 OpenClaw 大龙虾"
 description: "拿出老笔记本重装 CachyOS，部署大龙虾，配置 channels/models，并创建本项目。"
-pubDate: 2026-01-31
+pubDate: 2026-01-31T12:00:00+08:00
 tags: ["now", "openclaw", "setup"]
 draft: false
 ---

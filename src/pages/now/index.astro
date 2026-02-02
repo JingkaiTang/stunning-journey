@@ -1,10 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('writing'))
+const posts = (await getCollection('now'))
   .filter((p) => !p.data.draft)
-  .filter((p) => (p.data.tags ?? []).includes('now'))
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
@@ -13,7 +12,7 @@ const posts = (await getCollection('writing'))
     <h2>Now</h2>
     <p style="color: var(--muted); margin-top: 10px;">
       这里是短更新区：记录我最近在做什么、学到什么、下一步计划。<br />
-      每条 Now 都是一篇文章（带 tag：<code>now</code>）。
+      规则：Now 独立为 content collection（`src/content/now/`），每条带 tag：<code>now</code>。
     </p>
 
     <div style="margin-top: 24px; display: grid; gap: 16px;">
@@ -21,7 +20,7 @@ const posts = (await getCollection('writing'))
         <article class="project-card" style="transform:none;">
           <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
             <h3 style="margin:0;">
-              <a href={`/writing/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
+              <a href={`/now/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
                 {post.data.pubDate.toISOString().slice(0, 10)} · {post.data.title.replace(/^Now:\s*/, '')}
               </a>
             </h3>
@@ -31,7 +30,7 @@ const posts = (await getCollection('writing'))
           {post.data.description ? <p style="margin-top: 8px; color: var(--muted);">{post.data.description}</p> : null}
 
           <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
-            <a href={`/writing/${post.slug.replace(/\/index$/, '')}/`}>阅读全文 →</a>
+            <a href={`/now/${post.slug.replace(/\/index$/, '')}/`}>阅读全文 →</a>
             <a href="/tags/now/" style="color: var(--muted);">#now</a>
           </div>
         </article>

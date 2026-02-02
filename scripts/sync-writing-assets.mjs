@@ -3,7 +3,10 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const SRC_WRITING_DIR = path.join(ROOT, 'src', 'content', 'writing');
+const SRC_NOW_DIR = path.join(ROOT, 'src', 'content', 'now');
+
 const PUBLIC_WRITING_DIR = path.join(ROOT, 'public', 'writing');
+const PUBLIC_NOW_DIR = path.join(ROOT, 'public', 'now');
 
 const ASSET_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg', '.mp4']);
 
@@ -43,12 +46,12 @@ function slugFromIndexMd(indexMdPath) {
   return path.basename(indexMdPath, path.extname(indexMdPath));
 }
 
-async function syncOnePostDir(postDir) {
-  const indexMd = path.join(postDir, 'index.md');
+async function syncOnePostDir({ postDir, indexName = 'index.md', publicBaseDir, slugFn }) {
+  const indexMd = path.join(postDir, indexName);
   if (!(await exists(indexMd))) return;
 
-  const slug = slugFromIndexMd(indexMd);
-  const outDir = path.join(PUBLIC_WRITING_DIR, slug);
+  const slug = slugFn(indexMd);
+  const outDir = path.join(publicBaseDir, slug);
   await ensureDir(outDir);
 
   const entries = await fs.readdir(postDir, { withFileTypes: true });
@@ -66,23 +69,46 @@ async function syncOnePostDir(postDir) {
 }
 
 async function main() {
-  if (!(await exists(SRC_WRITING_DIR))) {
-    console.warn(`[sync:assets] No writing dir: ${SRC_WRITING_DIR}`);
-    return;
+  let total = 0;
+
+  // writing
+  if (await exists(SRC_WRITING_DIR)) {
+    const top = await fs.readdir(SRC_WRITING_DIR, { withFileTypes: true });
+    const postDirs = top.filter((e) => e.isDirectory()).map((e) => path.join(SRC_WRITING_DIR, e.name));
+    for (const d of postDirs) {
+      await syncOnePostDir({
+        postDir: d,
+        publicBaseDir: PUBLIC_WRITING_DIR,
+        slugFn: slugFromIndexMd,
+      });
+      total++;
+    }
   }
 
-  // Only treat directories with index.md as posts.
-  const top = await fs.readdir(SRC_WRITING_DIR, { withFileTypes: true });
-  const postDirs = top.filter((e) => e.isDirectory()).map((e) => path.join(SRC_WRITING_DIR, e.name));
+  // now
+  if (await exists(SRC_NOW_DIR)) {
+    const top = await fs.readdir(SRC_NOW_DIR, { withFileTypes: true });
+    const postDirs = top.filter((e) => e.isDirectory()).map((e) => path.join(SRC_NOW_DIR, e.name));
 
-  for (const d of postDirs) {
-    await syncOnePostDir(d);
+    const slugFromNowIndex = (indexMdPath) => {
+      // src/content/now/<id>/index.md => <id>
+      const rel = path.relative(SRC_NOW_DIR, indexMdPath);
+      const parts = rel.split(path.sep);
+      if (parts.length >= 2 && parts[parts.length - 1] === 'index.md') return parts[parts.length - 2];
+      return path.basename(indexMdPath, path.extname(indexMdPath));
+    };
+
+    for (const d of postDirs) {
+      await syncOnePostDir({
+        postDir: d,
+        publicBaseDir: PUBLIC_NOW_DIR,
+        slugFn: slugFromNowIndex,
+      });
+      total++;
+    }
   }
 
-  // Also support legacy flat files: src/content/writing/*.md + src/content/writing/<slug>/* assets not supported.
-  // (No-op here on purpose.)
-
-  console.log(`[sync:assets] Synced assets for ${postDirs.length} post folders -> public/writing/`);
+  console.log(`[sync:assets] Synced assets for ${total} post folders -> public/{writing,now}/`);
 }
 
 await main();

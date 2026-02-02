@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('now');
+  return posts
+    .filter((p) => !p.data.draft)
+    .map((p) => ({
+      params: { slug: p.slug.replace(/\/index$/, '') },
+      props: { post: p },
+    }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout
+  title={`${post.data.title} | 唐靖凯`}
+  description={post.data.description}
+  canonical={`/now/${post.slug.replace(/\/index$/, '')}/`}
+>
+  <section class="section glass" style="max-width: 980px;">
+    <article class="post">
+      <h1 class="post-title">{post.data.title}</h1>
+      <p class="post-meta">
+        {post.data.pubDate.toISOString().slice(0, 10)}
+        {post.data.tags.length ? (
+          <> · {post.data.tags.map((t, i) => (
+            <>
+              <a href={`/tags/${encodeURIComponent(t)}/`}>{t}</a>
+              {i < post.data.tags.length - 1 ? ' / ' : ''}
+            </>
+          ))}</>
+        ) : null}
+      </p>
+
+      <div class="post-content">
+        <Content />
+      </div>
+
+      <p style="margin-top: 18px;"><a href="/now">← 返回 Now</a></p>
+    </article>
+  </section>
+</BaseLayout>

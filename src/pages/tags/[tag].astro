@@ -2,10 +2,22 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
+type Item = {
+  kind: 'writing' | 'now';
+  slug: string;
+  title: string;
+  description?: string;
+  pubDate: Date;
+};
+
 export async function getStaticPaths() {
-  const posts = (await getCollection('writing')).filter((p) => !p.data.draft);
+  const writingPosts = (await getCollection('writing')).filter((p) => !p.data.draft);
+  const nowPosts = (await getCollection('now')).filter((p) => !p.data.draft);
+
   const tagSet = new Set<string>();
-  for (const p of posts) for (const t of p.data.tags ?? []) tagSet.add(t);
+  for (const p of [...writingPosts, ...nowPosts]) {
+    for (const t of p.data.tags ?? []) tagSet.add(t);
+  }
 
   return [...tagSet].map((tag) => ({
     params: { tag: encodeURIComponent(tag) },
@@ -15,30 +27,55 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.props;
 
-const posts = (await getCollection('writing'))
+const writingPosts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
   .filter((p) => (p.data.tags ?? []).includes(tag))
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  .map((p) => ({
+    kind: 'writing',
+    slug: p.slug.replace(/\/index$/, ''),
+    title: p.data.title,
+    description: p.data.description,
+    pubDate: p.data.pubDate,
+  } satisfies Item));
+
+const nowPosts = (await getCollection('now'))
+  .filter((p) => !p.data.draft)
+  .filter((p) => (p.data.tags ?? []).includes(tag))
+  .map((p) => ({
+    kind: 'now',
+    slug: p.slug.replace(/\/index$/, ''),
+    title: p.data.title,
+    description: p.data.description,
+    pubDate: p.data.pubDate,
+  } satisfies Item));
+
+const posts = [...writingPosts, ...nowPosts].sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
 ---
 
-<BaseLayout title={`${tag} | Tags | 唐靖凯`} description={`标签：${tag}`}
->
+<BaseLayout title={`${tag} | Tags | 唐靖凯`} description={`标签：${tag}`}>
   <section class="section glass" style="max-width: 900px;">
     <div class="section-head">
       <h2>#{tag}</h2>
-      <p>{posts.length} 篇</p>
+      <p>{posts.length} 条</p>
     </div>
 
     <div style="display:grid; gap:16px; margin-top: 12px;">
       {posts.map((post) => (
         <article class="project-card" style="transform:none;">
           <h3 style="margin-bottom: 6px;">
-            <a href={`/writing/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
-              {post.data.title}
+            <a
+              href={post.kind === 'now' ? `/now/${post.slug}/` : `/writing/${post.slug}/`}
+              style="color: var(--text); text-decoration:none;"
+            >
+              {post.kind === 'now' ? 'Now · ' : ''}{post.title.replace(/^Now:\s*/, '')}
             </a>
           </h3>
-          {post.data.description ? <p style="color: var(--muted);">{post.data.description}</p> : null}
-          <span>{post.data.pubDate.toISOString().slice(0, 10)}</span>
+          {post.description ? <p style="color: var(--muted);">{post.description}</p> : null}
+          <span style="color: var(--muted);">
+            {post.pubDate.toISOString().slice(0, 10)}
+            {' · '}
+            {post.kind}
+          </span>
         </article>
       ))}
     </div>

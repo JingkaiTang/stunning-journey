@@ -8,7 +8,7 @@ function run(cmd, args, opts = {}) {
 // Start Astro dev server
 const dev = run('npm', ['run', 'dev'], { env: process.env });
 
-const watcher = chokidar.watch(['src/content/writing/**/*'], {
+const watcher = chokidar.watch(['src/content/writing/**/*', 'src/content/now/**/*'], {
   ignoreInitial: true,
 });
 
