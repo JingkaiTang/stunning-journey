@@ -21,7 +21,7 @@ const description = '站内搜索（离线索引，纯静态）。';
     // Pagefind assets are generated at build time into /pagefind.
     // On GitHub Pages (project pages), we must respect BASE_URL.
     (async () => {
-      const base = import.meta.env.BASE_URL || '/';
+      const base = import.meta.env.BASE_URL;
       try {
         const uiUrl = `${base}pagefind/pagefind-ui.js`;
         const { PagefindUI } = await import(/* @vite-ignore */ uiUrl);
@@ -31,7 +31,17 @@ const description = '站内搜索（离线索引，纯静态）。';
         });
       } catch (e) {
         const el = document.querySelector('#pagefind');
-        if (el) el.innerHTML = '<p>搜索组件加载失败：请确认构建产物包含 <code>/pagefind</code> 目录。</p>';
+        if (el) {
+          // Build error message safely without using innerHTML
+          el.textContent = '';
+          const p = document.createElement('p');
+          p.append(document.createTextNode('搜索组件加载失败：请确认构建产物包含 '));
+          const code = document.createElement('code');
+          code.textContent = '/pagefind';
+          p.append(code);
+          p.append(document.createTextNode(' 目录。'));
+          el.appendChild(p);
+        }
         console.error('[search] failed to load pagefind', e);
       }
     })();
