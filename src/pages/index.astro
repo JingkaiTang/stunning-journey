@@ -1,8 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { pickCover } from '../utils/contentPreview';
 
 const title = '唐靖凯 | AI 文章与项目';
 const description = '代码、游戏与臭屁宝：Java后端工程师｜LLM应用侧实践｜主机游戏玩家｜新手奶爸';
+
+const writing = (await getCollection('writing')).filter((p) => !p.data.draft);
+const now = (await getCollection('now')).filter((p) => !p.data.draft);
+
+const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ...now.map((p) => ({ kind: 'now' as const, post: p }))]
+  .sort((a, b) => b.post.data.pubDate.getTime() - a.post.data.pubDate.getTime())
+  .slice(0, 10);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -82,6 +91,62 @@ const description = '代码、游戏与臭屁宝：Java后端工程师｜LLM应�
         <h4>生活</h4>
         <p>主机游戏 / 奶爸（臭屁宝）</p>
       </div>
+    </div>
+  </section>
+
+  <section id="latest" class="section">
+    <div class="section-head">
+      <h2>最新</h2>
+      <p>Writing + Now 混合流（按时间倒序，展示最近 10 条）</p>
+    </div>
+
+    <div style="display:grid; gap:16px;">
+      {feed.map(({ kind, post }) => {
+        const href = kind === 'writing' ? `/writing/${post.slug.replace(/\/index$/, '')}/` : `/now/${post.slug.replace(/\/index$/, '')}/`;
+        const title = kind === 'now' ? post.data.title.replace(/^Now:\s*/, '') : post.data.title;
+        const cover = pickCover(post);
+        return (
+          <article class="feed-card project-card" style="transform:none;">
+            <div style="display:grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start;">
+              {cover ? (
+                <a href={href} style="display:block;">
+                  <img
+                    src={cover}
+                    alt={title}
+                    loading="lazy"
+                    style="width: 140px; height: 92px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border);"
+                  />
+                </a>
+              ) : (
+                <div
+                  aria-hidden="true"
+                  style="width: 140px; height: 92px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,.04);"
+                ></div>
+              )}
+
+              <div>
+                <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
+                  <h3 style="margin:0;">
+                    <a href={href} style="color: var(--text); text-decoration:none;">
+                      {title}
+                    </a>
+                  </h3>
+                  <span style="color: var(--primary); font-size: 0.85rem;">{kind === 'now' ? 'Now' : 'Writing'}</span>
+                </div>
+
+                {post.data.description ? <p style="margin-top: 8px; color: var(--muted);">{post.data.description}</p> : null}
+
+                <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
+                  <span style="color: var(--muted);">{post.data.pubDate.toISOString().slice(0, 10)}</span>
+                  <a href={href} aria-label={`阅读全文: ${title}`}>阅读全文 →</a>
+                </div>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+
+      {feed.length === 0 ? <p style="color: var(--muted);">还没有内容。</p> : null}
     </div>
   </section>
 
