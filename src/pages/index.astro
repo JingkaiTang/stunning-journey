@@ -97,7 +97,7 @@ const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ..
   <section id="latest" class="section">
     <div class="section-head">
       <h2>最新</h2>
-      <p>Writing + Now 混合流（按时间倒序，展示最近 10 条）。</p>
+      <p>Writing + Now 混合流（按时间倒序，展示最近 10 条）</p>
     </div>
 
     <div style="display:grid; gap:16px;">
@@ -106,7 +106,7 @@ const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ..
         const title = kind === 'now' ? post.data.title.replace(/^Now:\s*/, '') : post.data.title;
         const cover = pickCover(post);
         return (
-          <article class="project-card" style="transform:none;">
+          <article class="feed-card project-card" style="transform:none;">
             <div style="display:grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start;">
               {cover ? (
                 <a href={href} style="display:block;">
@@ -138,7 +138,7 @@ const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ..
 
                 <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
                   <span style="color: var(--muted);">{post.data.pubDate.toISOString().slice(0, 10)}</span>
-                  <a href={href}>阅读全文 →</a>
+                  <a href={href} aria-label={`阅读全文: ${title}`}>阅读全文 →</a>
                 </div>
               </div>
             </div>
