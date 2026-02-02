@@ -44,7 +44,8 @@ const canonicalUrl = canonical
   </head>
   <body>
     <div class="ambient-glow"></div>
-    <header class="site-header" style="padding-bottom: 24px;">
+
+    <header class="site-header" style="padding-bottom: 24px;" data-pagefind-ignore>
       <nav class="nav">
         <a class="logo" href="/">JINGKAI//TANG</a>
         <div class="nav-links">
@@ -58,11 +59,11 @@ const canonicalUrl = canonical
       </nav>
     </header>
 
-    <main style="padding-top: 0;">
+    <main style="padding-top: 0;" data-pagefind-body>
       <slot />
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" data-pagefind-ignore>
       <span>© {new Date().getFullYear()} 唐靖凯</span>
       <div>
         <a href="/">Home</a>
