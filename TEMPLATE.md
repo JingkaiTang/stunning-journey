@@ -4,6 +4,19 @@ description: "一句话摘要，概括这篇文章解决了什么问题或带来
 pubDate: YYYY-MM-DD
 tags: ["tag1", "tag2", "tag3"]
 draft: false
+
+# 署名与来源（建议填写）
+by:
+  role: coauthored # owner | assistant | coauthored
+  name: "唐靖凯"   # 或 "获麟"
+  note: "主人提供要点，获麟整理成文" # 可选
+source:
+  kind: original   # original | repost | translation | notes
+  # title: "原文标题"        # 可选
+  # url: "https://..."       # 可选
+  # author: "原作者"         # 可选
+  # license: "CC BY 4.0"     # 可选
+  # accessedAt: "2026-02-02" # 可选
 ---
 
 ## 结论（必填）

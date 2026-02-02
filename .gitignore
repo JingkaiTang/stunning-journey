@@ -6,8 +6,9 @@ dist/
 # dependencies
 node_modules/
 
-# generated writing assets (copied from src/content/writing/**)
+# generated content assets (copied from src/content/{writing,now}/**)
 public/writing/
+public/now/
 
 # logs
 npm-debug.log*

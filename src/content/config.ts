@@ -7,6 +7,27 @@ const baseSchema = z.object({
   updatedDate: z.coerce.date().optional(),
   tags: z.array(z.string()).default([]),
   draft: z.boolean().default(false),
+
+  // Authorship
+  by: z
+    .object({
+      role: z.enum(['owner', 'assistant', 'coauthored']),
+      name: z.string(),
+      note: z.string().optional(),
+    })
+    .optional(),
+
+  // Source / attribution
+  source: z
+    .object({
+      kind: z.enum(['original', 'repost', 'translation', 'notes']).default('original'),
+      title: z.string().optional(),
+      url: z.string().url().optional(),
+      author: z.string().optional(),
+      license: z.string().optional(),
+      accessedAt: z.string().optional(),
+    })
+    .optional(),
 });
 
 const writing = defineCollection({
