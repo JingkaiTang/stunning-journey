@@ -17,9 +17,12 @@ export function pickCover(input: { data: { cover?: string | undefined }; body: s
 
 export function resolveMaybeRelativeUrl(url: string, basePath: string): string {
   // If it's already absolute (or root-absolute), keep it.
-  if (/^(https?:)?\/\//.test(url) || url.startsWith('/') || url.startsWith('data:')) return url;
+  if (url.startsWith('//') || /^https?:\/\//.test(url) || url.startsWith('/') || url.startsWith('data:')) return url;
+
+  // Ensure basePath ends with a trailing slash so relative URLs resolve under it, not as siblings.
+  const normalizedBasePath = basePath.endsWith('/') ? basePath : `${basePath}/`;
 
   // Resolve relative to a base path like "/writing/<slug>/".
   // Use a dummy origin for URL resolution.
-  return new URL(url, `https://example.com${basePath}`).pathname;
+  return new URL(url, `https://example.com${normalizedBasePath}`).pathname;
 }
