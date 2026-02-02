@@ -3,6 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Search | 唐靖凯';
 const description = '站内搜索（离线索引，纯静态）。';
+
+// NOTE: import.meta.env is only guaranteed during build-time.
+// We inline BASE_URL into the page so the browser doesn't depend on Vite env injection.
+const BASE_URL = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -17,11 +21,11 @@ const description = '站内搜索（离线索引，纯静态）。';
     <div id="pagefind" class="post-content"></div>
   </section>
 
-  <script is:inline type="module">
+  <script is:inline type="module" define:vars={{ BASE_URL }}>
     // Pagefind assets are generated at build time into /pagefind.
-    // On GitHub Pages (project pages), we must respect BASE_URL.
+    // BASE_URL is injected at build-time via define:vars.
     (async () => {
-      const base = import.meta.env.BASE_URL;
+      const base = BASE_URL;
       try {
         const uiUrl = `${base}pagefind/pagefind-ui.js`;
         const { PagefindUI } = await import(/* @vite-ignore */ uiUrl);
