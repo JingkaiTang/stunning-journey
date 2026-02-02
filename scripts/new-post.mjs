@@ -89,6 +89,13 @@ async function main() {
     `pubDate: ${JSON.stringify(pubDate)}`,
     `tags: [${tags.map((t) => JSON.stringify(t)).join(', ')}]`,
     'draft: true',
+    '',
+    'by:',
+    '  role: coauthored',
+    '  name: 唐靖凯',
+    '  note: "主人提供要点，获麟整理成文"',
+    'source:',
+    '  kind: original',
     '---',
     '',
   ].join('\n');

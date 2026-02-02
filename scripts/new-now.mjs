@@ -108,6 +108,13 @@ async function main() {
     `pubDate: ${JSON.stringify(isoShanghai(new Date()))}`,
     `tags: [${tags.map((t) => JSON.stringify(t)).join(', ')}]`,
     'draft: false',
+    '',
+    'by:',
+    '  role: assistant',
+    '  name: 获麟',
+    '  note: "根据主人需求生成 / 编辑"',
+    'source:',
+    '  kind: original',
     '---',
     '',
   ].join('\n');
