@@ -1,154 +1,126 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = '唐靖凯 | AI 文章与项目';
+const description = '代码、游戏与臭屁宝：Java后端工程师｜LLM应用侧实践｜主机游戏玩家｜新手奶爸';
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
-    <title>唐靖凯 | AI 文章与项目</title>
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <div class="ambient-glow"></div>
-    <header class="site-header">
-      <nav class="nav">
-        <div class="logo">JINGKAI//TANG</div>
-        <div class="nav-links">
-          <a href="/writing">文章</a>
-          <a href="/now">Now</a>
-          <a href="#projects">项目</a>
-          <a href="/rss.xml">RSS</a>
-        </div>
-        <a class="cta" href="/writing">开始阅读</a>
-      </nav>
+<BaseLayout title={title} description={description}>
+  <section class="hero" style="padding-top: 12px;">
+    <div class="hero-content">
+      <p class="eyebrow">代码、游戏与臭屁宝</p>
+      <h1>
+        你好，我是<span>唐靖凯</span>。
+        <br />写代码、打游戏、带娃。
+      </h1>
 
-      <section class="hero">
-        <div class="hero-content">
-          <p class="eyebrow">代码、游戏与臭屁宝</p>
-          <h1>
-            你好，我是<span>唐靖凯</span>。
-            <br />写代码、打游戏、带娃。
-          </h1>
-
-          <img class="avatar" src="/images/avatar.jpg" alt="唐靖凯" loading="eager" />
-          <p class="lead">
-            Java 后端工程师（2018 起全职）｜软件工程硕士。
-            关注 AI 大模型应用侧：把新工具落到真实场景；也会记录主机游戏与奶爸日常。
-          </p>
-          <div class="hero-actions">
-            <a class="primary" href="/writing">阅读文章</a>
-            <a class="ghost" href="/now">最近在干嘛</a>
-          </div>
-          <div class="hero-stats">
-            <div>
-              <strong>Java</strong>
-              <span>后端</span>
-            </div>
-            <div>
-              <strong>AI</strong>
-              <span>应用</span>
-            </div>
-            <div>
-              <strong>奶爸</strong>
-              <span>臭屁宝</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-card">
-          <div class="pulse"></div>
-          <div class="card-header">
-            <span>身份</span>
-            <span class="status">程序员 / 玩家 / 奶爸</span>
-          </div>
-          <h3>Quick Facts</h3>
-          <ul>
-            <li>职业：Java 后端开发（2018–）</li>
-            <li>方向：LLM 应用侧 / 工程落地 / 自动化</li>
-            <li>兴趣：主机游戏</li>
-            <li>家庭：新手奶爸（臭屁宝）</li>
-          </ul>
-          <div class="card-footer">
-            <span>订阅</span>
-            <a class="signature" href="/rss.xml">RSS</a>
-          </div>
-        </div>
-      </section>
-    </header>
-
-    <main>
-      <section id="about" class="section glass">
-        <div>
-          <h2>关于</h2>
-          <p>
-            这是一个“生活 + 工作 + 作品集”一体的个人站。
-            我会把工程经验（Java/后端）、AI 应用侧实践、主机游戏体验、以及奶爸日常沉淀在这里。
-            出于隐私考虑：只展示少量公开信息，敏感内容不进仓库、不上网页。
-          </p>
-        </div>
-        <div class="metrics">
-          <div>
-            <h4>代码</h4>
-            <p>Java 后端 / 工程化 / 可复现</p>
-          </div>
-          <div>
-            <h4>AI</h4>
-            <p>大模型应用侧 / Agent / 自动化</p>
-          </div>
-          <div>
-            <h4>生活</h4>
-            <p>主机游戏 / 奶爸（臭屁宝）</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="projects" class="section">
-        <div class="section-head">
-          <h2>项目</h2>
-          <p>这里放公开 demo / 开源仓库链接（逐步补全）。</p>
-        </div>
-        <div class="project-grid">
-          <article class="project-card">
-            <h3>个人主页（本网站）</h3>
-            <p>基于 Astro + GitHub Pages，支持文章与 RSS。</p>
-            <span>2026 / Static site</span>
-          </article>
-          <article class="project-card">
-            <h3>AI 文章更新</h3>
-            <p>持续写作：从“结论”到“可复现步骤”。</p>
-            <span>Ongoing / Writing</span>
-          </article>
-          <article class="project-card">
-            <h3>模板与工具</h3>
-            <p>把常用流程沉淀成脚本/模板，减少重复劳动。</p>
-            <span>Ongoing / Tooling</span>
-          </article>
-        </div>
-      </section>
-
-      <section id="contact" class="section contact">
-        <div>
-          <h2>联系</h2>
-          <p>
-            建议通过 GitHub 发起 issue / discussion，或在社交平台私信。
-            （避免在页面公开邮箱，减少爬虫骚扰）
-          </p>
-        </div>
-        <div class="stack-list">
-          <a href="https://github.com/JingkaiTang" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="/writing">Writing</a>
-          <a href="/rss.xml">RSS</a>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <span>© {new Date().getFullYear()} 唐靖凯</span>
-      <div>
-        <a href="/writing">文章</a>
-        <a href="/rss.xml">RSS</a>
+      <img class="avatar" src="/images/avatar.jpg" alt="唐靖凯" loading="eager" />
+      <p class="lead">
+        Java 后端工程师（2018 起全职）｜软件工程硕士。
+        关注 AI 大模型应用侧：把新工具落到真实场景；也会记录主机游戏与奶爸日常。
+      </p>
+      <div class="hero-actions">
+        <a class="primary" href="/writing">阅读文章</a>
+        <a class="ghost" href="/now">最近在干嘛</a>
+        <a class="ghost" href="#projects">项目</a>
       </div>
-    </footer>
-  </body>
-</html>
+      <div class="hero-stats">
+        <div>
+          <strong>Java</strong>
+          <span>后端</span>
+        </div>
+        <div>
+          <strong>AI</strong>
+          <span>应用</span>
+        </div>
+        <div>
+          <strong>奶爸</strong>
+          <span>臭屁宝</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="pulse"></div>
+      <div class="card-header">
+        <span>身份</span>
+        <span class="status">程序员 / 玩家 / 奶爸</span>
+      </div>
+      <h3>Quick Facts</h3>
+      <ul>
+        <li>职业：Java 后端开发（2018–）</li>
+        <li>方向：LLM 应用侧 / 工程落地 / 自动化</li>
+        <li>兴趣：主机游戏</li>
+        <li>家庭：新手奶爸（臭屁宝）</li>
+      </ul>
+      <div class="card-footer">
+        <span>订阅</span>
+        <a class="signature" href="/rss.xml">RSS</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section glass">
+    <div>
+      <h2>关于</h2>
+      <p>
+        这是一个“生活 + 工作 + 作品集”一体的个人站。
+        我会把工程经验（Java/后端）、AI 应用侧实践、主机游戏体验、以及奶爸日常沉淀在这里。
+        出于隐私考虑：只展示少量公开信息，敏感内容不进仓库、不上网页。
+      </p>
+    </div>
+    <div class="metrics">
+      <div>
+        <h4>代码</h4>
+        <p>Java 后端 / 工程化 / 可复现</p>
+      </div>
+      <div>
+        <h4>AI</h4>
+        <p>大模型应用侧 / Agent / 自动化</p>
+      </div>
+      <div>
+        <h4>生活</h4>
+        <p>主机游戏 / 奶爸（臭屁宝）</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <div class="section-head">
+      <h2>项目</h2>
+      <p>这里放公开 demo / 开源仓库链接（逐步补全）。</p>
+    </div>
+    <div class="project-grid">
+      <article class="project-card">
+        <h3>个人主页（本网站）</h3>
+        <p>基于 Astro + GitHub Pages，支持文章与 RSS。</p>
+        <span>2026 / Static site</span>
+      </article>
+      <article class="project-card">
+        <h3>AI 文章更新</h3>
+        <p>持续写作：从“结论”到“可复现步骤”。</p>
+        <span>Ongoing / Writing</span>
+      </article>
+      <article class="project-card">
+        <h3>模板与工具</h3>
+        <p>把常用流程沉淀成脚本/模板，减少重复劳动。</p>
+        <span>Ongoing / Tooling</span>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact" class="section contact">
+    <div>
+      <h2>联系</h2>
+      <p>
+        建议通过 GitHub 发起 issue / discussion，或在社交平台私信。
+        （避免在页面公开邮箱，减少爬虫骚扰）
+      </p>
+    </div>
+    <div class="stack-list">
+      <a href="https://github.com/JingkaiTang" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="/writing">Writing</a>
+      <a href="/rss.xml">RSS</a>
+    </div>
+  </section>
+</BaseLayout>
