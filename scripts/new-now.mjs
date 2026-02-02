@@ -21,7 +21,7 @@ function pad2(n) {
 }
 
 function nowIdShanghai(date = new Date()) {
-  // Asia/Shanghai UTC+8, format: YYYYMMDDHHmm
+  // Asia/Shanghai UTC+8, format: YYYYMMDDHHmmss
   const utcMs = date.getTime();
   const shMs = utcMs + 8 * 60 * 60 * 1000;
   const d = new Date(shMs);
@@ -30,7 +30,8 @@ function nowIdShanghai(date = new Date()) {
   const dd = pad2(d.getUTCDate());
   const hh = pad2(d.getUTCHours());
   const mi = pad2(d.getUTCMinutes());
-  return `${yyyy}${mm}${dd}${hh}${mi}`;
+  const ss = pad2(d.getUTCSeconds());
+  return `${yyyy}${mm}${dd}${hh}${mi}${ss}`;
 }
 
 function isoShanghai(date = new Date()) {
@@ -78,11 +79,14 @@ async function main() {
 
   const title = args.title && args.title !== 'true' ? args.title : await rl.question('Now title: ');
   const tagsRaw = args.tags && args.tags !== 'true' ? args.tags : await rl.question('Tags (comma-separated, optional): ');
+  const withTitle = args.withTitle === 'true' || args['with-title'] === 'true';
+  const slugArg = args.slug && args.slug !== 'true' ? args.slug : null;
   await rl.close();
 
   const id = nowIdShanghai(new Date());
   const suffix = slugify(title);
-  const slug = suffix ? `${id}-${suffix}` : id;
+  // Default: short, stable id only. Optionally append title or override slug.
+  const slug = slugArg ? slugify(slugArg) : withTitle && suffix ? `${id}-${suffix}` : id;
 
   const postDir = path.join(NOW_DIR, slug);
   const mdPath = path.join(postDir, 'index.md');
