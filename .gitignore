@@ -6,6 +6,9 @@ dist/
 # dependencies
 node_modules/
 
+# generated writing assets (copied from src/content/writing/**)
+public/writing/
+
 # logs
 npm-debug.log*
 yarn-debug.log*

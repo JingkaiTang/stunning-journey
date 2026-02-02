@@ -29,6 +29,43 @@ npm run preview
 - Tags：`/tags`
 - Now：`/now`
 
+### 文章与资源同目录（推荐）
+
+每篇文章一个目录：
+
+```text
+src/content/writing/
+  <slug>/
+    index.md
+    cover.jpg
+    arch.png
+```
+
+在 `index.md` 中直接用相对路径引用：
+
+```md
+![cover](cover.jpg)
+![arch](arch.png)
+```
+
+构建时会自动：
+- 将资源复制到 `public/writing/<slug>/...`
+- 将 Markdown 中的相对图片链接改写为 `/writing/<slug>/...`（通过 remark 插件，不改你的源文件）
+
+### 命令行工具
+
+```bash
+# 新建文章目录（index.md + 基础 frontmatter）
+npm run new:post
+npm run new:post -- --title "标题" --slug my-post --tags "ai,tooling" --date 2026-02-02
+
+# 同步文章资源到 public（构建/开发前可单独跑）
+npm run sync:assets
+
+# 开发：启动 dev server + 监听 writing 目录变化自动同步资源
+npm run dev:watch
+```
+
 ---
 
 ## TODO（路线图）
