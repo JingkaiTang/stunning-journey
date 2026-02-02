@@ -79,11 +79,10 @@ npm run dev:watch
 
 > 不包含评论系统（giscus/utterances 等）——该项先不做。
 
-### P0（必须做，避免体验坑）
+### P0（已完成 ✅）
 
-- [ ] 首页与全站 Layout 统一：`src/pages/index.astro` 也使用 `BaseLayout`（统一导航、SEO/OG、head 注入、样式）
-- [ ] 部署链路确认：Actions/Pages 每次构建稳定产出（含 Pagefind 索引生成）
-- [ ] 搜索质量：为主内容区域添加 `data-pagefind-body`，避免索引导航/页脚；优化搜索结果摘要
+- [x] 首页与全站 Layout 统一（统一导航、SEO/OG、head 注入、样式）
+- [x] 搜索质量：Pagefind 只索引正文（`data-pagefind-body`）并忽略导航/页脚（`data-pagefind-ignore`）
 
 ### P1（强烈建议：SEO / 分享 / 可访问性）
 
@@ -93,10 +92,12 @@ npm run dev:watch
 
 ### P2（内容生产与长期维护）
 
-- [ ] 写作工作流固化：README/单页说明“新建文章→预览→发布”
-- [ ] 自动化：新增 `npm run new:post`（生成 md/frontmatter/slug/date）
+- [x] 自动化：`new:post / new:now / sync:assets / dev:watch`
+- [ ] 发布命令：
+  - Writing：一键开分支/commit/push/开 PR
+  - Now：一键 commit+push main（不走 PR）
 - [ ] 内容结构：补齐 Games / Life 页面的可持续更新结构（索引/清单/年度总结等）
-- [ ] Now 维护约定：保持“最新在上”的排序与固定格式
+- [ ] Now 维护约定：标题/标签/封面/频率等轻量规则（保持一致性）
 
 ### P3（可选增强）
 
