@@ -8,6 +8,8 @@
     "sync:assets": "node scripts/sync-writing-assets.mjs",
     "new:post": "node scripts/new-post.mjs",
     "new:now": "node scripts/new-now.mjs",
+    "publish:writing": "node scripts/publish-writing.mjs",
+    "publish:now": "node scripts/publish-now.mjs",
     "build": "npm run sync:assets && astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"

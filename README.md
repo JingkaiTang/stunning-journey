@@ -94,8 +94,8 @@ npm run dev:watch
 
 - [x] 自动化：`new:post / new:now / sync:assets / dev:watch`
 - [ ] 发布命令：
-  - Writing：一键开分支/commit/push/开 PR
-  - Now：一键 commit+push main（不走 PR）
+  - Writing：一键开分支/commit/push/开 PR（`npm run publish:writing -- --slug <slug>`）
+  - Now：一键 commit+push main（不走 PR，`npm run publish:now -- --slug <slug>`）
 - [ ] 内容结构：补齐 Games / Life 页面的可持续更新结构（索引/清单/年度总结等）
 - [ ] Now 维护约定：标题/标签/封面/频率等轻量规则（保持一致性）
 
