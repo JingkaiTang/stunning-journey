@@ -88,7 +88,7 @@ npm run dev:watch
 
 - [x] OG/Meta 完整化：文章页 `og:type=article`、更稳的 `og:image/description` 等
 - [x] 站点基建：`sitemap.xml` + `robots.txt`
-- [ ] 404 体验：增强 404 页面（返回上一页/直接搜索入口等）
+- [x] 404 体验：增强 404 页面（返回上一页/直接搜索入口等）
 
 ### P2（内容生产与长期维护）
 
