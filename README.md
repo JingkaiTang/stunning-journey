@@ -93,7 +93,7 @@ npm run dev:watch
 ### P2（内容生产与长期维护）
 
 - [x] 自动化：`new:post / new:now / sync:assets / dev:watch`
-- [ ] 发布命令：
+- [x] 发布命令：
   - Writing：一键开分支/commit/push/开 PR（`npm run publish:writing -- --slug <slug>`）
   - Now：一键 commit+push main（不走 PR，`npm run publish:now -- --slug <slug>`）
 - [ ] 内容结构：补齐 Games / Life 页面的可持续更新结构（索引/清单/年度总结等）
