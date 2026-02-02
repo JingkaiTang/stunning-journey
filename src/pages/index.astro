@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { pickCover } from '../utils/contentPreview';
+import { pickCover, resolveMaybeRelativeUrl } from '../utils/contentPreview';
 
 const title = '唐靖凯 | AI 文章与项目';
 const description = '代码、游戏与臭屁宝：Java后端工程师｜LLM应用侧实践｜主机游戏玩家｜新手奶爸';
@@ -104,10 +104,11 @@ const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ..
       {feed.map(({ kind, post }) => {
         const href = kind === 'writing' ? `/writing/${post.slug.replace(/\/index$/, '')}/` : `/now/${post.slug.replace(/\/index$/, '')}/`;
         const title = kind === 'now' ? post.data.title.replace(/^Now:\s*/, '') : post.data.title;
-        const cover = pickCover(post);
+        const coverRaw = pickCover(post);
+        const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
         return (
           <article class="feed-card project-card" style="transform:none;">
-            <div style="display:grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start;">
+            <div style={`display:grid; ${cover ? 'grid-template-columns: 140px 1fr; gap: 14px; align-items: start;' : ''}`}>
               {cover ? (
                 <a href={href} style="display:block;">
                   <img
@@ -117,12 +118,7 @@ const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ..
                     style="width: 140px; height: 92px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border);"
                   />
                 </a>
-              ) : (
-                <div
-                  aria-hidden="true"
-                  style="width: 140px; height: 92px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,.04);"
-                ></div>
-              )}
+              ) : null}
 
               <div>
                 <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
