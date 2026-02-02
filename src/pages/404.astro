@@ -8,12 +8,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p class="post-meta">这个页面不存在，可能是链接过期了。</p>
 
     <div class="post-content">
+      <div style="display:flex; gap: 10px; flex-wrap: wrap; margin: 12px 0 18px;">
+        <a class="primary" href="/search">去搜索</a>
+        <a class="ghost" href="/writing">文章列表</a>
+        <button id="go-back" class="ghost" type="button">返回上一页</button>
+      </div>
+
       <ul>
         <li><a href="/">回到首页</a></li>
         <li><a href="/writing">文章列表</a></li>
+        <li><a href="/now">Now</a></li>
         <li><a href="/tags">Tags</a></li>
-        <li><a href="/search">Search</a></li>
       </ul>
     </div>
   </section>
+
+  <script is:inline>
+    const btn = document.getElementById('go-back');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        if (history.length > 1) history.back();
+        else location.href = '/';
+      });
+    }
+  </script>
 </BaseLayout>
