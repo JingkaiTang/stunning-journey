@@ -55,14 +55,18 @@ src/content/writing/
 ### 命令行工具
 
 ```bash
-# 新建文章目录（index.md + 基础 frontmatter）
+# 新建 Writing 文章目录（index.md + 基础 frontmatter）
 npm run new:post
 npm run new:post -- --title "标题" --slug my-post --tags "ai,tooling" --date 2026-02-02
 
-# 同步文章资源到 public（构建/开发前可单独跑）
+# 新建 Now（独立 collection，slug=YYYYMMDDHHmm-<suffix>，Asia/Shanghai）
+npm run new:now
+npm run new:now -- --title "今天做了什么" --tags "openclaw,setup"
+
+# 同步文章/Now 资源到 public（构建/开发前可单独跑）
 npm run sync:assets
 
-# 开发：启动 dev server + 监听 writing 目录变化自动同步资源
+# 开发：启动 dev server + 监听 content 目录变化自动同步资源
 npm run dev:watch
 ```
 

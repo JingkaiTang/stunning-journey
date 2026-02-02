@@ -2,7 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('writing')).filter((p) => !p.data.draft);
+const writingPosts = (await getCollection('writing')).filter((p) => !p.data.draft);
+const nowPosts = (await getCollection('now')).filter((p) => !p.data.draft);
+
+const posts = [...writingPosts, ...nowPosts];
 
 const tagCounts = new Map<string, number>();
 for (const p of posts) {
@@ -14,11 +17,11 @@ for (const p of posts) {
 const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 ---
 
-<BaseLayout title="Tags | 唐靖凯" description="文章标签">
+<BaseLayout title="Tags | 唐靖凯" description="标签（Writing + Now）">
   <section class="section glass" style="max-width: 900px;">
     <div class="section-head">
       <h2>Tags</h2>
-      <p>按标签浏览文章。</p>
+      <p>按标签浏览 Writing / Now。</p>
     </div>
 
     <div class="stack-list" style="margin-top: 16px;">
