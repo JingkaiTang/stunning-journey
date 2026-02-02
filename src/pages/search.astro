@@ -22,21 +22,32 @@ const BASE_URL = import.meta.env.BASE_URL;
   </section>
 
   <script is:inline type="module" define:vars={{ BASE_URL }}>
-    // Pagefind assets are generated at build time into /pagefind.
-    // BASE_URL is injected at build-time via define:vars.
+    // Pagefind UI script is NOT an ES module; it attaches PagefindUI to window.
+    // We load it via a normal <script> injection, then instantiate window.PagefindUI.
     (async () => {
       const base = BASE_URL;
       try {
         const uiUrl = `${base}pagefind/pagefind-ui.js`;
-        const { PagefindUI } = await import(/* @vite-ignore */ uiUrl);
-        new PagefindUI({
+
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = uiUrl;
+          s.async = true;
+          s.onload = () => resolve(null);
+          s.onerror = () => reject(new Error(`Failed to load ${uiUrl}`));
+          document.head.appendChild(s);
+        });
+
+        const UI = window.PagefindUI;
+        if (!UI) throw new Error('PagefindUI not found on window after loading script');
+
+        new UI({
           element: '#pagefind',
           showSubResults: true,
         });
       } catch (e) {
         const el = document.querySelector('#pagefind');
         if (el) {
-          // Build error message safely without using innerHTML
           el.textContent = '';
           const p = document.createElement('p');
           p.append(document.createTextNode('搜索组件加载失败：请确认构建产物包含 '));
