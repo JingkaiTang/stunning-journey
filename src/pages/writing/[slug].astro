@@ -22,6 +22,8 @@ const toc = (headings ?? []).filter((h) => h.depth >= 2 && h.depth <= 3);
   title={`${post.data.title} | 唐靖凯`}
   description={post.data.description}
   canonical={`/writing/${post.slug.replace(/\/index$/, '')}/`}
+  ogType="article"
+  publishedTime={post.data.pubDate.toISOString()}
 >
   <section class="section glass" style="max-width: 980px;">
     <div class="post-shell">
