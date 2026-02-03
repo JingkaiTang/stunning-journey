@@ -11,6 +11,7 @@
     "publish:writing": "node scripts/publish-writing.mjs",
     "publish:writing:draft": "node scripts/publish-writing-draft.mjs",
     "publish:writing:final": "node scripts/publish-writing-final.mjs",
+    "publish:writing:confirm": "node scripts/publish-writing-confirm.mjs",
     "publish:now": "node scripts/publish-now.mjs",
     "check": "astro check",
     "build": "npm run sync:assets && astro build && pagefind --site dist",

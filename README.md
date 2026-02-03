@@ -96,7 +96,9 @@ npm run dev:watch
 5. [x] 404 体验：增强 404 页面（返回上一页/直接搜索入口等）
 6. [x] 自动化：`new:post / new:now / sync:assets / dev:watch`
 7. [x] 发布命令（Writing 草稿）：一键 commit+push main（不走 PR，`npm run publish:writing:draft -- --slug <slug>`）
-8. [x] 发布命令（Writing 发布）：手动确认后再 commit+push main（`npm run publish:writing:final -- --slug <slug>`）
+8. [x] 发布命令（Writing 发布）：手动确认后再 commit+push main（两种方式任选其一）
+   - 方式 A：你手动把 `draft: false` 改好 → `npm run publish:writing:final -- --slug <slug>`
+   - 方式 B：用脚本自动把 `draft:true -> false` 并发布 → `npm run publish:writing:confirm -- --slug <slug>`
 9. [x] 发布命令：Now 一键 commit+push main（不走 PR，`npm run publish:now -- --slug <slug>`）
 10. [x] 快捷搜索：Cmd/Ctrl+K 弹窗搜索
 11. [x] 性能优化：字体加载优化（移除 CSS @import，改为 preconnect + link）
