@@ -463,6 +463,21 @@ main {
   padding: 0;
 }
 
+/* Images in markdown should be responsive on mobile */
+.post-content img,
+.post-content video,
+.post-content iframe {
+  max-width: 100%;
+}
+
+.post-content img {
+  height: auto;
+  display: block;
+  margin: 18px auto;
+  border-radius: 14px;
+  border: 1px solid rgba(124, 249, 255, 0.12);
+}
+
 .toc {
   position: sticky;
   top: 24px;
