@@ -103,4 +103,5 @@ npm run dev:watch
 
 - [x] 快捷搜索：Cmd/Ctrl+K 弹窗搜索
 - [x] 性能优化：字体加载优化（移除 CSS @import，改为 preconnect + link）
-- [ ] 性能优化（后续）：图片策略、代码高亮体积、CSS/JS 体积审计
+- [ ] 性能优化（后续）：代码高亮体积、CSS/JS 体积审计
+- [x] 性能优化：图片加载（decoding=async + fetchpriority）
