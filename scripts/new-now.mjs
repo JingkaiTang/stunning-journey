@@ -61,6 +61,15 @@ async function exists(p) {
   }
 }
 
+async function ensureUniqueSlug(base) {
+  let slug = base;
+  let n = 1;
+  while (await exists(path.join(NOW_DIR, slug, 'index.md'))) {
+    slug = `${base}-${n++}`;
+  }
+  return slug;
+}
+
 function parseArgs(argv) {
   const out = {};
   for (let i = 2; i < argv.length; i++) {
@@ -71,6 +80,13 @@ function parseArgs(argv) {
     out[key] = val;
   }
   return out;
+}
+
+function normalizeTags(raw) {
+  return String(raw || '')
+    .split(',')
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean);
 }
 
 async function main() {
@@ -86,7 +102,8 @@ async function main() {
   const id = nowIdShanghai(new Date());
   const suffix = slugify(title);
   // Default: short, stable id only. Optionally append title or override slug.
-  const slug = slugArg ? slugify(slugArg) : withTitle && suffix ? `${id}-${suffix}` : id;
+  const baseSlug = slugArg ? slugify(slugArg) : withTitle && suffix ? `${id}-${suffix}` : id;
+  const slug = await ensureUniqueSlug(baseSlug);
 
   const postDir = path.join(NOW_DIR, slug);
   const mdPath = path.join(postDir, 'index.md');
@@ -95,10 +112,7 @@ async function main() {
     throw new Error(`Now already exists: ${path.relative(ROOT, mdPath)}`);
   }
 
-  const tags = (tagsRaw || '')
-    .split(',')
-    .map((t) => t.trim())
-    .filter(Boolean);
+  const tags = normalizeTags(tagsRaw);
 
   // Force include "now"
   if (!tags.includes('now')) tags.unshift('now');

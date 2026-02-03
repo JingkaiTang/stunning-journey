@@ -10,15 +10,29 @@
     "new:now": "node scripts/new-now.mjs",
     "publish:writing": "node scripts/publish-writing.mjs",
     "publish:now": "node scripts/publish-now.mjs",
+    "check": "astro check",
     "build": "npm run sync:assets && astro build && pagefind --site dist",
     "audit:size": "node scripts/audit-size.mjs",
     "preview": "astro preview",
     "astro": "astro"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
+  },
+  "packageManager": "npm@10.8.2",
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.15",
     "astro": "^5.17.1",
     "chokidar": "^3.6.0",
     "pagefind": "^1.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "typescript": "^5.9.3"
   }
 }

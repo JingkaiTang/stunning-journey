@@ -1,11 +1,28 @@
 import { defineCollection, z } from 'astro:content';
 
+function normalizeTag(input: string) {
+  return input.trim().toLowerCase();
+}
+
+const tagsSchema = z.preprocess((val) => {
+  if (Array.isArray(val)) {
+    return val.map((t) => (typeof t === 'string' ? normalizeTag(t) : '')).filter(Boolean);
+  }
+  if (typeof val === 'string') {
+    return val
+      .split(',')
+      .map((t) => normalizeTag(t))
+      .filter(Boolean);
+  }
+  return [];
+}, z.array(z.string()).default([]));
+
 const baseSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
   pubDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
-  tags: z.array(z.string()).default([]),
+  tags: tagsSchema,
   draft: z.boolean().default(false),
 
   // Preview image for list/OG (preferred)

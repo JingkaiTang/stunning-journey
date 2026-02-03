@@ -13,10 +13,25 @@ const watcher = chokidar.watch(['src/content/writing/**/*', 'src/content/now/**/
 });
 
 let timer = null;
+let syncRunning = false;
+let syncPending = false;
+
+function startSync() {
+  if (!syncPending || syncRunning) return;
+  syncPending = false;
+  syncRunning = true;
+  const child = run('npm', ['run', 'sync:assets'], { env: process.env });
+  child.on('exit', () => {
+    syncRunning = false;
+    if (syncPending) startSync();
+  });
+}
+
 function scheduleSync() {
   clearTimeout(timer);
   timer = setTimeout(() => {
-    run('npm', ['run', 'sync:assets'], { env: process.env });
+    syncPending = true;
+    startSync();
   }, 150);
 }
 

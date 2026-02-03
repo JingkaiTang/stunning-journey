@@ -30,6 +30,7 @@ npm run audit:size
 ## 部署
 
 - GitHub Actions 自动构建并部署到 GitHub Pages。
+- `legacy/` 为旧站点静态归档，不参与当前构建。
 
 ## 写作
 
@@ -102,11 +103,11 @@ npm run dev:watch
 12. [x] 性能优化：CSS/JS 体积审计工具（`npm run audit:size`）
 13. [x] 性能优化：图片加载（decoding=async + fetchpriority）
 14. [x] 性能优化：减少页面 HTML 体积（Quick Search 样式/脚本外置并缓存）
-15. [ ] 增加 `astro check` 并在 CI 中执行（新增 `npm run check` 或直接在 workflow 里跑）
-16. [ ] 固定 Node 与包管理器版本（`engines` / `packageManager` + `.nvmrc` 或 `.tool-versions`）
-17. [ ] `sync:assets` 增加 `--clean` 可选清理逻辑（仅清理对应 slug 目录，执行前需确认）
-18. [ ] `dev:watch` 增加并发保护/去抖，避免频繁触发 `sync:assets`
-19. [ ] 标签规范化（统一小写/去空格）以减少 `AI/ai` 等重复标签
-20. [ ] `new-now` 的 slug 冲突处理（毫秒/随机后缀或检测后自动改名）
-21. [ ] `audit-size` 跨平台兼容或在 README 标注 *nix 依赖
-22. [ ] 明确 `legacy/index.html` 用途或移除（删除需确认）
+15. [x] 增加 `astro check` 并在 CI 中执行（新增 `npm run check` 或直接在 workflow 里跑）
+16. [x] 固定 Node 与包管理器版本（`engines` / `packageManager` + `.nvmrc` 或 `.tool-versions`）
+17. [x] `sync:assets` 增加 `--clean` 可选清理逻辑（仅清理对应 slug 目录，执行前需确认）
+18. [x] `dev:watch` 增加并发保护/去抖，避免频繁触发 `sync:assets`
+19. [x] 标签规范化（统一小写/去空格）以减少 `AI/ai` 等重复标签
+20. [x] `new-now` 的 slug 冲突处理（毫秒/随机后缀或检测后自动改名）
+21. [x] `audit-size` 跨平台兼容或在 README 标注 *nix 依赖
+22. [x] 明确 `legacy/index.html` 用途或移除（删除需确认）
