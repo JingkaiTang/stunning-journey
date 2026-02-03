@@ -1,7 +1,7 @@
 ---
 title: "从 0 到上线：用 Astro + GitHub Pages 搭一个可持续更新的 AI 写作站"
 description: "我的个人站点第一篇：最小可用架构、隐私边界、内容工作流，以及为什么我选择 Astro。"
-pubDate: 2026-02-01
+pubDate: "2026-02-01T12:05:01+08:00"
 tags: ["astro", "github-pages", "writing", "workflow", "privacy"]
 draft: false
 ---

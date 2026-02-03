@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../../utils/contentPreview';
+import { formatShanghai } from '../../utils/dateFormat';
 
 const posts = (await getCollection('now'))
   .filter((p) => !p.data.draft)
@@ -41,7 +42,7 @@ const posts = (await getCollection('now'))
                 <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
                   <h3 style="margin:0;">
                     <a href={`/now/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
-                      {post.data.pubDate.toISOString().slice(0, 10)} · {post.data.title.replace(/^Now:\s*/, '')}
+                      {formatShanghai(post.data.pubDate, { withSeconds: true })} · {post.data.title.replace(/^Now:\s*/, '')}
                     </a>
                   </h3>
                   <span style="color: var(--primary); font-size: 0.85rem;">Now</span>

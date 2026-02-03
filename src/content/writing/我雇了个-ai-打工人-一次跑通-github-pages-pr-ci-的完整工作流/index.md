@@ -1,7 +1,7 @@
 ---
 title: "我雇了个 AI 打工人：一次跑通 GitHub Pages + PR + CI 的完整工作流"
 description: "雇个 AI 搭子，从 0 跑通个人站的开发-评审-部署流水线：过程记录、兴奋点与踩坑吐槽。"
-pubDate: "2026-02-03"
+pubDate: "2026-02-03T12:00:00+08:00"
 tags: ["ai", "openclaw", "github", "github-pages", "workflow"]
 draft: false
 
