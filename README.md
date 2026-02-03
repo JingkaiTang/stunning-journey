@@ -95,20 +95,21 @@ npm run dev:watch
 4. [x] 站点基建：`sitemap.xml` + `robots.txt`
 5. [x] 404 体验：增强 404 页面（返回上一页/直接搜索入口等）
 6. [x] 自动化：`new:post / new:now / sync:assets / dev:watch`
-7. [x] 发布命令：Writing 一键开分支/commit/push/开 PR（`npm run publish:writing -- --slug <slug>`）
-8. [x] 发布命令：Now 一键 commit+push main（不走 PR，`npm run publish:now -- --slug <slug>`）
-9. [x] 快捷搜索：Cmd/Ctrl+K 弹窗搜索
-10. [x] 性能优化：字体加载优化（移除 CSS @import，改为 preconnect + link）
-11. [x] 性能优化：代码高亮体积（当前为构建期渲染，无额外运行时 JS；后续若引入主题再审计）
-12. [x] 性能优化：CSS/JS 体积审计工具（`npm run audit:size`）
-13. [x] 性能优化：图片加载（decoding=async + fetchpriority）
-14. [x] 性能优化：减少页面 HTML 体积（Quick Search 样式/脚本外置并缓存）
-15. [x] 增加 `astro check` 并在 CI 中执行（新增 `npm run check` 或直接在 workflow 里跑）
-16. [x] 固定 Node 与包管理器版本（`engines` / `packageManager` + `.nvmrc` 或 `.tool-versions`）
-17. [x] `sync:assets` 增加 `--clean` 可选清理逻辑（仅清理对应 slug 目录，执行前需确认）
-18. [x] `dev:watch` 增加并发保护/去抖，避免频繁触发 `sync:assets`
-19. [x] 标签规范化（统一小写/去空格）以减少 `AI/ai` 等重复标签
-20. [x] `new-now` 的 slug 冲突处理（毫秒/随机后缀或检测后自动改名）
-21. [x] `audit-size` 跨平台兼容或在 README 标注 *nix 依赖
-22. [x] 明确 `legacy/index.html` 用途或移除（删除需确认）
-23. [x] Fix：移动端文章详情页图片样式（图片按原始大小展示，需自适应宽度）
+7. [x] 发布命令（Writing 草稿）：一键 commit+push main（不走 PR，`npm run publish:writing:draft -- --slug <slug>`）
+8. [x] 发布命令（Writing 发布）：手动确认后再 commit+push main（`npm run publish:writing:final -- --slug <slug>`）
+9. [x] 发布命令：Now 一键 commit+push main（不走 PR，`npm run publish:now -- --slug <slug>`）
+10. [x] 快捷搜索：Cmd/Ctrl+K 弹窗搜索
+11. [x] 性能优化：字体加载优化（移除 CSS @import，改为 preconnect + link）
+12. [x] 性能优化：代码高亮体积（当前为构建期渲染，无额外运行时 JS；后续若引入主题再审计）
+13. [x] 性能优化：CSS/JS 体积审计工具（`npm run audit:size`）
+14. [x] 性能优化：图片加载（decoding=async + fetchpriority）
+15. [x] 性能优化：减少页面 HTML 体积（Quick Search 样式/脚本外置并缓存）
+16. [x] 增加 `astro check` 并在 CI 中执行（新增 `npm run check` 或直接在 workflow 里跑）
+17. [x] 固定 Node 与包管理器版本（`engines` / `packageManager` + `.nvmrc` 或 `.tool-versions`）
+18. [x] `sync:assets` 增加 `--clean` 可选清理逻辑（仅清理对应 slug 目录，执行前需确认）
+19. [x] `dev:watch` 增加并发保护/去抖，避免频繁触发 `sync:assets`
+20. [x] 标签规范化（统一小写/去空格）以减少 `AI/ai` 等重复标签
+21. [x] `new-now` 的 slug 冲突处理（毫秒/随机后缀或检测后自动改名）
+22. [x] `audit-size` 跨平台兼容或在 README 标注 *nix 依赖
+23. [x] 明确 `legacy/index.html` 用途或移除（删除需确认）
+24. [x] Fix：移动端文章详情页图片样式（图片按原始大小展示，需自适应宽度）
