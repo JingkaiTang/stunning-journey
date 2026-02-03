@@ -3,7 +3,7 @@ title: "我雇了个 AI 打工人：一次跑通 GitHub Pages + PR + CI 的完�
 description: "雇个 AI 搭子，从 0 跑通个人站的开发-评审-部署流水线：过程记录、兴奋点与踩坑吐槽。"
 pubDate: "2026-02-03"
 tags: ["ai", "openclaw", "github", "github-pages", "workflow"]
-draft: true
+draft: false
 
 by:
   role: coauthored
@@ -14,7 +14,6 @@ source:
 ---
 # 我雇了个 AI 打工人：一次跑通 GitHub Pages + PR + CI 的完整工作流
 
-（先写结论/观点，然后再补充论证与步骤。写作结构可随时演进。）
 
 ![cover](cover.jpg)
 
@@ -103,7 +102,10 @@ source:
 
   ![排查 Search bug + Actions 排队/未更新：经典“我以为我好了，其实我还没部署”](search-bug-actions.jpg)
 
-- **GitHub Actions 偶发拿不到 hosted runner**：你代码没错，它也能 0 秒失败。
+- **GitHub Actions 偶发抽风**：你代码没错，它也能 0 秒失败，或者跑三次才成功。
+
+  ![同一套改动，跑了三次 Actions 才成功：玄学也是 CI 的一部分](actions-three-runs.jpg)
+
   - 解决：re-run jobs，别跟自己过不去。
 - **流程中断**：有时候我在群里一句“继续”，获麟才会想起自己还欠一项 TODO。
   - 解决：把规则写进项目的 `AGENTS.md`（自动推进下一项）。
@@ -120,14 +122,3 @@ source:
 - 想写文章：开稿 → 补内容 → 一键走 PR
 - 想发动态：Now 一键直推
 - 想优化：TODO 按条推进（每条都有 PR 和 deploy）
-
-## 你可以抄走的经验（简版）
-
-- 把“发布”变成命令，而不是仪式
-- 让 AI 输出 PR，而不是输出建议
-- 让 CI 说话：build 不过就别想合并
-
-## 参考
-
-- 本站仓库：JingkaiTang/JingkaiTang.github.io
-- OpenClaw（用来把 AI 变成“能动手的打工人”）
