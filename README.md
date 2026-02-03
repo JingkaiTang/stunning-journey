@@ -105,3 +105,4 @@ npm run dev:watch
 - [x] 性能优化：字体加载优化（移除 CSS @import，改为 preconnect + link）
 - [ ] 性能优化（后续）：代码高亮体积、CSS/JS 体积审计
 - [x] 性能优化：图片加载（decoding=async + fetchpriority）
+- [x] 性能优化：减少页面 HTML 体积（Quick Search 样式/脚本外置并缓存）
