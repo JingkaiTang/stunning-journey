@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../utils/contentPreview';
+import { formatShanghai } from '../utils/dateFormat';
 
 const title = '唐靖凯 | AI 文章与项目';
 const description = '代码、游戏与臭屁宝：Java后端工程师｜LLM应用侧实践｜主机游戏玩家｜新手奶爸';
@@ -135,7 +136,7 @@ const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ..
                 {post.data.description ? <p style="margin-top: 8px; color: var(--muted);">{post.data.description}</p> : null}
 
                 <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
-                  <span style="color: var(--muted);">{post.data.pubDate.toISOString().slice(0, 10)}</span>
+                  <span style="color: var(--muted);">{formatShanghai(post.data.pubDate, { withSeconds: true })}</span>
                   <a href={href} aria-label={`阅读全文: ${title}`}>阅读全文 →</a>
                 </div>
               </div>

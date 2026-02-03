@@ -80,6 +80,10 @@ npm run new:now -- --title "今天做了什么" --tags "openclaw,setup"
 npm run edit:writing -- --slug <writing-slug>
 npm run edit:now -- --slug <now-slug>
 
+# 存量数据补齐时间（pubDate 从“只有日期”补成“带时分秒”）
+# 仅建议对 Writing 使用；脚本会按同一天文章数分配 12:00:00、12:05:01... 这类“合理默认时间”。
+npm run backfill:pubdate
+
 # 可选：把标题附到 slug 后（URL 更长但更可读）
 npm run new:now -- --title "今天做了什么" --tags "openclaw,setup" --withTitle
 

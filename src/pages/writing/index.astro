@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../../utils/contentPreview';
+import { formatShanghai } from '../../utils/dateFormat';
 
 const posts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
@@ -44,7 +45,7 @@ const posts = (await getCollection('writing'))
                 </h3>
                 {post.data.description ? <p style="margin: 0 0 10px; color: var(--muted);">{post.data.description}</p> : null}
                 <span>
-                  {post.data.pubDate.toISOString().slice(0, 10)}
+                  {formatShanghai(post.data.pubDate, { withSeconds: true })}
                   {post.data.tags.length ? (
                     <> · {post.data.tags.map((t, i) => (
                       <>

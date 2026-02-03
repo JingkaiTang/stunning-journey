@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
+import { formatShanghai } from '../../utils/dateFormat';
 
 export async function getStaticPaths() {
   // Include drafts so they can be previewed via direct link.
@@ -51,10 +52,10 @@ const isDraft = Boolean(post.data.draft);
       ) : null}
 
       <p class="post-meta">
-        {post.data.pubDate.toISOString().slice(0, 19).replace('T', ' ')}
+        {formatShanghai(post.data.pubDate, { withSeconds: true })}
         {post.data.updatedDate ? (
           <>
-            {' '}· 更新于 {post.data.updatedDate.toISOString().slice(0, 19).replace('T', ' ')}
+            {' '}· 更新于 {formatShanghai(post.data.updatedDate, { withSeconds: true })}
           </>
         ) : null}
         {post.data.tags.length ? (

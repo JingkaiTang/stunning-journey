@@ -1,7 +1,7 @@
 ---
 title: "Hello, Astro：网站搭起来了"
 description: "第一篇文章：站点结构、发布方式与后续计划。"
-pubDate: 2026-02-01
+pubDate: "2026-02-01T12:00:00+08:00"
 tags: ["site", "astro", "github-pages"]
 draft: false
 ---
