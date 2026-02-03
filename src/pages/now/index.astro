@@ -31,6 +31,8 @@ const posts = (await getCollection('now'))
                     src={cover}
                     alt={post.data.title}
                     loading="lazy"
+                    decoding="async"
+                    fetchpriority="low"
                   />
                 </a>
               ) : null}

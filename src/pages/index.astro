@@ -23,7 +23,7 @@ const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ..
         <br />写代码、打游戏、带娃。
       </h1>
 
-      <img class="avatar" src="/images/avatar.jpg" alt="唐靖凯" loading="eager" />
+      <img class="avatar" src="/images/avatar.jpg" alt="唐靖凯" loading="eager" decoding="async" fetchpriority="high" />
       <p class="lead">
         Java 后端工程师（2018 起全职）｜软件工程硕士。
         关注 AI 大模型应用侧：把新工具落到真实场景；也会记录主机游戏与奶爸日常。
@@ -116,6 +116,8 @@ const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ..
                     src={cover}
                     alt={title}
                     loading="lazy"
+                    decoding="async"
+                    fetchpriority="low"
                   />
                 </a>
               ) : null}
