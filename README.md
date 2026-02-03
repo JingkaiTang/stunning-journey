@@ -21,6 +21,9 @@ npm run preview
 ```bash
 # 构建 + 输出 dist 体积 Top 列表（含 gzip 粗略统计）
 npm run audit:size
+
+# 确保 GitHub Pages 部署追上 main 最新提交（必要时自动触发 workflow_dispatch）
+npm run deploy:ensure
 ```
 
 补充：代码高亮目前依赖 Astro 的构建期处理（无额外前端 runtime JS）。如果未来引入 Shiki/Prism 主题 CSS 或客户端高亮，再把该部分纳入 audit:size 的关注项。
