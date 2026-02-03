@@ -30,6 +30,8 @@ const posts = (await getCollection('writing'))
                     src={cover}
                     alt={post.data.title}
                     loading="lazy"
+                    decoding="async"
+                    fetchpriority="low"
                   />
                 </a>
               ) : null}
