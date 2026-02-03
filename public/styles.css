@@ -521,3 +521,55 @@ main {
     align-items: flex-start;
   }
 }
+
+/* -------- Quick Search (Cmd/Ctrl+K) -------- */
+.quick-search {
+  width: min(880px, calc(100vw - 32px));
+  border: 1px solid rgba(124, 249, 255, 0.16);
+  border-radius: 18px;
+  padding: 0;
+  background: rgba(10, 12, 24, 0.92);
+  color: var(--text);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
+}
+
+.quick-search::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.quick-search__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(124, 249, 255, 0.12);
+}
+
+.quick-search__hint {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.quick-search__close {
+  border: 1px solid rgba(124, 249, 255, 0.14);
+  background: transparent;
+  color: var(--text);
+  border-radius: 10px;
+  width: 34px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.quick-search__root {
+  padding: 14px;
+}
+
+/* Tweak Pagefind UI inside modal */
+.quick-search .pagefind-ui__search-input {
+  background: rgba(7, 8, 18, 0.7);
+  border: 1px solid rgba(124, 249, 255, 0.2);
+  border-radius: 14px;
+  color: var(--text);
+}
