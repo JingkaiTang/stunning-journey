@@ -23,6 +23,8 @@ npm run preview
 npm run audit:size
 ```
 
+补充：代码高亮目前依赖 Astro 的构建期处理（无额外前端 runtime JS）。如果未来引入 Shiki/Prism 主题 CSS 或客户端高亮，再把该部分纳入 audit:size 的关注项。
+
 说明：如果项目启用了 Pagefind，那么 `npm run build` 会在 `astro build` 之后自动运行 Pagefind，为站内搜索生成索引（输出到 `dist/pagefind/`）。
 
 ## 部署
@@ -110,7 +112,7 @@ npm run dev:watch
 
 - [x] 快捷搜索：Cmd/Ctrl+K 弹窗搜索
 - [x] 性能优化：字体加载优化（移除 CSS @import，改为 preconnect + link）
-- [ ] 性能优化（后续）：代码高亮体积（如引入 Shiki/Prism 主题时的 CSS/JS 体积）
+- [x] 性能优化：代码高亮体积（当前为构建期渲染，无额外运行时 JS；后续若引入主题再审计）
 - [x] 性能优化：CSS/JS 体积审计工具（`npm run audit:size`）
 - [x] 性能优化：图片加载（decoding=async + fetchpriority）
 - [x] 性能优化：减少页面 HTML 体积（Quick Search 样式/脚本外置并缓存）
