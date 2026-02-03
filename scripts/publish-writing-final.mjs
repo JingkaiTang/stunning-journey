@@ -68,4 +68,7 @@ sh('git', ['commit', '-m', msg]);
 
 sh('git', ['push', `ssh://git@ssh.github.com:443/${repo}.git`, 'main']);
 
+// Ensure Pages deploy catches up (GitHub Actions may occasionally miss/delay pushes)
+sh('node', ['scripts/ensure-pages-deploy.mjs', '--workflow', 'pages.yml', '--branch', 'main']);
+
 console.log(`Published Writing: /writing/${slug}/`);

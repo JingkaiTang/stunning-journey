@@ -72,4 +72,7 @@ sh('git', ['commit', '-m', msg]);
 // Push main using ssh over 443
 sh('git', ['push', `ssh://git@ssh.github.com:443/${repo}.git`, 'main']);
 
+// Ensure Pages deploy catches up (GitHub Actions may occasionally miss/delay pushes)
+sh('node', ['scripts/ensure-pages-deploy.mjs', '--workflow', 'pages.yml', '--branch', 'main']);
+
 console.log(`Draft published (hidden from feed): /writing/${slug}/`);
