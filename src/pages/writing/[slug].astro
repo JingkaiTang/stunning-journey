@@ -54,6 +54,11 @@ const isDraft = Boolean(post.data.draft);
         ) : null}
         <p class="post-meta">
           {post.data.pubDate.toISOString().slice(0, 10)}
+          {post.data.updatedDate ? (
+            <>
+              {' '}· 更新于 {post.data.updatedDate.toISOString().slice(0, 19).replace('T', ' ')}
+            </>
+          ) : null}
           {post.data.tags.length ? (
             <> · {post.data.tags.map((t, i) => (
               <>

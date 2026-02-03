@@ -76,6 +76,10 @@ npm run new:post -- --title "标题" --slug my-post --tags "ai,tooling" --date 2
 npm run new:now
 npm run new:now -- --title "今天做了什么" --tags "openclaw,setup"
 
+# 编辑 Writing / Now（会自动写入 updatedDate，精确到秒）
+npm run edit:writing -- --slug <writing-slug>
+npm run edit:now -- --slug <now-slug>
+
 # 可选：把标题附到 slug 后（URL 更长但更可读）
 npm run new:now -- --title "今天做了什么" --tags "openclaw,setup" --withTitle
 
