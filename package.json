@@ -12,6 +12,8 @@
     "publish:writing:draft": "node scripts/publish-writing-draft.mjs",
     "publish:writing:final": "node scripts/publish-writing-final.mjs",
     "publish:writing:confirm": "node scripts/publish-writing-confirm.mjs",
+    "edit:writing": "node scripts/edit-writing.mjs",
+    "edit:now": "node scripts/edit-now.mjs",
     "deploy:ensure": "node scripts/ensure-pages-deploy.mjs --wait",
     "publish:now": "node scripts/publish-now.mjs",
     "check": "astro check",

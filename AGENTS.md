@@ -61,6 +61,13 @@
 
 ## 5) 命令行工具（脚本约定）
 
+### 编辑机制（Editing）
+
+- 编辑 Writing / Now：直接修改对应 `index.md`，然后运行编辑脚本写入 `updatedDate`（精确到秒）：
+  - `npm run edit:writing -- --slug <writing-slug>`
+  - `npm run edit:now -- --slug <now-slug>`
+- 展示规则：详情页会显示“更新于”；草稿会显示“草稿”标识并 noindex。
+
 - 新建 Writing：
   - `npm run new:post`
 - 新建 Now：
