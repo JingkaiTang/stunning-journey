@@ -1,5 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import readline from 'node:readline/promises';
+import { stdin as input, stdout as output } from 'node:process';
 
 const ROOT = process.cwd();
 const SRC_WRITING_DIR = path.join(ROOT, 'src', 'content', 'writing');
@@ -9,6 +11,18 @@ const PUBLIC_WRITING_DIR = path.join(ROOT, 'public', 'writing');
 const PUBLIC_NOW_DIR = path.join(ROOT, 'public', 'now');
 
 const ASSET_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg', '.mp4']);
+
+function parseArgs(argv) {
+  const out = {};
+  for (let i = 2; i < argv.length; i++) {
+    const a = argv[i];
+    if (!a.startsWith('--')) continue;
+    const key = a.slice(2);
+    const val = argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[++i] : 'true';
+    out[key] = val;
+  }
+  return out;
+}
 
 async function exists(p) {
   try {
@@ -23,18 +37,6 @@ async function ensureDir(dir) {
   await fs.mkdir(dir, { recursive: true });
 }
 
-async function* walk(dir) {
-  const entries = await fs.readdir(dir, { withFileTypes: true });
-  for (const e of entries) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) {
-      yield* walk(p);
-    } else {
-      yield p;
-    }
-  }
-}
-
 function slugFromIndexMd(indexMdPath) {
   // src/content/writing/<slug>/index.md => <slug>
   const rel = path.relative(SRC_WRITING_DIR, indexMdPath);
@@ -46,7 +48,16 @@ function slugFromIndexMd(indexMdPath) {
   return path.basename(indexMdPath, path.extname(indexMdPath));
 }
 
-async function syncOnePostDir({ postDir, indexName = 'index.md', publicBaseDir, slugFn }) {
+async function confirmClean(args) {
+  if (args.yes === 'true') return true;
+  if (!process.stdin.isTTY) return false;
+  const rl = readline.createInterface({ input, output });
+  const answer = await rl.question('确认执行清理？这会删除 public 里多余的资源文件。输入 y 继续：');
+  await rl.close();
+  return /^y(es)?$/i.test(answer.trim());
+}
+
+async function syncOnePostDir({ postDir, indexName = 'index.md', publicBaseDir, slugFn, clean }) {
   const indexMd = path.join(postDir, indexName);
   if (!(await exists(indexMd))) return;
 
@@ -54,6 +65,7 @@ async function syncOnePostDir({ postDir, indexName = 'index.md', publicBaseDir, 
   const outDir = path.join(publicBaseDir, slug);
   await ensureDir(outDir);
 
+  const desired = new Set();
   const entries = await fs.readdir(postDir, { withFileTypes: true });
   for (const e of entries) {
     if (!e.isFile()) continue;
@@ -65,22 +77,51 @@ async function syncOnePostDir({ postDir, indexName = 'index.md', publicBaseDir, 
     const src = path.join(postDir, e.name);
     const dst = path.join(outDir, e.name);
     await fs.copyFile(src, dst);
+    desired.add(e.name);
   }
+
+  let cleaned = 0;
+  if (clean) {
+    const outEntries = await fs.readdir(outDir, { withFileTypes: true });
+    for (const e of outEntries) {
+      if (!e.isFile()) continue;
+      const ext = path.extname(e.name).toLowerCase();
+      if (!ASSET_EXTS.has(ext)) continue;
+      if (desired.has(e.name)) continue;
+      await fs.unlink(path.join(outDir, e.name));
+      cleaned++;
+    }
+  }
+
+  return { cleaned };
 }
 
 async function main() {
+  const args = parseArgs(process.argv);
+  const clean = args.clean === 'true';
+  if (clean) {
+    const ok = await confirmClean(args);
+    if (!ok) {
+      console.error('[sync:assets] Clean aborted. Pass --yes to skip confirmation.');
+      process.exit(2);
+    }
+  }
+
   let total = 0;
+  let cleanedTotal = 0;
 
   // writing
   if (await exists(SRC_WRITING_DIR)) {
     const top = await fs.readdir(SRC_WRITING_DIR, { withFileTypes: true });
     const postDirs = top.filter((e) => e.isDirectory()).map((e) => path.join(SRC_WRITING_DIR, e.name));
     for (const d of postDirs) {
-      await syncOnePostDir({
+      const result = await syncOnePostDir({
         postDir: d,
         publicBaseDir: PUBLIC_WRITING_DIR,
         slugFn: slugFromIndexMd,
+        clean,
       });
+      cleanedTotal += result?.cleaned ?? 0;
       total++;
     }
   }
@@ -99,16 +140,19 @@ async function main() {
     };
 
     for (const d of postDirs) {
-      await syncOnePostDir({
+      const result = await syncOnePostDir({
         postDir: d,
         publicBaseDir: PUBLIC_NOW_DIR,
         slugFn: slugFromNowIndex,
+        clean,
       });
+      cleanedTotal += result?.cleaned ?? 0;
       total++;
     }
   }
 
-  console.log(`[sync:assets] Synced assets for ${total} post folders -> public/{writing,now}/`);
+  const cleanNote = clean ? `, cleaned ${cleanedTotal} stale files` : '';
+  console.log(`[sync:assets] Synced assets for ${total} post folders -> public/{writing,now}/` + cleanNote);
 }
 
 await main();

@@ -36,6 +36,13 @@ function parseArgs(argv) {
   return out;
 }
 
+function normalizeTags(raw) {
+  return String(raw || '')
+    .split(',')
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean);
+}
+
 async function ensureDir(dir) {
   await fs.mkdir(dir, { recursive: true });
 }
@@ -68,10 +75,7 @@ async function main() {
     throw new Error('Slug is empty. Provide --slug or a non-empty title.');
   }
 
-  const tags = (tagsRaw || '')
-    .split(',')
-    .map((t) => t.trim())
-    .filter(Boolean);
+  const tags = normalizeTags(tagsRaw);
 
   const postDir = path.join(WRITING_DIR, slug);
   const mdPath = path.join(postDir, 'index.md');
