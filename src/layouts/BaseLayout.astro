@@ -132,7 +132,7 @@ const BASE_URL = import.meta.env.BASE_URL;
     <dialog id="quick-search" class="quick-search" data-pagefind-ignore>
       <div class="quick-search__bar">
         <strong>Search</strong>
-        <span class="quick-search__hint">Cmd/Ctrl+K · Esc 关闭</span>
+        <span class="quick-search__hint"></span>
         <button type="button" class="quick-search__close" aria-label="Close">×</button>
       </div>
       <div id="quick-search-root" class="quick-search__root"></div>
@@ -194,7 +194,12 @@ const BASE_URL = import.meta.env.BASE_URL;
       let initPromise = null;
 
       function isMac() {
-        return /Mac|iPhone|iPad|iPod/i.test(navigator.platform);
+        const platform =
+          (navigator.userAgentData && navigator.userAgentData.platform) ||
+          navigator.platform ||
+          navigator.userAgent ||
+          '';
+        return /Mac|iPhone|iPad|iPod/i.test(platform);
       }
 
       function ensurePagefindUI() {
@@ -216,7 +221,7 @@ const BASE_URL = import.meta.env.BASE_URL;
               const s = document.createElement('script');
               s.src = uiUrl;
               s.async = true;
-              s.onload = () => resolve(null);
+              s.onload = () => resolve();
               s.onerror = () => reject(new Error(`Failed to load ${uiUrl}`));
               document.head.appendChild(s);
             });
