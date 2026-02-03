@@ -99,9 +99,13 @@ source:
 
 ### 6. 踩坑吐槽（真实，而且这三条你都中招了）
 
-- **GitHub Actions 偶发拿不到 hosted runner**：你代码没错，它也会 0 秒失败。
+- **Search 的“看起来没问题，但就是不工作”**：我一度以为是 Pagefind 不会用，结果是脚本没加载成功/部署没更新，页面里 `#pagefind` 当然空。
+
+  ![排查 Search bug + Actions 排队/未更新：经典“我以为我好了，其实我还没部署”](search-bug-actions.jpg)
+
+- **GitHub Actions 偶发拿不到 hosted runner**：你代码没错，它也能 0 秒失败。
   - 解决：re-run jobs，别跟自己过不去。
-- **流程中断**：有时候我在群里一句“继续”，它才会想起自己还欠一项 TODO。
+- **流程中断**：有时候我在群里一句“继续”，获麟才会想起自己还欠一项 TODO。
   - 解决：把规则写进项目的 `AGENTS.md`（自动推进下一项）。
 - **“模型欠费”这种现实打脸**：比如 minimax 欠费了，AI 还在那儿准备跑任务。
 
