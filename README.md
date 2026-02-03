@@ -84,35 +84,29 @@ npm run dev:watch
 
 ---
 
-## TODO（路线图）
+## TODO
 
 > 不包含评论系统（giscus/utterances 等）——该项先不做。
 
-### P0（已完成 ✅）
-
-- [x] 首页与全站 Layout 统一（统一导航、SEO/OG、head 注入、样式）
-- [x] 搜索质量：Pagefind 只索引正文（`data-pagefind-body`）并忽略导航/页脚（`data-pagefind-ignore`）
-
-### P1（强烈建议：SEO / 分享 / 可访问性）
-
-- [x] OG/Meta 完整化：文章页 `og:type=article`、更稳的 `og:image/description` 等
-- [x] 站点基建：`sitemap.xml` + `robots.txt`
-- [x] 404 体验：增强 404 页面（返回上一页/直接搜索入口等）
-
-### P2（内容生产与长期维护）
-
-- [x] 自动化：`new:post / new:now / sync:assets / dev:watch`
-- [x] 发布命令：
-  - Writing：一键开分支/commit/push/开 PR（`npm run publish:writing -- --slug <slug>`）
-  - Now：一键 commit+push main（不走 PR，`npm run publish:now -- --slug <slug>`）
-
-> P2 其余内容结构/维护约定已从路线图移除（按当前需求不做）。
-
-### P3（可选增强）
-
-- [x] 快捷搜索：Cmd/Ctrl+K 弹窗搜索
-- [x] 性能优化：字体加载优化（移除 CSS @import，改为 preconnect + link）
-- [x] 性能优化：代码高亮体积（当前为构建期渲染，无额外运行时 JS；后续若引入主题再审计）
-- [x] 性能优化：CSS/JS 体积审计工具（`npm run audit:size`）
-- [x] 性能优化：图片加载（decoding=async + fetchpriority）
-- [x] 性能优化：减少页面 HTML 体积（Quick Search 样式/脚本外置并缓存）
+1. [x] 首页与全站 Layout 统一（统一导航、SEO/OG、head 注入、样式）
+2. [x] 搜索质量：Pagefind 只索引正文（`data-pagefind-body`）并忽略导航/页脚（`data-pagefind-ignore`）
+3. [x] OG/Meta 完整化：文章页 `og:type=article`、更稳的 `og:image/description` 等
+4. [x] 站点基建：`sitemap.xml` + `robots.txt`
+5. [x] 404 体验：增强 404 页面（返回上一页/直接搜索入口等）
+6. [x] 自动化：`new:post / new:now / sync:assets / dev:watch`
+7. [x] 发布命令：Writing 一键开分支/commit/push/开 PR（`npm run publish:writing -- --slug <slug>`）
+8. [x] 发布命令：Now 一键 commit+push main（不走 PR，`npm run publish:now -- --slug <slug>`）
+9. [x] 快捷搜索：Cmd/Ctrl+K 弹窗搜索
+10. [x] 性能优化：字体加载优化（移除 CSS @import，改为 preconnect + link）
+11. [x] 性能优化：代码高亮体积（当前为构建期渲染，无额外运行时 JS；后续若引入主题再审计）
+12. [x] 性能优化：CSS/JS 体积审计工具（`npm run audit:size`）
+13. [x] 性能优化：图片加载（decoding=async + fetchpriority）
+14. [x] 性能优化：减少页面 HTML 体积（Quick Search 样式/脚本外置并缓存）
+15. [ ] 增加 `astro check` 并在 CI 中执行（新增 `npm run check` 或直接在 workflow 里跑）
+16. [ ] 固定 Node 与包管理器版本（`engines` / `packageManager` + `.nvmrc` 或 `.tool-versions`）
+17. [ ] `sync:assets` 增加 `--clean` 可选清理逻辑（仅清理对应 slug 目录，执行前需确认）
+18. [ ] `dev:watch` 增加并发保护/去抖，避免频繁触发 `sync:assets`
+19. [ ] 标签规范化（统一小写/去空格）以减少 `AI/ai` 等重复标签
+20. [ ] `new-now` 的 slug 冲突处理（毫秒/随机后缀或检测后自动改名）
+21. [ ] `audit-size` 跨平台兼容或在 README 标注 *nix 依赖
+22. [ ] 明确 `legacy/index.html` 用途或移除（删除需确认）
