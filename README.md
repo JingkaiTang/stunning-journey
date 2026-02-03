@@ -111,3 +111,4 @@ npm run dev:watch
 20. [x] `new-now` 的 slug 冲突处理（毫秒/随机后缀或检测后自动改名）
 21. [x] `audit-size` 跨平台兼容或在 README 标注 *nix 依赖
 22. [x] 明确 `legacy/index.html` 用途或移除（删除需确认）
+23. [ ] Fix：移动端文章详情页图片样式（图片按原始大小展示，需自适应宽度）
