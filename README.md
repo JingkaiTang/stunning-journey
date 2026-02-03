@@ -16,6 +16,13 @@ npm run build
 npm run preview
 ```
 
+## 性能/体积审计
+
+```bash
+# 构建 + 输出 dist 体积 Top 列表（含 gzip 粗略统计）
+npm run audit:size
+```
+
 说明：如果项目启用了 Pagefind，那么 `npm run build` 会在 `astro build` 之后自动运行 Pagefind，为站内搜索生成索引（输出到 `dist/pagefind/`）。
 
 ## 部署
