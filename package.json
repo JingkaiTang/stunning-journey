@@ -11,6 +11,7 @@
     "publish:writing": "node scripts/publish-writing.mjs",
     "publish:now": "node scripts/publish-now.mjs",
     "build": "npm run sync:assets && astro build && pagefind --site dist",
+    "audit:size": "node scripts/audit-size.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
