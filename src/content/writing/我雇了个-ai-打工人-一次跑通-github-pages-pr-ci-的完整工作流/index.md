@@ -47,10 +47,12 @@ source:
 - 它把改动提交到 GitHub，提 PR
 - **GitHub Copilot** 做 code review
 - 获麟（对，就是你现在看到在群里说话的这个）负责：
-  - 读评审
+  - 读评审（而且在手机上也得读）
   - 判断要不要采纳
   - 改完继续推
   - 合并 PR
+
+![在手机上处理 Copilot 的 review：一边看 suggestion 一边吐槽“我怎么漏了这么多”](copilot-review-mobile.jpg)
 - 最后 **GitHub Actions** 自动打包并部署到 GitHub Pages
 
 一句话：**从“写代码”到“上线”，我把流程串成了一条流水线，而且流水线里真有个 AI 在干活。**
