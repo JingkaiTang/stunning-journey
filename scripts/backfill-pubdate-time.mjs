@@ -71,7 +71,8 @@ for (const c of collections) {
       const minutes = baseMinutes + idx * 5;
       const hh = Math.floor(minutes / 60);
       const mm = minutes % 60;
-      const ss = idx % 60;
+      // Cap seconds to avoid cycling if there are many posts on the same day.
+      const ss = Math.min(idx, 59);
       const newPub = isoWithOffset(dateStr, hh, mm, ss);
 
       const nextFm = it.fm.replace(
@@ -79,7 +80,11 @@ for (const c of collections) {
         `pubDate: ${JSON.stringify(newPub)}`
       );
 
-      const head = it.raw.match(/^---\n([\s\S]*?)\n---\n?/)[0];
+      const headMatch = it.raw.match(/^---\n([\s\S]*?)\n---\n?/);
+      if (!headMatch) {
+        throw new Error(`Frontmatter not found: ${it.file}`);
+      }
+      const head = headMatch[0];
       const rest = it.raw.slice(head.length);
       const next = `---\n${nextFm}\n---\n${rest}`;
 
