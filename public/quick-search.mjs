@@ -5,7 +5,7 @@ const dialog = document.getElementById('quick-search');
 const rootSelector = '#quick-search-root';
 const closeBtn = dialog?.querySelector('.quick-search__close');
 
-const BASE_URL = (document.body?.dataset?.baseUrl || '/').replace(/(?<!^)\s+/g, '');
+const BASE_URL = (document.body?.dataset?.baseUrl || '/').trim();
 
 let initPromise = null;
 
