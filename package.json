@@ -9,6 +9,8 @@
     "new:post": "node scripts/new-post.mjs",
     "new:now": "node scripts/new-now.mjs",
     "publish:writing": "node scripts/publish-writing.mjs",
+    "publish:writing:draft": "node scripts/publish-writing-draft.mjs",
+    "publish:writing:final": "node scripts/publish-writing-final.mjs",
     "publish:now": "node scripts/publish-now.mjs",
     "check": "astro check",
     "build": "npm run sync:assets && astro build && pagefind --site dist",

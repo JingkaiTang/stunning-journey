@@ -40,6 +40,12 @@ if (!slug) {
   process.exit(2);
 }
 
+console.error('Deprecated: publish:writing now uses direct-to-main flow.');
+console.error('Use one of:');
+console.error('  - npm run publish:writing:draft -- --slug <slug>');
+console.error('  - npm run publish:writing:final -- --slug <slug>');
+process.exit(2);
+
 const branch = `feat/post-${slug}`;
 
 // Ensure clean working tree

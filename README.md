@@ -95,8 +95,9 @@ npm run dev:watch
 4. [x] 站点基建：`sitemap.xml` + `robots.txt`
 5. [x] 404 体验：增强 404 页面（返回上一页/直接搜索入口等）
 6. [x] 自动化：`new:post / new:now / sync:assets / dev:watch`
-7. [x] 发布命令：Writing 一键开分支/commit/push/开 PR（`npm run publish:writing -- --slug <slug>`）
-8. [x] 发布命令：Now 一键 commit+push main（不走 PR，`npm run publish:now -- --slug <slug>`）
+7. [x] 发布命令（Writing 草稿）：一键 commit+push main（不走 PR，`npm run publish:writing:draft -- --slug <slug>`）
+8. [x] 发布命令（Writing 发布）：手动确认后再 commit+push main（`npm run publish:writing:final -- --slug <slug>`）
+9. [x] 发布命令：Now 一键 commit+push main（不走 PR，`npm run publish:now -- --slug <slug>`）
 9. [x] 快捷搜索：Cmd/Ctrl+K 弹窗搜索
 10. [x] 性能优化：字体加载优化（移除 CSS @import，改为 preconnect + link）
 11. [x] 性能优化：代码高亮体积（当前为构建期渲染，无额外运行时 JS；后续若引入主题再审计）
