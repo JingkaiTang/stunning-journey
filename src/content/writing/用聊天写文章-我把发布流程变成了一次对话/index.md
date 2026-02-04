@@ -3,8 +3,8 @@ title: "我用 Telegram 跟 AI 对话，把文章从草稿发到上线"
 description: "把写作变成一次对话：我只说人话和丢截图，AI 负责落盘、排版、预览与发布。"
 pubDate: "2026-02-04T21:46:00+08:00"
 tags: ["ai", "openclaw", "workflow", "writing"]
-draft: true
 
+draft: false
 by:
   role: coauthored
   name: 唐靖凯
