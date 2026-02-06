@@ -139,3 +139,12 @@
   - 小胜一场 / 值得庆祝
   - 适合一句傲娇但可爱的宣言
 - 建议 tags：`now,mood,life`
+
+## 17) huolin-confused-reading-manual-question-marks.jpg
+- 场景：获麟对着说明书发呆（头顶问号），明明很认真但就是看不懂
+- 关键词：迷茫、困惑、不会、卡住、学习中、手足无措
+- 适合的 Now 情绪/主题：
+  - “今天有点懵/不知道在干嘛”
+  - 新东西上手期的迷茫
+  - 适合一句自嘲式的求稳宣言
+- 建议 tags：`now,mood,life,learning`
