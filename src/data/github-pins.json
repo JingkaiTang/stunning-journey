@@ -1,6 +1,6 @@
 {
   "user": "JingkaiTang",
-  "fetchedAt": "2026-02-06T15:45:45.694Z",
+  "fetchedAt": "2026-02-06T16:01:58.573Z",
   "pins": [
     {
       "name": "BarPin",
@@ -22,11 +22,11 @@
       "description": "个人站点，发布文章、动态，分享技术、游戏与生活~",
       "url": "https://github.com/JingkaiTang/JingkaiTang.github.io",
       "homepageUrl": "https://jingkaitang.github.io/",
-      "stars": 0,
+      "stars": 1,
       "forks": 0,
       "language": "JavaScript",
       "languageColor": "#f1e05a",
-      "updatedAt": "2026-02-06T15:27:18Z",
+      "updatedAt": "2026-02-06T16:01:06Z",
       "isArchived": false,
       "isFork": false
     }
