@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../utils/contentPreview';
 import { formatShanghai } from '../utils/dateFormat';
 import pinsData from '../data/github-pins.json';
+import galleryData from '../data/footer-gallery.json';
 
 const title = '唐靖凯 | AI 文章与项目';
 const description = '代码、游戏与臭屁宝：Java后端工程师｜LLM应用侧实践｜主机游戏玩家｜新手奶爸';
@@ -200,5 +201,68 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
     </div>
   </section>
 
+
+
+  <section class="footer-gallery" aria-label="Vibe Mosaic" data-pagefind-ignore>
+    <div class="footer-gallery__head">
+      <h2>Vibe Mosaic</h2>
+    </div>
+
+    <div class="footer-gallery__grid" id="footer-gallery-grid">
+      {((galleryData?.items || []) as any[]).map((it) => (
+        <img class="footer-gallery__img" src={it.url} alt="" loading="lazy" decoding="async" />
+      ))}
+    </div>
+
+    <script is:inline>
+      (function () {
+        const grid = document.getElementById('footer-gallery-grid');
+        if (!grid) return;
+        const imgs = Array.from(grid.querySelectorAll('img'));
+        if (imgs.length === 0) return;
+
+        // Fisher–Yates shuffle
+        for (let i = imgs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const tmp = imgs[i];
+          imgs[i] = imgs[j];
+          imgs[j] = tmp;
+        }
+
+        const isMobile = window.matchMedia('(max-width: 560px)').matches;
+        const N = isMobile ? 10 : 12;
+
+        function clearSize(img) {
+          img.classList.remove('is-wide', 'is-wide2', 'is-tall', 'is-big');
+        }
+
+        function applySize(img, kind) {
+          clearSize(img);
+          if (!kind) return;
+          img.classList.add(kind);
+        }
+
+        const desktopPattern = ['is-wide', 'is-tall', '', 'is-wide2', '', 'is-wide2', 'is-tall', '', 'is-wide2', '', '', ''];
+        const mobilePattern = ['is-wide2', 'is-tall', '', '', 'is-wide', '', 'is-tall', '', 'is-wide2', ''];
+
+        imgs.forEach((img, idx) => {
+          if (idx < N) {
+            grid.appendChild(img);
+            img.style.display = '';
+
+            const base = isMobile ? mobilePattern[idx % mobilePattern.length] : desktopPattern[idx % desktopPattern.length];
+            let kind = base;
+            const r = Math.random();
+            if (kind === 'is-wide' && r < 0.20) kind = 'is-wide2';
+            else if (kind === 'is-wide2' && r < 0.20) kind = 'is-wide';
+
+            applySize(img, kind);
+          } else {
+            img.style.display = 'none';
+          }
+        });
+      })();
+    </script>
+  </section>
 
 </BaseLayout>

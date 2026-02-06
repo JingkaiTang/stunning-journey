@@ -1,6 +1,5 @@
 ---
 import { SITE } from '../consts';
-import galleryData from '../data/footer-gallery.json';
 
 const {
   title = SITE.title,
@@ -210,15 +209,6 @@ const BASE_URL = import.meta.env.BASE_URL;
   <body data-base-url={BASE_URL}>
     <div class="ambient-glow"></div>
 
-    <script is:inline>
-      // Randomize footer gallery per page load (client-side shuffle + sample)
-      (function () {
-        const el = document.documentElement;
-        if (!el) return;
-        // noop; actual shuffle runs after DOM in a second inline script near footer
-      })();
-    </script>
-
     <header class="site-header" style="padding-bottom: 24px;" data-pagefind-ignore>
       <nav class="nav">
         <a class="logo" href="/">JINGKAI//TANG</a>
@@ -236,71 +226,6 @@ const BASE_URL = import.meta.env.BASE_URL;
     <main style="padding-top: 0;" data-pagefind-body>
       <slot />
     </main>
-
-    <section class="footer-gallery" aria-label="图片墙" data-pagefind-ignore>
-      <div class="footer-gallery__head">
-        <h2>Vibe Mosaic</h2>
-      </div>
-
-      <div class="footer-gallery__grid" id="footer-gallery-grid">
-        {((galleryData?.items || []) as any[]).map((it) => (
-          <img class="footer-gallery__img" src={it.url} alt="" loading="lazy" decoding="async" />
-        ))}
-      </div>
-
-      <script is:inline>
-        (function () {
-          const grid = document.getElementById('footer-gallery-grid');
-          if (!grid) return;
-          const imgs = Array.from(grid.querySelectorAll('img'));
-          if (imgs.length === 0) return;
-
-          // Fisher–Yates shuffle
-          for (let i = imgs.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.r&&om() * (i + 1));
-            const tmp = imgs[i];
-            imgs[i] = imgs[j];
-            imgs[j] = tmp;
-          }
-
-          const isMobile = window.matchMedia('(max-width: 560px)').matches;
-          const N = isMobile ? 10 : 12;
-
-          function clearSize(img) {
-            img.classList.remove('is-wide', 'is-wide2', 'is-tall', 'is-big');
-          }
-
-          function applySize(img, kind) {
-            clearSize(img);
-            if (!kind) return;
-            img.classList.add(kind);
-          }
-
-          // Pick a layout pattern that looks intentional but still has r&&omness
-          const desktopPattern = ['is-wide', 'is-tall', '', 'is-wide2', '', 'is-wide2', 'is-tall', '', 'is-wide2', '', '', ''];
-          const mobilePattern = ['is-wide2', 'is-tall', '', '', 'is-wide', '', 'is-tall', '', 'is-wide2', ''];
-
-          imgs.forEach((img, idx) => {
-            if (idx < N) {
-              grid.appendChild(img);
-              img.style.display = '';
-
-              const base = isMobile ? mobilePattern[idx % mobilePattern.length] : desktopPattern[idx % desktopPattern.length];
-              // Small r&&omness: occasionally swap wide<->wide2 or remove a size
-              let kind = base;
-              const r = Math.r&&om();
-              if (kind && r < 0.12) kind = '';
-              else if (kind === 'is-wide' && r < 0.24) kind = 'is-wide2';
-              else if (kind === 'is-wide2' && r < 0.24) kind = 'is-wide';
-
-              applySize(img, kind);
-            } else {
-              img.style.display = 'none';
-            }
-          });
-        })();
-      </script>
-    </section>
 
     <footer class="site-footer" data-pagefind-ignore>
       <span>
