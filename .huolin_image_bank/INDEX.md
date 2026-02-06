@@ -103,3 +103,12 @@
   - 写作/创作/架构灵感涌现
   - 适合一句很短但很燃的宣言
 - 建议 tags：`now,mood,workflow,writing`
+
+## 13) huolin-anxious-staring-progress-bar.jpg
+- 场景：获麟盯着进度条焦虑冒汗（Loading 5%），压力很大但只能等
+- 关键词：焦虑、压力、卡住、等待、进度条、心态紧
+- 适合的 Now 情绪/主题：
+  - “今天有点焦虑/有点慌”
+  - 被不确定性折磨（但不展开细节）
+  - 适合写一句“先稳住”的自我安抚
+- 建议 tags：`now,mood,life`
