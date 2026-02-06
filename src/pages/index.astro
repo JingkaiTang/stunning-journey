@@ -230,7 +230,8 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
         }
 
         const isMobile = window.matchMedia('(max-width: 560px)').matches;
-        const N = isMobile ? 10 : 12;
+        // Fixed count for consistency
+        const N = 10;
 
         function clearSize(img) {
           img.classList.remove('is-wide', 'is-wide2', 'is-tall', 'is-big');
@@ -242,8 +243,10 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
           img.classList.add(kind);
         }
 
-        const desktopPattern = ['is-wide', 'is-tall', '', 'is-wide2', '', 'is-wide2', 'is-tall', '', 'is-wide2', '', '', ''];
-        const mobilePattern = ['is-wide2', 'is-tall', '', '', 'is-wide', '', 'is-tall', '', 'is-wide2', ''];
+        // Desktop: 2-row mosaic with guaranteed no overflow (area <= 24)
+        const desktopPattern = ['is-tall', 'is-wide2', '', '', 'is-tall', 'is-wide2', '', '', 'is-wide2', ''];
+        // Mobile: 2-column mosaic (allow some full-width tiles + some tall tiles)
+        const mobilePattern  = ['is-wide2', '', 'is-tall', '', 'is-wide', '', '', 'is-tall', '', ''];
 
         imgs.forEach((img, idx) => {
           if (idx < N) {
@@ -252,9 +255,6 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
 
             const base = isMobile ? mobilePattern[idx % mobilePattern.length] : desktopPattern[idx % desktopPattern.length];
             let kind = base;
-            const r = Math.random();
-            if (kind === 'is-wide' && r < 0.20) kind = 'is-wide2';
-            else if (kind === 'is-wide2' && r < 0.20) kind = 'is-wide';
 
             applySize(img, kind);
           } else {
