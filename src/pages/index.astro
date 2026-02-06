@@ -230,8 +230,8 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
         }
 
         const isMobile = window.matchMedia('(max-width: 560px)').matches;
-        // Fixed count for consistency
-        const N = 10;
+        // Fixed counts for consistency
+        const N = isMobile ? 10 : 12;
 
         function clearSize(img) {
           img.classList.remove('is-wide', 'is-wide2', 'is-tall', 'is-big');
@@ -244,8 +244,10 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
         }
 
         // Desktop: 2-row mosaic with guaranteed no overflow (area <= 24)
-        const desktopPattern = ['is-tall', 'is-wide2', '', '', 'is-tall', 'is-wide2', '', '', 'is-wide2', ''];
-        // Mobile: 2-column mosaic (allow some full-width tiles + some tall tiles)
+        // Desktop: fill exactly 2 rows (12 cols x 2 rows).
+        // Spans per 6 tiles: [3,2,1,2,2,2] sum=12; repeat twice.
+        const desktopPattern = ['is-wide','is-wide2','', 'is-wide2','is-wide2','is-wide2', 'is-wide','is-wide2','', 'is-wide2','is-wide2','is-wide2'];
+        // Mobile: 2-column mixed sizes
         const mobilePattern  = ['is-wide2', '', 'is-tall', '', 'is-wide', '', '', 'is-tall', '', ''];
 
         imgs.forEach((img, idx) => {
