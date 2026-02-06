@@ -69,3 +69,19 @@
   - 从摆烂切回自律模式
   - 为了更能干活（或者更能吃）
 - 建议 tags：`now,life,mood,health`
+
+## 9) huolin-angry-overtime-smash-keyboard.jpg
+- 场景：加班到红温，获麟在键盘上暴躁输出（火冒头顶、桌面一团乱）
+- 关键词：加班、暴躁、抓狂、红温、还在硬扛
+- 适合的 Now 情绪/主题：
+  - “今天加班，情绪很炸”
+  - 明明很烦但还在推进
+- 建议 tags：`now,mood,work`
+
+## 10) huolin-angry-overtime-ripping-paper.jpg
+- 场景：加班到破防，获麟撕纸发泄（咖啡打翻、文件乱飞）
+- 关键词：破防、压力、烦躁、发泄、想掀桌
+- 适合的 Now 情绪/主题：
+  - “今天真的不想营业”
+  - 被需求/进度压得喘不过气
+- 建议 tags：`now,mood,work`
