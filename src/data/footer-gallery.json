@@ -1,0 +1,82 @@
+{
+  "builtAt": "2026-02-06T15:45:45.932Z",
+  "counts": {
+    "writing": 1,
+    "huolin": 17,
+    "total": 18
+  },
+  "items": [
+    {
+      "url": "/writing/我雇了个-ai-打工人-一次跑通-github-pages-pr-ci-的完整工作流/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/huolin/huolin-angry-overtime-ripping-paper.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-angry-overtime-smash-keyboard.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-anxious-staring-progress-bar.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-calm-steady-progress-tea.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-confused-reading-manual-question-marks.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-dinner-feast.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-eating-mcdonalds.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-face-in-pillow-refuse-to-work.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-got-scolded-at-work.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-idea-spark-excited.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-lazy-sleep-in-bed.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-on-bodyfat-scale.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-sleepy-subway.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-social-battery-drained-dinner.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-trophy-victory-proud.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-working-at-laptop.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/huolin-working-out-at-gym.jpg",
+      "kind": "huolin-mood"
+    }
+  ]
+}

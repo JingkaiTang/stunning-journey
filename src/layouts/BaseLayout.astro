@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../consts';
+import galleryData from '../data/footer-gallery.json';
 
 const {
   title = SITE.title,
@@ -63,6 +64,72 @@ const BASE_URL = import.meta.env.BASE_URL;
         transform: none;
       }
 
+      /* Footer gallery */
+      .footer-gallery {
+        max-width: 1100px;
+        margin: 32px auto 18px;
+        padding: 18px 18px;
+      }
+
+      .footer-gallery__head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+
+      .footer-gallery__head h2 {
+        margin: 0;
+        font-size: 1.1rem;
+        letter-spacing: 0.2px;
+      }
+
+      .footer-gallery__head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .footer-gallery__grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+      }
+
+      .footer-gallery__img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        filter: saturate(1.05) contrast(1.02);
+        background: rgba(255,255,255,0.03);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      .footer-gallery__img:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      }
+
+      @media (max-width: 900px) {
+        .footer-gallery__grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .footer-gallery {
+          padding: 14px 14px;
+        }
+        .footer-gallery__grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px;
+        }
+      }
+
       .content-card__grid {
         display: grid;
       }
@@ -102,6 +169,15 @@ const BASE_URL = import.meta.env.BASE_URL;
   <body data-base-url={BASE_URL}>
     <div class="ambient-glow"></div>
 
+    <script is:inline>
+      // Randomize footer gallery per page load (client-side shuffle + sample)
+      (function () {
+        const el = document.documentElement;
+        if (!el) return;
+        // noop; actual shuffle runs after DOM in a second inline script near footer
+      })();
+    </script>
+
     <header class="site-header" style="padding-bottom: 24px;" data-pagefind-ignore>
       <nav class="nav">
         <a class="logo" href="/">JINGKAI//TANG</a>
@@ -119,6 +195,47 @@ const BASE_URL = import.meta.env.BASE_URL;
     <main style="padding-top: 0;" data-pagefind-body>
       <slot />
     </main>
+
+    <section class="footer-gallery" aria-label="图片墙" data-pagefind-ignore>
+      <div class="footer-gallery__head">
+        <h2>图片墙</h2>
+        <p>随机展示：文章封面 + 获麟心情库（每次刷新都不太一样）。</p>
+      </div>
+
+      <div class="footer-gallery__grid" id="footer-gallery-grid">
+        {((galleryData?.items || []) as any[]).map((it) => (
+          <img class="footer-gallery__img" src={it.url} alt="" loading="lazy" decoding="async" />
+        ))}
+      </div>
+
+      <script is:inline>
+        (function () {
+          const grid = document.getElementById('footer-gallery-grid');
+          if (!grid) return;
+          const imgs = Array.from(grid.querySelectorAll('img'));
+          if (imgs.length === 0) return;
+
+          // Fisher–Yates shuffle
+          for (let i = imgs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const tmp = imgs[i];
+            imgs[i] = imgs[j];
+            imgs[j] = tmp;
+          }
+
+          // Sample N and hide the rest
+          const N = Math.min(14, Math.max(10, Math.floor(window.innerWidth / 120) + 8));
+          imgs.forEach((img, idx) => {
+            if (idx < N) {
+              grid.appendChild(img);
+              img.style.display = '';
+            } else {
+              img.style.display = 'none';
+            }
+          });
+        })();
+      </script>
+    </section>
 
     <footer class="site-footer" data-pagefind-ignore>
       <span>© {new Date().getFullYear()} 唐靖凯</span>

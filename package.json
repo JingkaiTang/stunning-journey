@@ -18,7 +18,7 @@
     "deploy:ensure": "node scripts/ensure-pages-deploy.mjs --wait",
     "publish:now": "node scripts/publish-now.mjs",
     "check": "astro check",
-    "build": "node scripts/fetch-github-pins.mjs && npm run sync:assets && astro build && pagefind --site dist",
+    "build": "node scripts/fetch-github-pins.mjs && npm run sync:assets && node scripts/build-footer-gallery.mjs && astro build && pagefind --site dist",
     "audit:size": "node scripts/audit-size.mjs",
     "preview": "astro preview",
     "astro": "astro"
