@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# local scratch (wechat drafts etc.)
+tmp/
+
 # dependencies
 node_modules/
 
