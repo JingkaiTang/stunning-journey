@@ -1,32 +1,32 @@
 {
   "user": "JingkaiTang",
-  "fetchedAt": "2026-02-06T14:56:48.591Z",
+  "fetchedAt": "2026-02-06T15:26:37.019Z",
   "pins": [
     {
       "name": "BarPin",
       "fullName": "JingkaiTang/BarPin",
-      "description": "",
+      "description": "工具栏“气泡”，启动你的任意App",
       "url": "https://github.com/JingkaiTang/BarPin",
       "homepageUrl": "",
       "stars": 7,
       "forks": 0,
       "language": "Swift",
       "languageColor": "#F05138",
-      "updatedAt": "2026-02-06T03:30:24Z",
+      "updatedAt": "2026-02-06T15:18:57Z",
       "isArchived": false,
       "isFork": false
     },
     {
       "name": "JingkaiTang.github.io",
       "fullName": "JingkaiTang/JingkaiTang.github.io",
-      "description": "个人项目",
+      "description": "个人站点，发布文章、动态，分享技术、游戏与生活~",
       "url": "https://github.com/JingkaiTang/JingkaiTang.github.io",
-      "homepageUrl": "",
+      "homepageUrl": "https://jingkaitang.github.io/",
       "stars": 0,
       "forks": 0,
       "language": "JavaScript",
       "languageColor": "#f1e05a",
-      "updatedAt": "2026-02-06T13:42:56Z",
+      "updatedAt": "2026-02-06T15:10:49Z",
       "isArchived": false,
       "isFork": false
     }
