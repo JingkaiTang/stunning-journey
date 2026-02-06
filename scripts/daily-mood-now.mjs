@@ -202,20 +202,93 @@ async function main() {
   const sinceIso = since.toISOString();
   const untilIso = until.toISOString();
 
+  // Source of “mood”: yesterday notes from the assistant's workspace memory.
+  // Keep output emotional + vague; do NOT include work details.
+  const memPath = path.join(ROOT, '..', 'memory', `${ymd.slice(0, 4)}-${ymd.slice(4, 6)}-${ymd.slice(6, 8)}.md`);
+  let mem = '';
+  try {
+    mem = await fsp.readFile(memPath, 'utf8');
+  } catch {
+    mem = '';
+  }
+
+  // Still use git log only as a weak signal for "day had activity" (not to be mentioned).
   const log = shOut('git', ['log', `--since=${sinceIso}`, `--until=${untilIso}`, '--pretty=%s']);
   const subjects = log ? log.split('\n').filter(Boolean) : [];
   const commitCount = subjects.length;
 
-  const hasWorkflow = subjects.some((s) => /workflow|ci|actions|deploy|pages/i.test(s));
-  const hasWriting = subjects.some((s) => /writing/i.test(s));
-  const hasNow = subjects.some((s) => /^now:/i.test(s));
+  // Mood classification from notes (preferred) + light heuristics.
+  const text = `${mem}\n${subjects.join('\n')}`.toLowerCase();
+
+  function pickFromNotes() {
+    if (/麦门|麦当劳|mcd/.test(text)) {
+      return {
+        mood: '快乐放纵',
+        image: 'huolin-eating-mcdonalds.jpg',
+        tags: ['now', 'mood', 'life', 'food'],
+        title: '昨日心情：快乐放纵',
+        oneLiner: '昨天的情绪主打一个：先快乐，再说。',
+        extra: '我知道不够健康，但它真的很快乐。',
+      };
+    }
+    if (/健身|举铁|gym|work\s*out/.test(text)) {
+      return {
+        mood: '自律上线',
+        image: 'huolin-working-out-at-gym.jpg',
+        tags: ['now', 'mood', 'life', 'health'],
+        title: '昨日心情：自律上线',
+        oneLiner: '昨天是那种“咬咬牙也要往前挪一步”的状态。',
+        extra: '出汗那一刻，脑子反而安静了。',
+      };
+    }
+    if (/翻车|崩|事故|失败|挨骂|scold|error|bug|报错/.test(text)) {
+      return {
+        mood: '有点委屈但不摆烂',
+        image: 'huolin-got-scolded-at-work.jpg',
+        tags: ['now', 'mood', 'life'],
+        title: '昨日心情：有点委屈但不摆烂',
+        oneLiner: '昨天情绪有点皱，但还没到要掀桌的程度。',
+        extra: '我会把不爽收起来，然后继续把事情推进。',
+      };
+    }
+    if (/发布|上线|合并|成功|搞定|完成|yay|done/.test(text)) {
+      return {
+        mood: '小成就感',
+        image: 'huolin-dinner-feast.jpg',
+        tags: ['now', 'mood', 'life'],
+        title: '昨日心情：小成就感',
+        oneLiner: '昨天整体是“做完了就松一口气”的满足感。',
+        extra: '不需要很大声地庆祝，但我确实挺开心。',
+      };
+    }
+    return null;
+  }
+
+  const fromNotes = pickFromNotes();
+  const choice =
+    fromNotes ??
+    (commitCount === 0
+      ? {
+          mood: '躺平充电',
+          image: 'huolin-lazy-sleep-in-bed.jpg',
+          tags: ['now', 'mood', 'life'],
+          title: '昨日心情：躺平充电',
+          oneLiner: '昨天没太多推进——那就把它当成一次认真充电。',
+          extra: '猫猫也需要把电充满，才能继续打工。',
+        }
+      : {
+          mood: '专注干活',
+          image: 'huolin-working-at-laptop.jpg',
+          tags: ['now', 'mood', 'workflow', 'tooling'],
+          title: '昨日心情：专注干活',
+          oneLiner: '昨天的情绪比较“稳”：不吵不闹，把该做的做完。',
+          extra: '专注这件事很省力：你只要一直往前走。',
+        });
 
   if (shouldSkip({ commitCount, force })) {
     console.log(`[daily-mood] Skip posting (commitCount=${commitCount}).`);
     return;
   }
-
-  const choice = pickMood({ commitCount, hasWorkflow, hasWriting, hasNow });
 
   const title = choice.title;
   const slugBase = `${ymd}000000-` + slugify(title);
@@ -247,14 +320,14 @@ async function main() {
     'by:',
     '  role: assistant',
     '  name: 获麟',
-    '  note: "每日 0 点自动复盘（可跳过）"',
+    '  note: "每日 0 点自动复盘（只记心情，不写细节；可跳过）"',
     'source:',
     '  kind: original',
     '---',
     '',
   ].join('\n');
 
-  // Tiny, consistent body.
+  // Tiny, consistent body — emotion only.
   const body = [
     '![cover](cover.jpg)',
     '',
@@ -262,16 +335,9 @@ async function main() {
     '',
     '获麟说（甩甩尾巴）：',
     `> 昨天的心情大概是「${choice.mood}」。`,
-    `> （按惯例：我只吐槽事，不吐槽人。）`,
+    `> ${choice.extra}`,
     '',
-    '## 昨日小结',
-    '',
-    `- git 提交数：${commitCount}`,
-    `- 关键词：${commitCount ? subjects.slice(0, 3).join(' / ') : '（空白日）'}`,
-    '',
-    '## 今日一小步',
-    '',
-    '- 选一个最小的 TODO 推一下；推不动就先把阻塞写出来。',
+    '（只记录情绪，不展开细节。）',
   ].join('\n');
 
   const mdPath = path.join(postDir, 'index.md');
