@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../utils/contentPreview';
 import { formatShanghai } from '../utils/dateFormat';
+import pinsData from '../data/github-pins.json';
 
 const title = '唐靖凯 | AI 文章与项目';
 const description = '代码、游戏与臭屁宝：Java后端工程师｜LLM应用侧实践｜主机游戏玩家｜新手奶爸';
@@ -13,6 +14,8 @@ const now = (await getCollection('now')).filter((p) => !p.data.draft);
 const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ...now.map((p) => ({ kind: 'now' as const, post: p }))]
   .sort((a, b) => b.post.data.pubDate.getTime() - a.post.data.pubDate.getTime())
   .slice(0, 10);
+
+const pinned = (pinsData?.pins || []).slice(0, 6);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -152,24 +155,49 @@ const feed = [...writing.map((p) => ({ kind: 'writing' as const, post: p })), ..
   <section id="projects" class="section">
     <div class="section-head">
       <h2>项目</h2>
-      <p>这里放公开 demo / 开源仓库链接（逐步补全）。</p>
+      <p>
+        同步自 GitHub 主页置顶（Pinned）仓库。
+        <a href="https://github.com/JingkaiTang" target="_blank" rel="noreferrer">去 GitHub 看全部 →</a>
+      </p>
     </div>
+
     <div class="project-grid">
-      <article class="project-card">
-        <h3>个人主页（本网站）</h3>
-        <p>基于 Astro + GitHub Pages，支持文章与 RSS。</p>
-        <span>2026 / Static site</span>
-      </article>
-      <article class="project-card">
-        <h3>AI 文章更新</h3>
-        <p>持续写作：从“结论”到“可复现步骤”。</p>
-        <span>Ongoing / Writing</span>
-      </article>
-      <article class="project-card">
-        <h3>模板与工具</h3>
-        <p>把常用流程沉淀成脚本/模板，减少重复劳动。</p>
-        <span>Ongoing / Tooling</span>
-      </article>
+      {pinned.map((r) => (
+        <article class="project-card">
+          <h3 style="margin-bottom: 8px;">
+            <a href={r.url} target="_blank" rel="noreferrer" style="color: var(--text); text-decoration:none;">
+              {r.name}
+            </a>
+          </h3>
+          {r.description ? <p style="margin: 0 0 10px; color: var(--muted);">{r.description}</p> : <p style="margin: 0 0 10px; color: var(--muted);">（暂无描述）</p>}
+
+          <div style="display:flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+            {r.language ? (
+              <span style="display:inline-flex; gap: 6px; align-items:center; color: var(--muted); font-size: 0.9rem;">
+                <span style={`width:10px;height:10px;border-radius:999px;background:${r.languageColor || '#999'}; display:inline-block;`}></span>
+                {r.language}
+              </span>
+            ) : null}
+            <span style="color: var(--muted); font-size: 0.9rem;">★ {r.stars}</span>
+            <span style="color: var(--muted); font-size: 0.9rem;">⑂ {r.forks}</span>
+            {r.isArchived ? <span style="color: var(--muted); font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 999px;">Archived</span> : null}
+          </div>
+
+          {r.homepageUrl ? (
+            <div style="margin-top: 10px;">
+              <a href={r.homepageUrl} target="_blank" rel="noreferrer">项目主页 →</a>
+            </div>
+          ) : null}
+        </article>
+      ))}
+
+      {pinned.length === 0 ? (
+        <article class="project-card">
+          <h3>项目</h3>
+          <p style="color: var(--muted);">暂时没拉到 GitHub Pinned 仓库（可能是 token 不可用）。</p>
+          <a href="https://github.com/JingkaiTang" target="_blank" rel="noreferrer">去 GitHub →</a>
+        </article>
+      ) : null}
     </div>
   </section>
 
