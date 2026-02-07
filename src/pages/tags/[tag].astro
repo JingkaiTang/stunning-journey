@@ -20,6 +20,10 @@ export async function getStaticPaths() {
     for (const t of p.data.tags ?? []) tagSet.add(t);
   }
 
+  // Ensure nav-linked tags always have a generated page, even if empty.
+  // (Otherwise /tags/<tag>/ would 404 when there are currently no posts for that tag.)
+  for (const t of ['ai', 'game', 'life']) tagSet.add(t);
+
   return [...tagSet].map((tag) => ({
     params: { tag: encodeURIComponent(tag) },
     props: { tag },
