@@ -1,14 +1,16 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { pickCover, resolveMaybeRelativeUrl } from '../../utils/contentPreview';
 import { formatShanghai } from '../../utils/dateFormat';
 
 type Item = {
   kind: 'writing' | 'now';
-  slug: string;
+  href: string;
   title: string;
   description?: string;
   pubDate: Date;
+  cover?: string | null;
 };
 
 export async function getStaticPaths() {
@@ -35,24 +37,38 @@ const { tag } = Astro.props;
 const writingPosts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
   .filter((p) => (p.data.tags ?? []).includes(tag))
-  .map((p) => ({
-    kind: 'writing',
-    slug: p.slug.replace(/\/index$/, ''),
-    title: p.data.title,
-    description: p.data.description,
-    pubDate: p.data.pubDate,
-  } satisfies Item));
+  .map((p) => {
+    const slug = p.slug.replace(/\/index$/, '');
+    const href = `/writing/${slug}/`;
+    const coverRaw = pickCover(p);
+    const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
+    return {
+      kind: 'writing',
+      href,
+      title: p.data.title,
+      description: p.data.description,
+      pubDate: p.data.pubDate,
+      cover,
+    } satisfies Item;
+  });
 
 const nowPosts = (await getCollection('now'))
   .filter((p) => !p.data.draft)
   .filter((p) => (p.data.tags ?? []).includes(tag))
-  .map((p) => ({
-    kind: 'now',
-    slug: p.slug.replace(/\/index$/, ''),
-    title: p.data.title,
-    description: p.data.description,
-    pubDate: p.data.pubDate,
-  } satisfies Item));
+  .map((p) => {
+    const slug = p.slug.replace(/\/index$/, '');
+    const href = `/now/${slug}/`;
+    const coverRaw = pickCover(p);
+    const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
+    return {
+      kind: 'now',
+      href,
+      title: p.data.title,
+      description: p.data.description,
+      pubDate: p.data.pubDate,
+      cover,
+    } satisfies Item;
+  });
 
 const posts = [...writingPosts, ...nowPosts].sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
 ---
@@ -66,23 +82,45 @@ const posts = [...writingPosts, ...nowPosts].sort((a, b) => b.pubDate.getTime() 
 
     <div style="display:grid; gap:16px; margin-top: 12px;">
       {posts.map((post) => (
-        <article class="project-card" style="transform:none;">
-          <h3 style="margin-bottom: 6px;">
-            <a
-              href={post.kind === 'now' ? `/now/${post.slug}/` : `/writing/${post.slug}/`}
-              style="color: var(--text); text-decoration:none;"
-            >
-              {post.kind === 'now' ? 'Now · ' : ''}{post.title.replace(/^Now:\s*/, '')}
-            </a>
-          </h3>
-          {post.description ? <p style="color: var(--muted);">{post.description}</p> : null}
-          <span style="color: var(--muted);">
-            {formatShanghai(post.pubDate, { withSeconds: true })}
-            {' · '}
-            {post.kind}
-          </span>
+        <article class="project-card content-card" style="transform:none;">
+          <div class={`content-card__grid ${post.cover ? 'has-cover' : ''}`}>
+            {post.cover ? (
+              <a href={post.href} style="display:block;">
+                <img
+                  class="content-card__thumb"
+                  src={post.cover}
+                  alt={post.title.replace(/^Now:\s*/, '')}
+                  loading="lazy"
+                  decoding="async"
+                  fetchpriority="low"
+                />
+              </a>
+            ) : null}
+
+            <div>
+              <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
+                <h3 style="margin:0;">
+                  <a href={post.href} style="color: var(--text); text-decoration:none;">
+                    {post.kind === 'now' ? `${formatShanghai(post.pubDate, { withSeconds: true })} · ` : ''}{post.title.replace(/^Now:\s*/, '')}
+                  </a>
+                </h3>
+                <span style="color: var(--primary); font-size: 0.85rem;">{post.kind === 'now' ? 'Now' : 'Writing'}</span>
+              </div>
+
+              {post.description ? <p style="margin-top: 8px; color: var(--muted);">{post.description}</p> : null}
+
+              <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
+                {post.kind === 'writing' ? (
+                  <span style="color: var(--muted);">{formatShanghai(post.pubDate, { withSeconds: true })}</span>
+                ) : null}
+                <a href={post.href}>阅读全文 →</a>
+              </div>
+            </div>
+          </div>
         </article>
       ))}
+
+      {posts.length === 0 ? <p style="color: var(--muted);">还没有内容。</p> : null}
     </div>
 
     <p style="margin-top: 18px;"><a href="/tags">← 返回标签列表</a></p>
