@@ -230,8 +230,10 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
         }
 
         const isMobile = window.matchMedia('(max-width: 560px)').matches;
-        // Fixed counts for consistency
-        const N = isMobile ? 10 : 12;
+
+        // More tiles for a less "stiff" mosaic.
+        // If we don't have enough images, we allow a small amount of repetition.
+        const N = isMobile ? 14 : 24;
 
         function clearSize(img) {
           img.classList.remove('is-wide', 'is-wide2', 'is-tall', 'is-big');
@@ -243,25 +245,41 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
           img.classList.add(kind);
         }
 
-        // Desktop: 2-row mosaic with guaranteed no overflow (area <= 24)
-        // Desktop: fill exactly 2 rows (12 cols x 2 rows).
-        // Spans per 6 tiles: [3,2,1,2,2,2] sum=12; repeat twice.
-        const desktopPattern = ['is-wide','is-wide2','', 'is-wide2','is-wide2','is-wide2', 'is-wide','is-wide2','', 'is-wide2','is-wide2','is-wide2'];
-        // Mobile: 2-column mixed sizes
-        const mobilePattern  = ['is-wide2', '', 'is-tall', '', 'is-wide', '', '', 'is-tall', '', ''];
-
-        imgs.forEach((img, idx) => {
-          if (idx < N) {
-            grid.appendChild(img);
-            img.style.display = '';
-
-            const base = isMobile ? mobilePattern[idx % mobilePattern.length] : desktopPattern[idx % desktopPattern.length];
-            let kind = base;
-
-            applySize(img, kind);
-          } else {
-            img.style.display = 'none';
+        function pickKind() {
+          const r = Math.random();
+          if (isMobile) {
+            // Mobile: mostly normal tiles, occasional wide/tall/big
+            if (r < 0.10) return 'is-big';
+            if (r < 0.28) return 'is-tall';
+            if (r < 0.48) return 'is-wide2';
+            if (r < 0.60) return 'is-wide';
+            return '';
           }
+
+          // Desktop: varied spans + some tall/big tiles for a more chaotic layout
+          if (r < 0.08) return 'is-big';
+          if (r < 0.20) return 'is-tall';
+          if (r < 0.45) return 'is-wide';
+          if (r < 0.70) return 'is-wide2';
+          return '';
+        }
+
+        // Build a display list of exactly N items (clone nodes to repeat if needed)
+        const display = [];
+        for (let i = 0; i < Math.min(imgs.length, N); i++) display.push(imgs[i]);
+        while (display.length < N && imgs.length > 0) {
+          const src = imgs[Math.floor(Math.random() * imgs.length)];
+          const clone = src.cloneNode(true);
+          clone.removeAttribute('data-astro-cid');
+          display.push(clone);
+        }
+
+        // Hide originals; then append our chosen mosaic tiles
+        imgs.forEach((img) => (img.style.display = 'none'));
+        display.forEach((img) => {
+          grid.appendChild(img);
+          img.style.display = '';
+          applySize(img, pickKind());
         });
       })();
     </script>
