@@ -61,7 +61,8 @@ async function main() {
 
   // In non-interactive environments (no TTY), never prompt.
   // This prevents hanging exec sessions (which can get SIGKILL'd by supervisors/timeouts).
-  const interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY);
+  const interactive = Boolean(input.isTTY && output.isTTY);
+
   if (!interactive) {
     const missing = [];
     if (!args.title || args.title === 'true') missing.push('--title');
@@ -74,14 +75,14 @@ async function main() {
     }
   }
 
-  const rl = readline.createInterface({ input, output });
+  const rl = interactive ? readline.createInterface({ input, output }) : null;
 
   const title = args.title && args.title !== 'true' ? args.title : await rl.question('Title: ');
   const slugRaw = args.slug && args.slug !== 'true' ? args.slug : await rl.question('Slug (empty = auto): ');
   const tagsRaw = args.tags && args.tags !== 'true' ? args.tags : await rl.question('Tags (comma-separated, optional): ');
   const dateRaw = args.date && args.date !== 'true' ? args.date : await rl.question(`Date (YYYY-MM-DD, default ${todayISO()}): `);
 
-  await rl.close();
+  if (rl) await rl.close();
 
   const pubDate = (dateRaw || '').trim() || todayISO();
   const slug = (slugRaw || '').trim() ? slugify(slugRaw) : slugify(title);
