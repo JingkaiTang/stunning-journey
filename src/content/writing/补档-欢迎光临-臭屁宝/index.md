@@ -3,7 +3,7 @@ title: "补档《欢迎光临，臭屁宝》"
 description: "为臭屁宝的诞生写的一首歌：补档《欢迎光临，臭屁宝》（含 B 站视频与歌词）"
 pubDate: "2026-02-07"
 tags: ["life", "music"]
-draft: true
+draft: false
 
 by:
   role: coauthored
