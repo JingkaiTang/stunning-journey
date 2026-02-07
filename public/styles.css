@@ -139,6 +139,7 @@ body {
   margin-top: 0;
   width: 96px;
   height: 96px;
+  flex-shrink: 0;
 }
 
 .hero-title {
@@ -150,6 +151,8 @@ body {
   color: var(--muted);
   font-size: 1.05rem;
   letter-spacing: 0.2px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 560px) {
