@@ -40,7 +40,6 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
   <section id="latest" class="section">
     <div class="section-head">
       <h2>最新</h2>
-      <p>Writing + Now 混合流（按时间倒序，展示最近 10 条）</p>
     </div>
 
     <div style="display:grid; gap:16px;">
@@ -123,7 +122,7 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
 
           {r.homepageUrl ? (
             <div style="margin-top: 10px;">
-              <a href={r.homepageUrl} target="_blank" rel="noreferrer">项目主页 →</a>
+              <a href={r.homepageUrl} target="_blank" rel="noopener noreferrer" aria-label={`${r.name} 项目主页`}>→</a>
             </div>
           ) : null}
         </article>
