@@ -59,14 +59,30 @@ async function exists(p) {
 async function main() {
   const args = parseArgs(process.argv);
 
-  const rl = readline.createInterface({ input, output });
+  // In non-interactive environments (no TTY), never prompt.
+  // This prevents hanging exec sessions (which can get SIGKILL'd by supervisors/timeouts).
+  const interactive = Boolean(input.isTTY && output.isTTY);
+
+  if (!interactive) {
+    const missing = [];
+    if (!args.title || args.title === 'true') missing.push('--title');
+    // Require an explicit slug in non-interactive mode to avoid ambiguity.
+    if (!args.slug || args.slug === 'true') missing.push('--slug');
+    if (missing.length) {
+      console.error(`[new:post] Non-interactive mode detected (no TTY). Missing required args: ${missing.join(', ')}`);
+      console.error('[new:post] Example: npm run new:post -- --title "..." --slug "..." --date 2026-02-07 --tags "life"');
+      process.exit(2);
+    }
+  }
+
+  const rl = interactive ? readline.createInterface({ input, output }) : null;
 
   const title = args.title && args.title !== 'true' ? args.title : await rl.question('Title: ');
   const slugRaw = args.slug && args.slug !== 'true' ? args.slug : await rl.question('Slug (empty = auto): ');
   const tagsRaw = args.tags && args.tags !== 'true' ? args.tags : await rl.question('Tags (comma-separated, optional): ');
   const dateRaw = args.date && args.date !== 'true' ? args.date : await rl.question(`Date (YYYY-MM-DD, default ${todayISO()}): `);
 
-  await rl.close();
+  if (rl) await rl.close();
 
   const pubDate = (dateRaw || '').trim() || todayISO();
   const slug = (slugRaw || '').trim() ? slugify(slugRaw) : slugify(title);
