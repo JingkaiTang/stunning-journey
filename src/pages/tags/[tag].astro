@@ -113,7 +113,7 @@ const posts = [...writingPosts, ...nowPosts].sort((a, b) => b.pubDate.getTime() 
                 {post.kind === 'writing' ? (
                   <span style="color: var(--muted);">{formatShanghai(post.pubDate, { withSeconds: true })}</span>
                 ) : null}
-                <a href={post.href}>阅读全文 →</a>
+                <a href={post.href} aria-label={`阅读全文：${post.title.replace(/^Now:\s*/, '')}`}>阅读全文 →</a>
               </div>
             </div>
           </div>
