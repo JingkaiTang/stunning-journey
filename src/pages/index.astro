@@ -120,11 +120,6 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
             {r.isArchived ? <span style="color: var(--muted); font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 999px;">Archived</span> : null}
           </div>
 
-          {r.homepageUrl ? (
-            <div style="margin-top: 10px;">
-              <a href={r.homepageUrl} target="_blank" rel="noopener noreferrer" aria-label={`${r.name} 项目主页`}>→</a>
-            </div>
-          ) : null}
         </article>
       ))}
 
