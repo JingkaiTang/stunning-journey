@@ -59,6 +59,21 @@ async function exists(p) {
 async function main() {
   const args = parseArgs(process.argv);
 
+  // In non-interactive environments (no TTY), never prompt.
+  // This prevents hanging exec sessions (which can get SIGKILL'd by supervisors/timeouts).
+  const interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY);
+  if (!interactive) {
+    const missing = [];
+    if (!args.title || args.title === 'true') missing.push('--title');
+    // Require an explicit slug in non-interactive mode to avoid ambiguity.
+    if (!args.slug || args.slug === 'true') missing.push('--slug');
+    if (missing.length) {
+      console.error(`[new:post] Non-interactive mode detected (no TTY). Missing required args: ${missing.join(', ')}`);
+      console.error('[new:post] Example: npm run new:post -- --title "..." --slug "..." --date 2026-02-07 --tags "life"');
+      process.exit(2);
+    }
+  }
+
   const rl = readline.createInterface({ input, output });
 
   const title = args.title && args.title !== 'true' ? args.title : await rl.question('Title: ');
