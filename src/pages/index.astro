@@ -22,17 +22,13 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
 <BaseLayout title={title} description={description}>
   <section class="hero" style="padding-top: 12px;">
     <div class="hero-content">
-      <p class="eyebrow">代码、游戏与臭屁宝</p>
-      <h1>
-        我是<span>唐靖凯</span>。
-        <br />做工程，也做落地。
-      </h1>
-
-      <img class="avatar" src="/images/avatar.jpg" alt="唐靖凯" loading="eager" decoding="async" fetchpriority="high" />
-      <p class="lead">
-        Java 后端工程师（2018–），关注 LLM 应用落地与自动化。
-        这里主要写：工程笔记、Agent/AI 实践、主机游戏、以及奶爸日常。
-      </p>
+      <div class="hero-intro">
+        <img class="avatar hero-avatar" src="/images/avatar.jpg" alt="唐靖凯" loading="eager" decoding="async" fetchpriority="high" />
+        <div class="hero-text">
+          <h1 class="hero-title">我是<span>唐靖凯</span></h1>
+          <p class="hero-subtitle">Java+AI工程师//游戏玩家//新手奶爸</p>
+        </div>
+      </div>
     </div>
 
   </section>
