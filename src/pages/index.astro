@@ -230,25 +230,24 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
         }
 
         const isMobile = window.matchMedia('(max-width: 560px)').matches;
-
-        // More tiles for a less "stiff" mosaic.
-        // If we don't have enough images, we allow a small amount of repetition.
-        const N = isMobile ? 14 : 24;
+        const isNarrow = window.matchMedia('(max-width: 900px)').matches;
 
         function clearSize(img) {
           img.classList.remove('is-wide', 'is-wide2', 'is-tall', 'is-big');
+          img.style.gridColumn = '';
+          img.style.gridRow = '';
         }
 
-        function applySize(img, kind) {
-          clearSize(img);
-          if (!kind) return;
-          img.classList.add(kind);
-        }
-
-        function pickKind() {
-          const r = Math.random();
-          if (isMobile) {
-            // Mobile: mostly normal tiles, occasional wide/tall/big
+        // Mobile stays simple (2-col grid) and naturally grows; no need to force a flat bottom.
+        if (isMobile) {
+          const N = 14;
+          function applySize(img, kind) {
+            clearSize(img);
+            if (!kind) return;
+            img.classList.add(kind);
+          }
+          function pickKind() {
+            const r = Math.random();
             if (r < 0.10) return 'is-big';
             if (r < 0.28) return 'is-tall';
             if (r < 0.48) return 'is-wide2';
@@ -256,15 +255,71 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
             return '';
           }
 
-          // Desktop: varied spans + some tall/big tiles for a more chaotic layout
-          if (r < 0.08) return 'is-big';
-          if (r < 0.20) return 'is-tall';
-          if (r < 0.45) return 'is-wide';
-          if (r < 0.70) return 'is-wide2';
-          return '';
+          const display = [];
+          for (let i = 0; i < Math.min(imgs.length, N); i++) display.push(imgs[i]);
+          while (display.length < N && imgs.length > 0) {
+            const src = imgs[Math.floor(Math.random() * imgs.length)];
+            const clone = src.cloneNode(true);
+            clone.removeAttribute('data-astro-cid');
+            display.push(clone);
+          }
+
+          imgs.forEach((img) => (img.style.display = 'none'));
+          display.forEach((img) => {
+            grid.appendChild(img);
+            img.style.display = '';
+            applySize(img, pickKind());
+          });
+          return;
         }
 
-        // Build a display list of exactly N items (clone nodes to repeat if needed)
+        // Desktop/tablet: use a few hand-crafted templates that *exactly* tile the grid.
+        // This guarantees:
+        // - no holes inside the mosaic
+        // - a flat bottom edge (because the grid has fixed rows)
+        const cols = isNarrow ? 8 : 12;
+
+        /** placement: [colStart (1-based), rowStart (1-based), colSpan, rowSpan] */
+        const templates12 = [
+          // Template A: big anchors + lots of smalls
+          [
+            [1, 1, 4, 2], [5, 1, 3, 1], [8, 1, 3, 1], [11, 1, 2, 2],
+            [5, 2, 2, 1], [7, 2, 2, 1], [9, 2, 2, 1],
+            [1, 3, 2, 1], [3, 3, 2, 1], [5, 3, 2, 1], [7, 3, 2, 1], [9, 3, 2, 1], [11, 3, 2, 1],
+          ],
+          // Template B: more mid-size blocks
+          [
+            [1, 1, 3, 2], [4, 1, 2, 1], [6, 1, 2, 2], [8, 1, 3, 1], [11, 1, 2, 1],
+            [4, 2, 2, 1], [8, 2, 3, 1], [11, 2, 2, 1],
+            [1, 3, 2, 1], [3, 3, 3, 1], [6, 3, 2, 1], [8, 3, 2, 1], [10, 3, 3, 1],
+          ],
+          // Template C: a bit more chaotic, but still tiles the grid perfectly
+          [
+            [1, 1, 2, 2], [3, 1, 4, 1], [7, 1, 3, 2], [10, 1, 3, 1],
+            [3, 2, 2, 1], [5, 2, 2, 1], [10, 2, 3, 1],
+            [1, 3, 3, 1], [4, 3, 2, 1], [6, 3, 2, 1], [8, 3, 2, 1], [10, 3, 3, 1],
+          ],
+        ];
+
+        const templates8 = [
+          // 8 cols x 3 rows = 24 cells
+          [
+            [1, 1, 3, 2], [4, 1, 2, 1], [6, 1, 3, 1],
+            [4, 2, 2, 1], [6, 2, 3, 1],
+            [1, 3, 2, 1], [3, 3, 2, 1], [5, 3, 2, 1], [7, 3, 2, 1],
+          ],
+          [
+            [1, 1, 2, 3], [3, 1, 3, 1], [6, 1, 3, 2],
+            [3, 2, 3, 1],
+            [3, 3, 2, 1], [5, 3, 2, 1], [7, 3, 2, 1],
+          ],
+        ];
+
+        const pool = cols === 12 ? templates12 : templates8;
+        const placement = pool[Math.floor(Math.random() * pool.length)];
+        const N = placement.length;
+
+        // Build exactly N tiles (clone nodes to allow repeats)
         const display = [];
         for (let i = 0; i < Math.min(imgs.length, N); i++) display.push(imgs[i]);
         while (display.length < N && imgs.length > 0) {
@@ -274,12 +329,15 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
           display.push(clone);
         }
 
-        // Hide originals; then append our chosen mosaic tiles
         imgs.forEach((img) => (img.style.display = 'none'));
-        display.forEach((img) => {
+        display.forEach((img, idx) => {
+          const p = placement[idx];
+          if (!p) return;
+          clearSize(img);
           grid.appendChild(img);
           img.style.display = '';
-          applySize(img, pickKind());
+          img.style.gridColumn = `${p[0]} / span ${p[2]}`;
+          img.style.gridRow = `${p[1]} / span ${p[3]}`;
         });
       })();
     </script>
