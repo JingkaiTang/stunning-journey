@@ -86,12 +86,12 @@ const BASE_URL = import.meta.env.BASE_URL;
         opacity: 0.92;
       }
 
-      /* Desktop: free-form mosaic (varied sizes, dense packing) */
+      /* Desktop: fixed-height mosaic (varied sizes but flat bottom edge) */
       .footer-gallery__grid {
         display: grid;
         grid-auto-flow: dense;
         grid-template-columns: repeat(12, 1fr);
-        grid-auto-rows: 110px;
+        grid-template-rows: repeat(3, 110px);
         gap: 10px;
         overflow: hidden;
         border-radius: 18px;
@@ -131,7 +131,7 @@ const BASE_URL = import.meta.env.BASE_URL;
       @media (max-width: 900px) {
         .footer-gallery__grid {
           grid-template-columns: repeat(8, 1fr);
-          grid-auto-rows: 100px;
+          grid-template-rows: repeat(3, 100px);
           gap: 9px;
         }
         .footer-gallery__img.is-wide {
