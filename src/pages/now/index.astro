@@ -12,10 +12,6 @@ const posts = (await getCollection('now'))
 <BaseLayout title="Now | 唐靖凯" description="我最近在做什么（短更新）">
   <section class="section glass" style="max-width: 900px;">
     <h2>Now</h2>
-    <p style="color: var(--muted); margin-top: 10px;">
-      这里是短更新区：记录我最近在做什么、学到什么、下一步计划。<br />
-      规则：Now 独立为 content collection（`src/content/now/`），每条带 tag：<code>now</code>。
-    </p>
 
     <div style="margin-top: 24px; display: grid; gap: 16px;">
       {posts.map((post) => {
