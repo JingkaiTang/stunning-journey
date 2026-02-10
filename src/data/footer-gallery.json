@@ -1,13 +1,17 @@
 {
-  "builtAt": "2026-02-06T16:38:51.156Z",
+  "builtAt": "2026-02-09T16:00:58.310Z",
   "counts": {
-    "writing": 1,
+    "writing": 2,
     "huolin": 17,
-    "total": 18
+    "total": 19
   },
   "items": [
     {
       "url": "/writing/我雇了个-ai-打工人-一次跑通-github-pages-pr-ci-的完整工作流/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/补档-欢迎光临-臭屁宝/cover.jpg",
       "kind": "writing-cover"
     },
     {
