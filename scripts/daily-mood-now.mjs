@@ -71,11 +71,11 @@ function ymdShanghai(date) {
 }
 
 function prevYmd(ymd) {
-  // ymd: YYYYMMDD (Shanghai)
+  // ymd: YYYYMMDD, interpreted as a Shanghai-local calendar date (no time-of-day).
   const y = Number(String(ymd).slice(0, 4));
   const m = Number(String(ymd).slice(4, 6));
   const d = Number(String(ymd).slice(6, 8));
-  // Use UTC date math on a Shanghai-midnight basis.
+  // Compute the previous calendar day via UTC-based date math (pure calendar arithmetic).
   const utcMs = Date.UTC(y, m - 1, d, 0, 0, 0) - 24 * 60 * 60 * 1000;
   const dt = new Date(utcMs);
   const yy = dt.getUTCFullYear();
@@ -155,6 +155,18 @@ function pickVariant(key, arr) {
   if (!arr?.length) return null;
   const idx = hash32(String(key)) % arr.length;
   return arr[idx];
+}
+
+
+function pickNextVariant(key, arr, avoid) {
+  if (!arr?.length) return null;
+  const len = arr.length;
+  if (len === 1) return arr[0];
+  const idx = hash32(String(key)) % len;
+  const cur = arr[idx];
+  if (avoid == null || String(cur).trim() !== String(avoid).trim()) return cur;
+  // Rotate deterministically to the next slot to try to avoid repeating yesterday.
+  return arr[(idx + 1) % len];
 }
 
 function normalizeTitle(s) {
@@ -309,7 +321,7 @@ function pickMood({ ymd, commitCount, text }) {
   if (/发布|上线|合并|成功|搞定|完成|yay|done|merged/.test(lower)) return { key: '小成就感', ...CATALOG['小成就感'] };
 
   // Activity heuristics
-  if (commitCount == 0) return { key: '躺平充电', ...CATALOG['躺平充电'] };
+  if (commitCount === 0) return { key: '躺平充电', ...CATALOG['躺平充电'] };
   if (commitCount >= 3) return { key: '专注干活', ...CATALOG['专注干活'] };
   return { key: '小有进展', ...CATALOG['小有进展'] };
 }
@@ -372,16 +384,14 @@ async function main() {
   let oneLiner = pickVariant(`${ymd}:${base.key}:one`, base.oneLiners) ?? base.oneLiner;
   let extra = pickVariant(`${ymd}:${base.key}:extra`, base.extras) ?? base.extra;
 
-  // De-dup: if today's generated text equals yesterday's mood-now, rotate once.
-  const y = loadYesterdayMoodNow({ ymd: prevYmd(ymd) });
-  if (y && normalizeTitle(y.title) === normalizeTitle(base.title) && String(y.oneLiner).trim() === String(oneLiner).trim()) {
-    const rotated = pickVariant(`${ymd}:${base.key}:one:rot`, [...(base.oneLiners || [])].reverse());
-    if (rotated) oneLiner = rotated;
-    const rotatedExtra = pickVariant(`${ymd}:${base.key}:extra:rot`, [...(base.extras || [])].reverse());
-    if (rotatedExtra) extra = rotatedExtra;
-  }
+    // De-dup: try to avoid generating the exact same title + one-liner as yesterday.
+    const y = loadYesterdayMoodNow({ ymd: prevYmd(ymd) });
+    if (y && normalizeTitle(y.title) === normalizeTitle(base.title)) {
+      oneLiner = pickNextVariant(`${ymd}:${base.key}:one`, base.oneLiners, y.oneLiner) ?? oneLiner;
+      extra = pickNextVariant(`${ymd}:${base.key}:extra`, base.extras, null) ?? extra;
+    }
 
-  const choice = {
+const choice = {
     mood: base.mood,
     image: base.image,
     tags: base.tags,
