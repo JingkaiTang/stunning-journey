@@ -70,6 +70,20 @@ function ymdShanghai(date) {
   return `${yyyy}${mm}${dd}`;
 }
 
+function prevYmd(ymd) {
+  // ymd: YYYYMMDD (Shanghai)
+  const y = Number(String(ymd).slice(0, 4));
+  const m = Number(String(ymd).slice(4, 6));
+  const d = Number(String(ymd).slice(6, 8));
+  // Use UTC date math on a Shanghai-midnight basis.
+  const utcMs = Date.UTC(y, m - 1, d, 0, 0, 0) - 24 * 60 * 60 * 1000;
+  const dt = new Date(utcMs);
+  const yy = dt.getUTCFullYear();
+  const mm = String(dt.getUTCMonth() + 1).padStart(2, '0');
+  const dd = String(dt.getUTCDate()).padStart(2, '0');
+  return `${yy}${mm}${dd}`;
+}
+
 function slugify(s) {
   return String(s)
     .trim()
@@ -126,45 +140,178 @@ function yesterdayRangeShanghai(now = new Date()) {
   };
 }
 
-function pickMood({ commitCount, hasWorkflow, hasWriting, hasNow }) {
-  // Heuristic: keep it simple and predictable.
-  if (commitCount === 0 && !hasWorkflow && !hasWriting && !hasNow) {
-    return {
+// --- Human-ish text helpers (deterministic rotation, avoids "same every day") ---
+function hash32(s) {
+  // FNV-1a 32-bit
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return h >>> 0;
+}
+
+function pickVariant(key, arr) {
+  if (!arr?.length) return null;
+  const idx = hash32(String(key)) % arr.length;
+  return arr[idx];
+}
+
+function normalizeTitle(s) {
+  return String(s || '').replace(/^Now:\s*/, '').trim();
+}
+
+function loadYesterdayMoodNow({ ymd }) {
+  // Best-effort: look for "yesterday 00:00" now entry under src/content/now/
+  // We don't rely on git/remote; purely local filesystem.
+  try {
+    const base = `${ymd}000000-`;
+    const dirs = fs.readdirSync(NOW_DIR, { withFileTypes: true })
+      .filter((d) => d.isDirectory() && d.name.startsWith(base))
+      .map((d) => d.name)
+      .sort();
+    if (!dirs.length) return null;
+    const mdPath = path.join(NOW_DIR, dirs[dirs.length - 1], 'index.md');
+    const raw = fs.readFileSync(mdPath, 'utf8');
+    const title = (raw.match(/^title:\s*"([^"]+)"/m)?.[1]) || '';
+    const oneLiner = (raw.match(/^一句话：(.+)$/m)?.[1]) || '';
+    return { title: normalizeTitle(title), oneLiner: String(oneLiner).trim() };
+  } catch {
+    return null;
+  }
+}
+
+function pickMood({ ymd, commitCount, text }) {
+  // Prefer notes-driven moods; fall back to activity heuristics.
+  const lower = String(text || '').toLowerCase();
+
+  const CATALOG = {
+    '快乐放纵': {
+      mood: '快乐放纵',
+      image: 'huolin-eating-mcdonalds.jpg',
+      tags: ['now', 'mood', 'life', 'food'],
+      title: '昨日心情：快乐放纵',
+      oneLiners: [
+        '昨天的情绪主打一个：先快乐，再说。',
+        '昨天有点“奖励自己”，快乐是真的。',
+        '昨天像开了免责条款：先开心，别内耗。',
+      ],
+      extras: [
+        '我知道不够健康，但它真的很快乐。',
+        '快乐就是短暂地不跟自己较劲。',
+        '先把心情哄好，明天再认真干活。',
+      ],
+    },
+    '自律上线': {
+      mood: '自律上线',
+      image: 'huolin-working-out-at-gym.jpg',
+      tags: ['now', 'mood', 'life', 'health'],
+      title: '昨日心情：自律上线',
+      oneLiners: [
+        '昨天是那种“咬咬牙也要往前挪一步”的状态。',
+        '昨天没有鸡血，但有稳定输出。',
+        '昨天把节奏找回来了一点点。',
+      ],
+      extras: [
+        '出汗那一刻，脑子反而安静了。',
+        '自律不酷，但它很管用。',
+        '慢一点没关系，别停。',
+      ],
+    },
+    '有点委屈但不摆烂': {
+      mood: '有点委屈但不摆烂',
+      image: 'huolin-got-scolded-at-work.jpg',
+      tags: ['now', 'mood', 'life'],
+      title: '昨日心情：有点委屈但不摆烂',
+      oneLiners: [
+        '昨天情绪有点皱，但还没到要掀桌的程度。',
+        '昨天被现实敲了两下，但还在继续推。',
+        '昨天有点烦，但我没让它赢。',
+      ],
+      extras: [
+        '我会把不爽收起来，然后继续把事情推进。',
+        '先把问题解决，再来安抚情绪。',
+        '别急，猫爪子也能一点点把结解开。',
+      ],
+    },
+    '小成就感': {
+      mood: '小成就感',
+      image: 'huolin-trophy-victory-proud.jpg',
+      tags: ['now', 'mood', 'life'],
+      title: '昨日心情：小成就感',
+      oneLiners: [
+        '昨天整体是“做完了就松一口气”的满足感。',
+        '昨天收了几个尾，心里变得干净了。',
+        '昨天的进展不吵，但很踏实。',
+      ],
+      extras: [
+        '不需要很大声地庆祝，但我确实挺开心。',
+        '这种“搞定”的感觉，会让人睡得更香。',
+        '把小事做对，就是在给未来省麻烦。',
+      ],
+    },
+    '躺平充电': {
       mood: '躺平充电',
       image: 'huolin-lazy-sleep-in-bed.jpg',
       tags: ['now', 'mood', 'life'],
       title: '昨日心情：躺平充电',
-      oneLiner: '昨天没太多推进——那就把它当成一次认真充电。',
-    };
-  }
-
-  if (hasWorkflow || (commitCount >= 3 && (hasWriting || hasNow))) {
-    return {
+      oneLiners: [
+        '昨天没太多推进——那就把它当成一次认真充电。',
+        '昨天的进度条没动，但电量回来了。',
+        '昨天属于“先活着再说”的一天。',
+      ],
+      extras: [
+        '猫猫也需要把电充满，才能继续打工。',
+        '休息不是浪费，是为下一段冲刺留余量。',
+        '今天再重新出发就好。',
+      ],
+    },
+    '专注干活': {
       mood: '专注干活',
       image: 'huolin-working-at-laptop.jpg',
       tags: ['now', 'mood', 'workflow', 'tooling'],
       title: '昨日心情：专注干活',
-      oneLiner: '昨天的状态：一口气把流程和细节推过了几个坎。',
-    };
-  }
-
-  if (commitCount >= 1 && (hasWriting || hasNow)) {
-    return {
+      oneLiners: [
+        '昨天的情绪比较“稳”：不吵不闹，把该做的做完。',
+        '昨天像开了专注模式：一步一步往前推。',
+        '昨天有点“闷头干活”，但效率很香。',
+        '昨天就是那种：不解释，直接推进。',
+      ],
+      extras: [
+        '专注这件事很省力：你只要一直往前走。',
+        '把每一步做短一点，就没那么难了。',
+        '我不需要热血，我需要可控。',
+        '做完再抬头看，世界会更清晰。',
+      ],
+    },
+    '小有进展': {
       mood: '小有进展',
       image: 'huolin-sleepy-subway.jpg',
       tags: ['now', 'mood', 'life'],
       title: '昨日心情：小有进展',
-      oneLiner: '昨天推进了一点点，但很真实。',
-    };
-  }
-
-  return {
-    mood: '复盘面对现实',
-    image: 'huolin-on-bodyfat-scale.jpg',
-    tags: ['now', 'mood', 'life'],
-    title: '昨日心情：复盘面对现实',
-    oneLiner: '昨天不一定很顺，但至少把问题看清了。',
+      oneLiners: [
+        '昨天推进了一点点，但很真实。',
+        '昨天没大招，但至少不是原地踏步。',
+        '昨天有点累，但也确实往前了。',
+      ],
+      extras: [
+        '一点点也算，别小看惯性。',
+        '慢慢来，反而更稳。',
+        '把“能做的”做完，剩下的交给明天。',
+      ],
+    },
   };
+
+  // Notes keyword mapping
+  if (/麦门|麦当劳|mcd/.test(lower)) return { key: '快乐放纵', ...CATALOG['快乐放纵'] };
+  if (/健身|举铁|gym|work\s*out/.test(lower)) return { key: '自律上线', ...CATALOG['自律上线'] };
+  if (/翻车|崩|事故|失败|挨骂|scold|error|bug|报错|sigkill|oom/.test(lower)) return { key: '有点委屈但不摆烂', ...CATALOG['有点委屈但不摆烂'] };
+  if (/发布|上线|合并|成功|搞定|完成|yay|done|merged/.test(lower)) return { key: '小成就感', ...CATALOG['小成就感'] };
+
+  // Activity heuristics
+  if (commitCount == 0) return { key: '躺平充电', ...CATALOG['躺平充电'] };
+  if (commitCount >= 3) return { key: '专注干活', ...CATALOG['专注干活'] };
+  return { key: '小有进展', ...CATALOG['小有进展'] };
 }
 
 function shouldSkip({ commitCount, force }) {
@@ -219,71 +366,29 @@ async function main() {
 
   // Mood classification from notes (preferred) + light heuristics.
   const text = `${mem}\n${subjects.join('\n')}`.toLowerCase();
+  // Build a more human-ish choice with deterministic rotation.
+  const base = pickMood({ ymd, commitCount, text });
 
-  function pickFromNotes() {
-    if (/麦门|麦当劳|mcd/.test(text)) {
-      return {
-        mood: '快乐放纵',
-        image: 'huolin-eating-mcdonalds.jpg',
-        tags: ['now', 'mood', 'life', 'food'],
-        title: '昨日心情：快乐放纵',
-        oneLiner: '昨天的情绪主打一个：先快乐，再说。',
-        extra: '我知道不够健康，但它真的很快乐。',
-      };
-    }
-    if (/健身|举铁|gym|work\s*out/.test(text)) {
-      return {
-        mood: '自律上线',
-        image: 'huolin-working-out-at-gym.jpg',
-        tags: ['now', 'mood', 'life', 'health'],
-        title: '昨日心情：自律上线',
-        oneLiner: '昨天是那种“咬咬牙也要往前挪一步”的状态。',
-        extra: '出汗那一刻，脑子反而安静了。',
-      };
-    }
-    if (/翻车|崩|事故|失败|挨骂|scold|error|bug|报错/.test(text)) {
-      return {
-        mood: '有点委屈但不摆烂',
-        image: 'huolin-got-scolded-at-work.jpg',
-        tags: ['now', 'mood', 'life'],
-        title: '昨日心情：有点委屈但不摆烂',
-        oneLiner: '昨天情绪有点皱，但还没到要掀桌的程度。',
-        extra: '我会把不爽收起来，然后继续把事情推进。',
-      };
-    }
-    if (/发布|上线|合并|成功|搞定|完成|yay|done/.test(text)) {
-      return {
-        mood: '小成就感',
-        image: 'huolin-dinner-feast.jpg',
-        tags: ['now', 'mood', 'life'],
-        title: '昨日心情：小成就感',
-        oneLiner: '昨天整体是“做完了就松一口气”的满足感。',
-        extra: '不需要很大声地庆祝，但我确实挺开心。',
-      };
-    }
-    return null;
+  let oneLiner = pickVariant(`${ymd}:${base.key}:one`, base.oneLiners) ?? base.oneLiner;
+  let extra = pickVariant(`${ymd}:${base.key}:extra`, base.extras) ?? base.extra;
+
+  // De-dup: if today's generated text equals yesterday's mood-now, rotate once.
+  const y = loadYesterdayMoodNow({ ymd: prevYmd(ymd) });
+  if (y && normalizeTitle(y.title) === normalizeTitle(base.title) && String(y.oneLiner).trim() === String(oneLiner).trim()) {
+    const rotated = pickVariant(`${ymd}:${base.key}:one:rot`, [...(base.oneLiners || [])].reverse());
+    if (rotated) oneLiner = rotated;
+    const rotatedExtra = pickVariant(`${ymd}:${base.key}:extra:rot`, [...(base.extras || [])].reverse());
+    if (rotatedExtra) extra = rotatedExtra;
   }
 
-  const fromNotes = pickFromNotes();
-  const choice =
-    fromNotes ??
-    (commitCount === 0
-      ? {
-          mood: '躺平充电',
-          image: 'huolin-lazy-sleep-in-bed.jpg',
-          tags: ['now', 'mood', 'life'],
-          title: '昨日心情：躺平充电',
-          oneLiner: '昨天没太多推进——那就把它当成一次认真充电。',
-          extra: '猫猫也需要把电充满，才能继续打工。',
-        }
-      : {
-          mood: '专注干活',
-          image: 'huolin-working-at-laptop.jpg',
-          tags: ['now', 'mood', 'workflow', 'tooling'],
-          title: '昨日心情：专注干活',
-          oneLiner: '昨天的情绪比较“稳”：不吵不闹，把该做的做完。',
-          extra: '专注这件事很省力：你只要一直往前走。',
-        });
+  const choice = {
+    mood: base.mood,
+    image: base.image,
+    tags: base.tags,
+    title: base.title,
+    oneLiner,
+    extra,
+  };
 
   if (shouldSkip({ commitCount, force })) {
     console.log(`[daily-mood] Skip posting (commitCount=${commitCount}).`);
