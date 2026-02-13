@@ -80,3 +80,49 @@ a {
   padding-top: 16px;
   padding-bottom: 28px;
 }
+
+.detail-section {
+  max-width: 980px;
+}
+
+.detail-title-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.detail-title {
+  margin: 0;
+}
+
+.detail-draft-badge {
+  font-size: 0.85rem;
+  color: var(--theme-link);
+  border: 1px solid var(--theme-border);
+  border-radius: 999px;
+  padding: 2px 10px;
+  background: color-mix(in srgb, var(--theme-link) 8%, white);
+}
+
+.detail-note {
+  margin-top: 10px;
+  color: var(--theme-muted);
+}
+
+.detail-meta {
+  margin-top: 10px;
+  color: var(--theme-muted);
+}
+
+.detail-meta a {
+  color: var(--theme-muted);
+}
+
+.detail-content {
+  margin-top: 14px;
+}
+
+.detail-back {
+  margin-top: 18px;
+}
