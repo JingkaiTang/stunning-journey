@@ -1,6 +1,6 @@
 {
   "user": "JingkaiTang",
-  "fetchedAt": "2026-02-11T16:47:38.033Z",
+  "fetchedAt": "2026-02-13T15:09:38.916Z",
   "pins": [
     {
       "name": "BarPin",
@@ -12,7 +12,7 @@
       "forks": 0,
       "language": "Swift",
       "languageColor": "#F05138",
-      "updatedAt": "2026-02-11T11:45:56Z",
+      "updatedAt": "2026-02-13T08:09:07Z",
       "isArchived": false,
       "isFork": false
     },
@@ -26,7 +26,21 @@
       "forks": 0,
       "language": "JavaScript",
       "languageColor": "#f1e05a",
-      "updatedAt": "2026-02-11T16:01:06Z",
+      "updatedAt": "2026-02-12T16:36:01Z",
+      "isArchived": false,
+      "isFork": false
+    },
+    {
+      "name": "cligram",
+      "fullName": "JingkaiTang/cligram",
+      "description": "通过 Telegram Bot 远程控制终端的命令行工具，基于 tmux 管理会话。",
+      "url": "https://github.com/JingkaiTang/cligram",
+      "homepageUrl": "",
+      "stars": 0,
+      "forks": 0,
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "updatedAt": "2026-02-13T13:10:26Z",
       "isArchived": false,
       "isFork": false
     }
