@@ -60,12 +60,10 @@ const BASE_URL = import.meta.env.BASE_URL;
     <slot name="head" />
   </head>
   <body data-base-url={BASE_URL}>
-    <div class="ambient-glow"></div>
-
-    <header class="site-header site-shell__header" data-pagefind-ignore>
-      <nav class="nav site-nav">
-        <a class="logo site-brand" href="/">JINGKAI//TANG</a>
-        <div class="nav-links site-nav__links">
+    <header class="site-shell__header" data-pagefind-ignore>
+      <nav class="site-nav">
+        <a class="site-brand" href="/">JINGKAI//TANG</a>
+        <div class="site-nav__links">
           <a href="/writing">Writing</a>
           <a href="/now">Now</a>
           <a href="/tags">Tags</a>
@@ -76,11 +74,11 @@ const BASE_URL = import.meta.env.BASE_URL;
       </nav>
     </header>
 
-    <main class="site-shell__main" style="padding-top: 0;" data-pagefind-body>
+    <main class="site-shell__main" data-pagefind-body>
       <slot />
     </main>
 
-    <footer class="site-footer site-shell__footer" data-pagefind-ignore>
+    <footer class="site-shell__footer" data-pagefind-ignore>
       <span>
         © {new Date().getFullYear()} 唐靖凯 ·
         <a href="https://github.com/JingkaiTang" target="_blank" rel="noreferrer">GitHub</a>
