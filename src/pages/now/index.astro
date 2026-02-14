@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import PostCard from '../../components/PostCard.astro';
 import { pickCover, resolveMaybeRelativeUrl } from '../../utils/contentPreview';
 import { formatShanghai } from '../../utils/dateFormat';
 
@@ -19,40 +20,18 @@ const posts = (await getCollection('now'))
         const coverRaw = pickCover(post);
         const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
         return (
-          <article class="project-card content-card">
-            <div class={`content-card__grid ${cover ? 'has-cover' : ''}`}>
-              {cover ? (
-                <a href={href} style="display:block;">
-                  <img
-                    class="content-card__thumb"
-                    src={cover}
-                    alt={post.data.title}
-                    loading="lazy"
-                    decoding="async"
-                    fetchpriority="low"
-                  />
-                </a>
-              ) : null}
-
-              <div>
-                <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
-                  <h3 style="margin:0;">
-                    <a href={`/now/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
-                      {formatShanghai(post.data.pubDate, { withSeconds: true })} · {post.data.title.replace(/^Now:\s*/, '')}
-                    </a>
-                  </h3>
-                  <span style="color: var(--primary); font-size: 0.85rem;">Now</span>
-                </div>
-
-                {post.data.description ? <p style="margin-top: 8px; color: var(--muted);">{post.data.description}</p> : null}
-
-                <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
-                  <a href={`/now/${post.slug.replace(/\/index$/, '')}/`}>阅读全文 →</a>
-                  <a href="/tags/now/" style="color: var(--muted);">#now</a>
-                </div>
-              </div>
-            </div>
-          </article>
+          <PostCard
+            href={href}
+            title={`${formatShanghai(post.data.pubDate, { withSeconds: true })} · ${post.data.title.replace(/^Now:\s*/, '')}`}
+            description={post.data.description}
+            cover={cover}
+            kindLabel="Now"
+          >
+            <Fragment slot="meta">
+              <a href={href}>阅读全文 →</a>
+              <a href="/tags/now/" style="color: var(--muted);">#now</a>
+            </Fragment>
+          </PostCard>
         );
       })}
 
