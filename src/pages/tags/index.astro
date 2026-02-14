@@ -24,23 +24,10 @@ const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeC
       <p>按标签浏览 Writing / Now。</p>
     </div>
 
-    <div style="display:grid; gap:16px; margin-top: 16px;">
+    <div class="stack-list" style="margin-top: 16px;">
       {tags.map(([tag, count]) => (
-        <article class="project-card content-card">
-          <div style="display:flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
-            <h3 style="margin:0;">
-              <a href={`/tags/${encodeURIComponent(tag)}/`} style="color: var(--text); text-decoration:none;">
-                #{tag}
-              </a>
-            </h3>
-            <span style="color: var(--muted); font-size: 0.95rem;">{count} 条</span>
-          </div>
-          <div style="margin-top: 10px;">
-            <a href={`/tags/${encodeURIComponent(tag)}/`} aria-label={`查看标签 ${tag} 下的内容`}>查看内容 →</a>
-          </div>
-        </article>
+        <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag} ({count})</a>
       ))}
-      {tags.length === 0 ? <p style="color: var(--muted);">还没有标签。</p> : null}
     </div>
   </section>
 </BaseLayout>

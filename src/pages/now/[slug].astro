@@ -29,22 +29,29 @@ const isDraft = Boolean(post.data.draft);
     {isDraft ? <meta name="robots" content="noindex,nofollow" /> : null}
   </Fragment>
 
-  <section class="section glass detail-section">
+  <section class="section glass" style="max-width: 980px;">
     <article class="post">
-      <div class="detail-title-row">
-        <h1 class="post-title detail-title">{post.data.title}</h1>
+      <div style="display:flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <h1 class="post-title" style="margin:0;">{post.data.title}</h1>
         {isDraft ? (
-          <span class="detail-draft-badge">草稿</span>
+          <span style="
+            font-size: 0.85rem;
+            color: var(--primary);
+            border: 1px solid rgba(124, 249, 255, 0.25);
+            border-radius: 999px;
+            padding: 2px 10px;
+            background: rgba(124, 249, 255, 0.08);
+          ">草稿</span>
         ) : null}
       </div>
 
       {isDraft ? (
-        <p class="detail-note">
+        <p style="margin-top: 10px; color: var(--muted);">
           这是一条草稿：仅用于预览，不会出现在 Now 列表/首页流中。
         </p>
       ) : null}
 
-      <p class="post-meta detail-meta">
+      <p class="post-meta">
         {formatShanghai(post.data.pubDate, { withSeconds: true })}
         {post.data.updatedDate ? (
           <>
@@ -61,11 +68,11 @@ const isDraft = Boolean(post.data.draft);
         ) : null}
       </p>
 
-      <div class="post-content detail-content">
+      <div class="post-content">
         <Content />
       </div>
 
-      <p class="detail-back"><a href="/now">← 返回 Now</a></p>
+      <p style="margin-top: 18px;"><a href="/now">← 返回 Now</a></p>
     </article>
   </section>
 </BaseLayout>
