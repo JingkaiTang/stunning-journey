@@ -1,10 +1,18 @@
 :root {
+  color-scheme: light;
+
   --theme-bg: #f8f8f5;
   --theme-surface: #ffffff;
   --theme-text: #1f2937;
   --theme-muted: #6b7280;
   --theme-border: #e5e7eb;
   --theme-link: #1d4ed8;
+
+  /* Legacy variable aliases (existing components/pages rely on these). */
+  --text: var(--theme-text);
+  --muted: var(--theme-muted);
+  --primary: var(--theme-link);
+  --border: var(--theme-border);
 }
 
 html,
@@ -125,4 +133,90 @@ a {
 
 .detail-back {
   margin-top: 18px;
+}
+
+/* PostCard / content card layout helpers */
+.content-card__grid {
+  display: grid;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.content-card__grid.has-cover {
+  grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+}
+
+@media (max-width: 560px) {
+  .content-card__grid.has-cover {
+    grid-template-columns: 1fr;
+  }
+}
+
+.content-card__thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+}
+
+/* Footer gallery (home page) */
+.footer-gallery {
+  margin-top: 28px;
+}
+
+.footer-gallery__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.footer-gallery__grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+
+@media (max-width: 900px) {
+  .footer-gallery__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-gallery__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.footer-gallery__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--theme-border);
+}
+
+/* Size modifiers used by the inline shuffle script */
+.footer-gallery__img.is-wide {
+  grid-column: span 2;
+}
+
+.footer-gallery__img.is-wide2 {
+  grid-column: span 3;
+}
+
+.footer-gallery__img.is-tall {
+  grid-row: span 2;
+}
+
+.footer-gallery__img.is-big {
+  grid-column: span 2;
+  grid-row: span 2;
 }
