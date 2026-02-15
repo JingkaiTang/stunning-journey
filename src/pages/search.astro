@@ -23,7 +23,7 @@ const BASE_URL = import.meta.env.BASE_URL;
 
   <script is:inline type="module" define:vars={{ BASE_URL }}>
     // Pagefind UI script is NOT an ES module; it attaches PagefindUI to window.
-    // We load it via a normal <script> injection, then instantiate window.PagefindUI.
+    // Load it by injecting a script tag, then instantiate window.PagefindUI.
     (async () => {
       const base = BASE_URL;
       try {

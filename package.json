@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "predev": "npm run sync:assets",
     "dev": "astro dev",
     "dev:watch": "node scripts/dev-watch.mjs",
     "sync:assets": "node scripts/sync-writing-assets.mjs",
@@ -18,7 +19,8 @@
     "deploy:ensure": "node scripts/ensure-pages-deploy.mjs --wait",
     "publish:now": "node scripts/publish-now.mjs",
     "check": "astro check",
-    "build": "node scripts/fetch-github-pins.mjs && npm run sync:assets && node scripts/build-footer-gallery.mjs && astro build && pagefind --site dist",
+    "prebuild": "npm run sync:assets",
+    "build": "node scripts/fetch-github-pins.mjs && node scripts/build-footer-gallery.mjs && astro build && pagefind --site dist",
     "audit:size": "node scripts/audit-size.mjs",
     "preview": "astro preview",
     "astro": "astro"
