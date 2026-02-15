@@ -1,0 +1,18 @@
+:root {
+  --theme-bg: var(--bg, #05050b);
+  --theme-surface: var(--surface, rgba(16, 18, 34, 0.7));
+  --theme-text: var(--text, #e6ecff);
+  --theme-muted: var(--muted, #a0a7c5);
+  --theme-primary: var(--primary, #7cf9ff);
+  --theme-border: var(--border, rgba(124, 249, 255, 0.2));
+  --theme-radius-sm: 12px;
+  --theme-radius-md: 16px;
+  --theme-radius-lg: 18px;
+  --theme-gap-md: 14px;
+  --theme-gap-lg: 18px;
+}
+
+body.theme-default {
+  color: var(--theme-text);
+  background-color: var(--theme-bg);
+}
