@@ -6,9 +6,10 @@ type PostCardProps = {
   dateText?: string;
   tags?: string[];
   cover?: string | null;
+  badge?: string;
 };
 
-const { href, title, description, dateText, tags = [], cover = null } = Astro.props as PostCardProps;
+const { href, title, description, dateText, tags = [], cover = null, badge } = Astro.props as PostCardProps;
 ---
 
 <article class="project-card content-card">
@@ -29,9 +30,12 @@ const { href, title, description, dateText, tags = [], cover = null } = Astro.pr
     }
 
     <div>
-      <h3 class="content-card__title">
-        <a href={href} class="content-card__title-link">{title}</a>
-      </h3>
+      <div class="content-card__title-row">
+        <h3 class="content-card__title">
+          <a href={href} class="content-card__title-link">{title}</a>
+        </h3>
+        {badge ? <span class="content-card__badge">{badge}</span> : null}
+      </div>
       {description ? <p class="content-card__desc">{description}</p> : null}
       {
         dateText || tags.length ? (

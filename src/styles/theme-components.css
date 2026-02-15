@@ -39,9 +39,22 @@ main {
   margin: 0 0 6px;
 }
 
+.content-card__title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .content-card__title-link {
   color: var(--theme-text);
   text-decoration: none;
+}
+
+.content-card__badge {
+  color: var(--theme-primary);
+  font-size: 0.85rem;
 }
 
 .content-card__desc {
