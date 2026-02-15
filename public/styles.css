@@ -1,5 +1,4 @@
 :root {
-  color-scheme: dark;
   --bg: #05050b;
   --surface: rgba(16, 18, 34, 0.7);
   --primary: #7cf9ff;
@@ -8,6 +7,143 @@
   --muted: #a0a7c5;
   --border: rgba(124, 249, 255, 0.2);
   --glow: 0 0 30px rgba(124, 249, 255, 0.4);
+  --bg-orb-1: #1b1f3a;
+  --bg-orb-2: #311a52;
+  --ambient-1: rgba(124, 249, 255, 0.08);
+  --ambient-2: rgba(139, 92, 246, 0.1);
+  --avatar-border: rgba(124, 249, 255, 0.25);
+  --hover-glow: rgba(124, 249, 255, 0.2);
+  --panel-border-soft: rgba(124, 249, 255, 0.1);
+  --panel-accent-soft: rgba(124, 249, 255, 0.08);
+  --panel-bg-strong: rgba(15, 18, 32, 0.8);
+  --stack-bg: rgba(124, 249, 255, 0.1);
+  --field-bg: rgba(7, 8, 18, 0.7);
+  --text-strong: rgba(230, 236, 255, 0.95);
+  --text-dim-strong: rgba(230, 236, 255, 0.9);
+  --blockquote-border: rgba(124, 249, 255, 0.35);
+  --blockquote-text: rgba(230, 236, 255, 0.85);
+  --blockquote-bg: rgba(7, 8, 18, 0.35);
+  --code-bg: rgba(124, 249, 255, 0.08);
+  --code-border: rgba(124, 249, 255, 0.18);
+  --pre-bg: rgba(7, 8, 18, 0.75);
+  --image-border: rgba(124, 249, 255, 0.12);
+  --toc-bg: rgba(16, 18, 34, 0.55);
+  --modal-border: rgba(124, 249, 255, 0.16);
+  --modal-bg: rgba(10, 12, 24, 0.92);
+  --modal-divider: rgba(124, 249, 255, 0.12);
+  --modal-close-border: rgba(124, 249, 255, 0.14);
+  color-scheme: dark;
+}
+
+:root[data-theme='day'] {
+  --bg: #f4f7fb;
+  --surface: rgba(255, 255, 255, 0.9);
+  --primary: #0f7ea8;
+  --accent: #f97316;
+  --text: #142334;
+  --muted: #56667b;
+  --border: rgba(15, 126, 168, 0.24);
+  --glow: 0 0 24px rgba(15, 126, 168, 0.25);
+  --bg-orb-1: #dff2ff;
+  --bg-orb-2: #ffe6cc;
+  --ambient-1: rgba(15, 126, 168, 0.08);
+  --ambient-2: rgba(249, 115, 22, 0.08);
+  --avatar-border: rgba(15, 126, 168, 0.28);
+  --hover-glow: rgba(15, 126, 168, 0.2);
+  --panel-border-soft: rgba(15, 126, 168, 0.16);
+  --panel-accent-soft: rgba(15, 126, 168, 0.1);
+  --panel-bg-strong: rgba(255, 255, 255, 0.92);
+  --stack-bg: rgba(15, 126, 168, 0.1);
+  --field-bg: rgba(245, 248, 253, 0.95);
+  --text-strong: rgba(20, 35, 52, 0.96);
+  --text-dim-strong: rgba(20, 35, 52, 0.88);
+  --blockquote-border: rgba(15, 126, 168, 0.36);
+  --blockquote-text: rgba(20, 35, 52, 0.9);
+  --blockquote-bg: rgba(15, 126, 168, 0.08);
+  --code-bg: rgba(15, 126, 168, 0.08);
+  --code-border: rgba(15, 126, 168, 0.24);
+  --pre-bg: rgba(245, 248, 253, 0.96);
+  --image-border: rgba(15, 126, 168, 0.2);
+  --toc-bg: rgba(255, 255, 255, 0.92);
+  --modal-border: rgba(15, 126, 168, 0.22);
+  --modal-bg: rgba(255, 255, 255, 0.98);
+  --modal-divider: rgba(15, 126, 168, 0.16);
+  --modal-close-border: rgba(15, 126, 168, 0.24);
+  color-scheme: light;
+}
+
+:root[data-theme='night'] {
+  --bg: #070a12;
+  --surface: rgba(16, 20, 31, 0.78);
+  --primary: #8ec5ff;
+  --accent: #60a5fa;
+  --text: #e7ecf8;
+  --muted: #97a4bf;
+  --border: rgba(142, 197, 255, 0.23);
+  --glow: 0 0 28px rgba(96, 165, 250, 0.3);
+  --bg-orb-1: #11192b;
+  --bg-orb-2: #12253a;
+  --ambient-1: rgba(142, 197, 255, 0.09);
+  --ambient-2: rgba(96, 165, 250, 0.08);
+  --avatar-border: rgba(142, 197, 255, 0.3);
+  --hover-glow: rgba(96, 165, 250, 0.2);
+  --panel-border-soft: rgba(142, 197, 255, 0.12);
+  --panel-accent-soft: rgba(142, 197, 255, 0.09);
+  --panel-bg-strong: rgba(16, 20, 31, 0.86);
+  --stack-bg: rgba(142, 197, 255, 0.1);
+  --field-bg: rgba(12, 15, 26, 0.82);
+  --text-strong: rgba(231, 236, 248, 0.96);
+  --text-dim-strong: rgba(231, 236, 248, 0.88);
+  --blockquote-border: rgba(142, 197, 255, 0.35);
+  --blockquote-text: rgba(231, 236, 248, 0.88);
+  --blockquote-bg: rgba(12, 15, 26, 0.55);
+  --code-bg: rgba(142, 197, 255, 0.12);
+  --code-border: rgba(142, 197, 255, 0.24);
+  --pre-bg: rgba(12, 15, 26, 0.82);
+  --image-border: rgba(142, 197, 255, 0.2);
+  --toc-bg: rgba(16, 20, 31, 0.62);
+  --modal-border: rgba(142, 197, 255, 0.2);
+  --modal-bg: rgba(10, 14, 24, 0.94);
+  --modal-divider: rgba(142, 197, 255, 0.14);
+  --modal-close-border: rgba(142, 197, 255, 0.2);
+  color-scheme: dark;
+}
+
+:root[data-theme='cny'] {
+  --bg: #2a0007;
+  --surface: rgba(64, 7, 14, 0.76);
+  --primary: #ffd56a;
+  --accent: #ff8a3d;
+  --text: #fff4df;
+  --muted: #f5cc98;
+  --border: rgba(255, 213, 106, 0.35);
+  --glow: 0 0 34px rgba(255, 200, 92, 0.36);
+  --bg-orb-1: #5a0715;
+  --bg-orb-2: #7a220e;
+  --ambient-1: rgba(255, 213, 106, 0.14);
+  --ambient-2: rgba(255, 122, 69, 0.12);
+  --avatar-border: rgba(255, 213, 106, 0.4);
+  --hover-glow: rgba(255, 200, 92, 0.3);
+  --panel-border-soft: rgba(255, 213, 106, 0.22);
+  --panel-accent-soft: rgba(255, 213, 106, 0.14);
+  --panel-bg-strong: rgba(79, 11, 19, 0.88);
+  --stack-bg: rgba(255, 213, 106, 0.16);
+  --field-bg: rgba(44, 6, 12, 0.88);
+  --text-strong: rgba(255, 244, 223, 0.98);
+  --text-dim-strong: rgba(255, 236, 200, 0.92);
+  --blockquote-border: rgba(255, 213, 106, 0.45);
+  --blockquote-text: rgba(255, 233, 191, 0.92);
+  --blockquote-bg: rgba(83, 12, 20, 0.68);
+  --code-bg: rgba(255, 213, 106, 0.16);
+  --code-border: rgba(255, 213, 106, 0.34);
+  --pre-bg: rgba(44, 6, 12, 0.9);
+  --image-border: rgba(255, 213, 106, 0.28);
+  --toc-bg: rgba(72, 10, 18, 0.8);
+  --modal-border: rgba(255, 213, 106, 0.32);
+  --modal-bg: rgba(51, 7, 14, 0.94);
+  --modal-divider: rgba(255, 213, 106, 0.24);
+  --modal-close-border: rgba(255, 213, 106, 0.3);
+  color-scheme: dark;
 }
 
 * {
@@ -18,8 +154,8 @@
 
 body {
   font-family: 'Space Grotesk', sans-serif;
-  background: radial-gradient(circle at 20% 20%, #1b1f3a, transparent 55%),
-    radial-gradient(circle at 80% 10%, #311a52, transparent 45%),
+  background: radial-gradient(circle at 20% 20%, var(--bg-orb-1), transparent 55%),
+    radial-gradient(circle at 80% 10%, var(--bg-orb-2), transparent 45%),
     var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -30,8 +166,8 @@ body {
 .ambient-glow {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(124, 249, 255, 0.08), transparent 60%),
-    radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.1), transparent 50%);
+  background: radial-gradient(circle at 50% 50%, var(--ambient-1), transparent 60%),
+    radial-gradient(circle at 70% 70%, var(--ambient-2), transparent 50%);
   pointer-events: none;
   z-index: -1;
 }
@@ -47,6 +183,14 @@ body {
   gap: 24px;
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .logo {
   font-weight: 700;
   letter-spacing: 3px;
@@ -57,6 +201,32 @@ body {
   display: flex;
   gap: 20px;
   font-size: 0.95rem;
+}
+
+.theme-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 8px;
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+
+.theme-picker select {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  line-height: 1;
+  min-width: 72px;
+  cursor: pointer;
+}
+
+.theme-picker select:focus {
+  outline: none;
 }
 
 .nav-links a,
@@ -124,7 +294,7 @@ body {
   border-radius: 999px;
   object-fit: cover;
   margin-top: 18px;
-  border: 1px solid rgba(124, 249, 255, 0.25);
+  border: 1px solid var(--avatar-border);
   box-shadow: 0 18px 40px rgba(7, 10, 30, 0.55);
 }
 
@@ -205,7 +375,7 @@ body {
 .primary:hover,
 .ghost:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(124, 249, 255, 0.2);
+  box-shadow: 0 10px 30px var(--hover-glow);
 }
 
 .hero-stats {
@@ -220,7 +390,7 @@ body {
 
 .hero-card {
   background: var(--surface);
-  border: 1px solid rgba(124, 249, 255, 0.1);
+  border: 1px solid var(--panel-border-soft);
   padding: 28px;
   border-radius: 24px;
   position: relative;
@@ -232,7 +402,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(124, 249, 255, 0.08), transparent 60%);
+  background: linear-gradient(120deg, var(--panel-accent-soft), transparent 60%);
   pointer-events: none;
 }
 
@@ -241,7 +411,7 @@ body {
   inset: 20% 10% auto;
   height: 60px;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(124, 249, 255, 0.4), transparent 60%);
+  background: radial-gradient(circle, var(--hover-glow), transparent 60%);
   filter: blur(6px);
   animation: pulse 4s ease-in-out infinite;
 }
@@ -316,7 +486,7 @@ main {
 
 .glass {
   background: var(--surface);
-  border: 1px solid rgba(124, 249, 255, 0.08);
+  border: 1px solid var(--panel-accent-soft);
   border-radius: 24px;
   padding: 32px;
 }
@@ -334,16 +504,16 @@ main {
 }
 
 .project-card {
-  background: rgba(15, 18, 32, 0.8);
+  background: var(--panel-bg-strong);
   border-radius: 20px;
   padding: 24px;
-  border: 1px solid rgba(124, 249, 255, 0.08);
+  border: 1px solid var(--panel-accent-soft);
   transition: transform 0.3s ease, border 0.3s ease;
 }
 
 .project-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(124, 249, 255, 0.4);
+  border-color: var(--border);
 }
 
 .project-card span {
@@ -363,8 +533,8 @@ main {
 .stack-list a {
   padding: 10px 18px;
   border-radius: 999px;
-  background: rgba(124, 249, 255, 0.1);
-  border: 1px solid rgba(124, 249, 255, 0.2);
+  background: var(--stack-bg);
+  border: 1px solid var(--border);
   color: var(--primary);
   text-decoration: none;
   display: inline-flex;
@@ -384,8 +554,8 @@ main {
 
 .contact-form input,
 .contact-form textarea {
-  background: rgba(7, 8, 18, 0.7);
-  border: 1px solid rgba(124, 249, 255, 0.2);
+  background: var(--field-bg);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 12px 16px;
   color: var(--text);
@@ -460,7 +630,7 @@ main {
 
 .post-content h3 {
   font-size: 1.15rem;
-  color: rgba(230, 236, 255, 0.95);
+  color: var(--text-strong);
 }
 
 .post-content a {
@@ -472,10 +642,10 @@ main {
 }
 
 .post-content blockquote {
-  border-left: 3px solid rgba(124, 249, 255, 0.35);
+  border-left: 3px solid var(--blockquote-border);
   padding-left: 14px;
-  color: rgba(230, 236, 255, 0.85);
-  background: rgba(7, 8, 18, 0.35);
+  color: var(--blockquote-text);
+  background: var(--blockquote-bg);
   border-radius: 12px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -484,15 +654,15 @@ main {
 .post-content code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.95em;
-  background: rgba(124, 249, 255, 0.08);
-  border: 1px solid rgba(124, 249, 255, 0.18);
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
   padding: 0.15em 0.35em;
   border-radius: 8px;
 }
 
 .post-content pre {
-  background: rgba(7, 8, 18, 0.75);
-  border: 1px solid rgba(124, 249, 255, 0.18);
+  background: var(--pre-bg);
+  border: 1px solid var(--code-border);
   border-radius: 16px;
   padding: 14px 16px;
   overflow: auto;
@@ -516,21 +686,21 @@ main {
   display: block;
   margin: 18px auto;
   border-radius: 14px;
-  border: 1px solid rgba(124, 249, 255, 0.12);
+  border: 1px solid var(--image-border);
 }
 
 .toc {
   position: sticky;
   top: 24px;
-  background: rgba(16, 18, 34, 0.55);
-  border: 1px solid rgba(124, 249, 255, 0.12);
+  background: var(--toc-bg);
+  border: 1px solid var(--image-border);
   border-radius: 16px;
   padding: 14px 14px;
 }
 
 .toc-title {
   font-weight: 600;
-  color: rgba(230, 236, 255, 0.9);
+  color: var(--text-dim-strong);
   margin-bottom: 10px;
 }
 
@@ -571,6 +741,15 @@ main {
     align-items: flex-start;
   }
 
+  .nav-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+  }
+
   .hero-actions,
   .hero-stats {
     flex-direction: column;
@@ -581,10 +760,10 @@ main {
 /* -------- Quick Search (Cmd/Ctrl+K) -------- */
 .quick-search {
   width: min(880px, calc(100vw - 32px));
-  border: 1px solid rgba(124, 249, 255, 0.16);
+  border: 1px solid var(--modal-border);
   border-radius: 18px;
   padding: 0;
-  background: rgba(10, 12, 24, 0.92);
+  background: var(--modal-bg);
   color: var(--text);
   box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
 }
@@ -599,7 +778,7 @@ main {
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
-  border-bottom: 1px solid rgba(124, 249, 255, 0.12);
+  border-bottom: 1px solid var(--modal-divider);
 }
 
 .quick-search__hint {
@@ -609,7 +788,7 @@ main {
 }
 
 .quick-search__close {
-  border: 1px solid rgba(124, 249, 255, 0.14);
+  border: 1px solid var(--modal-close-border);
   background: transparent;
   color: var(--text);
   border-radius: 10px;
@@ -624,8 +803,8 @@ main {
 
 /* Tweak Pagefind UI inside modal */
 .quick-search .pagefind-ui__search-input {
-  background: rgba(7, 8, 18, 0.7);
-  border: 1px solid rgba(124, 249, 255, 0.2);
+  background: var(--field-bg);
+  border: 1px solid var(--border);
   border-radius: 14px;
   color: var(--text);
 }

@@ -1,22 +1,78 @@
 ---
-import { THEME_BRAND, THEME_NAV_ITEMS } from '../../theme/config';
+import {
+  DEFAULT_THEME,
+  THEME_BRAND,
+  THEME_KEYS,
+  THEME_NAV_ITEMS,
+  THEME_OPTIONS,
+  THEME_STORAGE_KEY,
+} from '../../theme/config';
 ---
 
 <header class="site-header theme-header" data-pagefind-ignore>
   <nav class="nav">
     <a class="logo" href="/">{THEME_BRAND}</a>
-    <div class="nav-links">
-      {
-        THEME_NAV_ITEMS.map((item) => (
-          <a
-            href={item.href}
-            target={item.external ? '_blank' : undefined}
-            rel={item.external ? 'noopener noreferrer' : undefined}
-          >
-            {item.label}
-          </a>
-        ))
-      }
+    <div class="nav-right">
+      <div class="nav-links">
+        {
+          THEME_NAV_ITEMS.map((item) => (
+            <a
+              href={item.href}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noopener noreferrer' : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+      <label class="theme-picker" for="theme-select">
+        <select id="theme-select" aria-label="切换主题">
+          {
+            THEME_OPTIONS.map((item) => (
+              <option value={item.value}>{item.label}</option>
+            ))
+          }
+        </select>
+      </label>
     </div>
   </nav>
 </header>
+
+<script is:inline define:vars={{ DEFAULT_THEME, THEME_KEYS, THEME_STORAGE_KEY }}>
+  (() => {
+    const allowed = new Set(THEME_KEYS);
+    const root = document.documentElement;
+    const body = document.body;
+    const select = document.getElementById('theme-select');
+
+    function applyTheme(value) {
+      const next = allowed.has(value) ? value : DEFAULT_THEME;
+      root.dataset.theme = next;
+      if (body) body.dataset.theme = next;
+      return next;
+    }
+
+    let saved = '';
+    try {
+      saved = localStorage.getItem(THEME_STORAGE_KEY) || '';
+    } catch {
+      // ignore storage errors (private mode / blocked)
+    }
+
+    const current = applyTheme(root.dataset.theme || saved || DEFAULT_THEME);
+
+    if (select) {
+      select.value = current;
+      select.addEventListener('change', (event) => {
+        const target = event.target;
+        const next = applyTheme(target?.value || DEFAULT_THEME);
+        try {
+          localStorage.setItem(THEME_STORAGE_KEY, next);
+        } catch {
+          // ignore storage errors
+        }
+      });
+    }
+  })();
+</script>
