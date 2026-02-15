@@ -1,5 +1,7 @@
 ---
 import { SITE } from '../consts';
+import SiteFooter from '../components/theme/SiteFooter.astro';
+import SiteHeader from '../components/theme/SiteHeader.astro';
 import '../styles/theme-tokens.css';
 import '../styles/theme-components.css';
 
@@ -64,32 +66,13 @@ const BASE_URL = import.meta.env.BASE_URL;
   <body class="theme-default" data-base-url={BASE_URL}>
     <div class="ambient-glow"></div>
 
-    <header class="site-header theme-header" data-pagefind-ignore>
-      <nav class="nav">
-        <a class="logo" href="/">JINGKAI//TANG</a>
-        <div class="nav-links">
-          <a href="/writing">文章</a>
-          <a href="/now">Now</a>
-          <a href="/tags/ai/">AI</a>
-          <a href="/tags/game/">游戏</a>
-          <a href="/tags/life/">生活</a>
-          <a href="/search">Search</a>
-          <a href="/rss.xml">RSS</a>
-          <a href="https://github.com/JingkaiTang" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </div>
-      </nav>
-    </header>
+    <SiteHeader />
 
     <main data-pagefind-body>
       <slot />
     </main>
 
-    <footer class="site-footer" data-pagefind-ignore>
-      <span>
-        © {new Date().getFullYear()} 唐靖凯 ·
-        <a href="https://github.com/JingkaiTang" target="_blank" rel="noreferrer">GitHub</a>
-      </span>
-    </footer>
+    <SiteFooter />
 
     <!-- Cmd/Ctrl+K Quick Search -->
     <dialog id="quick-search" class="quick-search" data-pagefind-ignore>
