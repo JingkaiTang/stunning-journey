@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../../utils/contentPreview';
 import { formatShanghai } from '../../utils/dateFormat';
@@ -21,42 +22,14 @@ const posts = (await getCollection('writing'))
         const coverRaw = pickCover(post);
         const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
         return (
-          <article class="project-card content-card">
-            <div class={`content-card__grid ${cover ? 'has-cover' : ''}`}>
-              {cover ? (
-                <a href={href} style="display:block;">
-                  <img
-                    class="content-card__thumb"
-                    src={cover}
-                    alt={post.data.title}
-                    loading="lazy"
-                    decoding="async"
-                    fetchpriority="low"
-                  />
-                </a>
-              ) : null}
-
-              <div>
-                <h3 style="margin:0 0 6px;">
-                  <a href={`/writing/${post.slug.replace(/\/index$/, '')}/`} style="color: var(--text); text-decoration:none;">
-                    {post.data.title}
-                  </a>
-                </h3>
-                {post.data.description ? <p style="margin: 0 0 10px; color: var(--muted);">{post.data.description}</p> : null}
-                <span>
-                  {formatShanghai(post.data.pubDate, { withSeconds: true })}
-                  {post.data.tags.length ? (
-                    <> · {post.data.tags.map((t, i) => (
-                      <>
-                        <a href={`/tags/${encodeURIComponent(t)}/`} style="color: var(--muted); text-decoration:none;">{t}</a>
-                        {i < post.data.tags.length - 1 ? ' / ' : ''}
-                      </>
-                    ))}</>
-                  ) : null}
-                </span>
-              </div>
-            </div>
-          </article>
+          <PostCard
+            href={href}
+            title={post.data.title}
+            description={post.data.description}
+            dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
+            tags={post.data.tags}
+            cover={cover}
+          />
         );
       })}
 

@@ -31,6 +31,33 @@ main {
   margin-top: 6px;
 }
 
+.content-card__thumb-link {
+  display: block;
+}
+
+.content-card__title {
+  margin: 0 0 6px;
+}
+
+.content-card__title-link {
+  color: var(--theme-text);
+  text-decoration: none;
+}
+
+.content-card__desc {
+  margin: 0 0 10px;
+  color: var(--theme-muted);
+}
+
+.content-card__meta {
+  color: var(--theme-muted);
+}
+
+.content-card__tag-link {
+  color: var(--theme-muted);
+  text-decoration: none;
+}
+
 .footer-gallery {
   width: 100%;
   margin: 32px 0 18px;
