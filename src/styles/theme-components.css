@@ -71,6 +71,29 @@ main {
   text-decoration: none;
 }
 
+.tag-index-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.tag-index-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.tag-index-card__name {
+  color: var(--theme-text);
+}
+
+.tag-index-card__count {
+  color: var(--theme-muted);
+  font-size: 0.9rem;
+}
+
 .footer-gallery {
   width: 100%;
   margin: 32px 0 18px;
