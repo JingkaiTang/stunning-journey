@@ -29,24 +29,17 @@ const isDraft = Boolean(post.data.draft);
     {isDraft ? <meta name="robots" content="noindex,nofollow" /> : null}
   </Fragment>
 
-  <section class="section glass" style="max-width: 980px;">
+  <section class="section glass post-article">
     <article class="post">
-      <div style="display:flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <h1 class="post-title" style="margin:0;">{post.data.title}</h1>
+      <div class="post-title-row">
+        <h1 class="post-title post-title-plain">{post.data.title}</h1>
         {isDraft ? (
-          <span style="
-            font-size: 0.85rem;
-            color: var(--primary);
-            border: 1px solid rgba(124, 249, 255, 0.25);
-            border-radius: 999px;
-            padding: 2px 10px;
-            background: rgba(124, 249, 255, 0.08);
-          ">草稿</span>
+          <span class="post-draft-badge">草稿</span>
         ) : null}
       </div>
 
       {isDraft ? (
-        <p style="margin-top: 10px; color: var(--muted);">
+        <p class="post-draft-note">
           这是一条草稿：仅用于预览，不会出现在 Now 列表/首页流中。
         </p>
       ) : null}
@@ -72,7 +65,7 @@ const isDraft = Boolean(post.data.draft);
         <Content />
       </div>
 
-      <p style="margin-top: 18px;"><a href="/now">← 返回 Now</a></p>
+      <p class="post-back-link"><a href="/now">← 返回 Now</a></p>
     </article>
   </section>
 </BaseLayout>

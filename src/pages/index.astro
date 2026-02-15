@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../utils/contentPreview';
 import { formatShanghai } from '../utils/dateFormat';
@@ -45,40 +46,17 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
         const coverRaw = pickCover(post);
         const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
         return (
-          <article class="feed-card project-card content-card">
-            <div class={`content-card__grid ${cover ? 'has-cover' : ''}`}>
-              {cover ? (
-                <a href={href} style="display:block;">
-                  <img
-                    class="content-card__thumb"
-                    src={cover}
-                    alt={title}
-                    loading="lazy"
-                    decoding="async"
-                    fetchpriority="low"
-                  />
-                </a>
-              ) : null}
-
-              <div>
-                <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
-                  <h3 style="margin:0;">
-                    <a href={href} style="color: var(--text); text-decoration:none;">
-                      {title}
-                    </a>
-                  </h3>
-                  <span style="color: var(--primary); font-size: 0.85rem;">{kind === 'now' ? 'Now' : 'Writing'}</span>
-                </div>
-
-                {post.data.description ? <p style="margin-top: 8px; color: var(--muted);">{post.data.description}</p> : null}
-
-                <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
-                  <span style="color: var(--muted);">{formatShanghai(post.data.pubDate, { withSeconds: true })}</span>
-                  <a href={href} aria-label={`阅读全文: ${title}`}>阅读全文 →</a>
-                </div>
-              </div>
-            </div>
-          </article>
+          <PostCard
+            href={href}
+            title={title}
+            description={post.data.description}
+            dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
+            tags={post.data.tags}
+            cover={cover}
+            badge={kind === 'now' ? 'Now' : 'Writing'}
+            showReadMore={true}
+            ariaLabel={`阅读全文：${title}`}
+          />
         );
       })}
 

@@ -1,0 +1,22 @@
+---
+import { THEME_BRAND, THEME_NAV_ITEMS } from '../../theme/config';
+---
+
+<header class="site-header theme-header" data-pagefind-ignore>
+  <nav class="nav">
+    <a class="logo" href="/">{THEME_BRAND}</a>
+    <div class="nav-links">
+      {
+        THEME_NAV_ITEMS.map((item) => (
+          <a
+            href={item.href}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener noreferrer' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+</header>

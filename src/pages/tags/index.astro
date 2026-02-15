@@ -24,9 +24,12 @@ const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeC
       <p>按标签浏览 Writing / Now。</p>
     </div>
 
-    <div class="stack-list" style="margin-top: 16px;">
+    <div class="tag-index-grid" style="margin-top: 16px;">
       {tags.map(([tag, count]) => (
-        <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag} ({count})</a>
+        <a class="project-card tag-index-card" href={`/tags/${encodeURIComponent(tag)}/`}>
+          <span class="tag-index-card__name">#{tag}</span>
+          <span class="tag-index-card__count">{count}</span>
+        </a>
       ))}
     </div>
   </section>

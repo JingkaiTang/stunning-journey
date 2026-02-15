@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../../utils/contentPreview';
 import { formatShanghai } from '../../utils/dateFormat';
@@ -10,6 +11,7 @@ type Item = {
   title: string;
   description?: string;
   pubDate: Date;
+  tags: string[];
   cover?: string | null;
 };
 
@@ -48,6 +50,7 @@ const writingPosts = (await getCollection('writing'))
       title: p.data.title,
       description: p.data.description,
       pubDate: p.data.pubDate,
+      tags: p.data.tags,
       cover,
     } satisfies Item;
   });
@@ -66,6 +69,7 @@ const nowPosts = (await getCollection('now'))
       title: p.data.title,
       description: p.data.description,
       pubDate: p.data.pubDate,
+      tags: p.data.tags,
       cover,
     } satisfies Item;
   });
@@ -81,44 +85,22 @@ const posts = [...writingPosts, ...nowPosts].sort((a, b) => b.pubDate.getTime() 
     </div>
 
     <div style="display:grid; gap:16px; margin-top: 12px;">
-      {posts.map((post) => (
-        <article class="project-card content-card" style="transform:none;">
-          <div class={`content-card__grid ${post.cover ? 'has-cover' : ''}`}>
-            {post.cover ? (
-              <a href={post.href} style="display:block;">
-                <img
-                  class="content-card__thumb"
-                  src={post.cover}
-                  alt={post.title.replace(/^Now:\s*/, '')}
-                  loading="lazy"
-                  decoding="async"
-                  fetchpriority="low"
-                />
-              </a>
-            ) : null}
-
-            <div>
-              <div style="display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
-                <h3 style="margin:0;">
-                  <a href={post.href} style="color: var(--text); text-decoration:none;">
-                    {post.kind === 'now' ? `${formatShanghai(post.pubDate, { withSeconds: true })} · ` : ''}{post.title.replace(/^Now:\s*/, '')}
-                  </a>
-                </h3>
-                <span style="color: var(--primary); font-size: 0.85rem;">{post.kind === 'now' ? 'Now' : 'Writing'}</span>
-              </div>
-
-              {post.description ? <p style="margin-top: 8px; color: var(--muted);">{post.description}</p> : null}
-
-              <div style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;">
-                {post.kind === 'writing' ? (
-                  <span style="color: var(--muted);">{formatShanghai(post.pubDate, { withSeconds: true })}</span>
-                ) : null}
-                <a href={post.href} aria-label={`阅读全文：${post.title.replace(/^Now:\s*/, '')}`}>阅读全文 →</a>
-              </div>
-            </div>
-          </div>
-        </article>
-      ))}
+      {posts.map((post) => {
+        const cleanTitle = post.title.replace(/^Now:\s*/, '');
+        return (
+          <PostCard
+            href={post.href}
+            title={cleanTitle}
+            description={post.description}
+            dateText={formatShanghai(post.pubDate, { withSeconds: true })}
+            tags={post.tags}
+            cover={post.cover}
+            badge={post.kind === 'now' ? 'Now' : 'Writing'}
+            showReadMore={true}
+            ariaLabel={`阅读全文：${cleanTitle}`}
+          />
+        );
+      })}
 
       {posts.length === 0 ? <p style="color: var(--muted);">还没有内容。</p> : null}
     </div>
