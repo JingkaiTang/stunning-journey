@@ -71,6 +71,17 @@ main {
   text-decoration: none;
 }
 
+.content-card__actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.content-card__read-more {
+  text-decoration: none;
+}
+
 .tag-index-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

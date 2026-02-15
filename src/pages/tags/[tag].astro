@@ -96,6 +96,8 @@ const posts = [...writingPosts, ...nowPosts].sort((a, b) => b.pubDate.getTime() 
             tags={post.tags}
             cover={post.cover}
             badge={post.kind === 'now' ? 'Now' : 'Writing'}
+            showReadMore={true}
+            ariaLabel={`阅读全文：${cleanTitle}`}
           />
         );
       })}

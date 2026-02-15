@@ -7,9 +7,23 @@ type PostCardProps = {
   tags?: string[];
   cover?: string | null;
   badge?: string;
+  ariaLabel?: string;
+  showReadMore?: boolean;
+  readMoreLabel?: string;
 };
 
-const { href, title, description, dateText, tags = [], cover = null, badge } = Astro.props as PostCardProps;
+const {
+  href,
+  title,
+  description,
+  dateText,
+  tags = [],
+  cover = null,
+  badge,
+  ariaLabel,
+  showReadMore = false,
+  readMoreLabel = '阅读全文 →',
+} = Astro.props as PostCardProps;
 ---
 
 <article class="project-card content-card">
@@ -32,7 +46,9 @@ const { href, title, description, dateText, tags = [], cover = null, badge } = A
     <div>
       <div class="content-card__title-row">
         <h3 class="content-card__title">
-          <a href={href} class="content-card__title-link">{title}</a>
+          <a href={href} class="content-card__title-link" aria-label={ariaLabel ?? `查看详情：${title}`}>
+            {title}
+          </a>
         </h3>
         {badge ? <span class="content-card__badge">{badge}</span> : null}
       </div>
@@ -53,6 +69,13 @@ const { href, title, description, dateText, tags = [], cover = null, badge } = A
           </span>
         ) : null
       }
+      {showReadMore ? (
+        <div class="content-card__actions">
+          <a href={href} class="content-card__read-more" aria-label={ariaLabel ?? `查看详情：${title}`}>
+            {readMoreLabel}
+          </a>
+        </div>
+      ) : null}
     </div>
   </div>
 </article>

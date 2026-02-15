@@ -28,6 +28,8 @@ const posts = (await getCollection('now'))
             dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
             tags={post.data.tags}
             cover={cover}
+            showReadMore={true}
+            ariaLabel={`阅读全文：${title}`}
           />
         );
       })}

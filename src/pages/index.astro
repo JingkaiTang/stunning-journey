@@ -51,9 +51,11 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
             title={title}
             description={post.data.description}
             dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
-            tags={kind === 'now' ? ['now'] : post.data.tags}
+            tags={post.data.tags}
             cover={cover}
             badge={kind === 'now' ? 'Now' : 'Writing'}
+            showReadMore={true}
+            ariaLabel={`阅读全文：${title}`}
           />
         );
       })}
