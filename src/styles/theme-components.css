@@ -123,10 +123,10 @@ main {
 .post-draft-badge {
   font-size: 0.85rem;
   color: var(--theme-primary);
-  border: 1px solid rgba(124, 249, 255, 0.25);
+  border: 1px solid var(--theme-border);
   border-radius: 999px;
   padding: 2px 10px;
-  background: rgba(124, 249, 255, 0.08);
+  background: var(--panel-accent-soft, rgba(124, 249, 255, 0.08));
 }
 
 .post-draft-note {

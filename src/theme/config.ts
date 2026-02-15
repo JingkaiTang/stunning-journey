@@ -4,7 +4,26 @@ export type ThemeNavItem = {
   external?: boolean;
 };
 
+export type ThemeKey = 'tech' | 'day' | 'night' | 'cny';
+
+export type ThemeOption = {
+  value: ThemeKey;
+  label: string;
+};
+
 export const THEME_BRAND = 'JINGKAI//TANG';
+
+// Default theme entrypoint: update this value when changing site default theme.
+export const DEFAULT_THEME: ThemeKey = 'cny';
+export const THEME_STORAGE_KEY = 'site-theme';
+export const THEME_KEYS: ThemeKey[] = ['tech', 'day', 'night', 'cny'];
+
+export const THEME_OPTIONS: ThemeOption[] = [
+  { value: 'tech', label: '🤖 科技' },
+  { value: 'day', label: '☀️ 白天' },
+  { value: 'night', label: '🌙 黑夜' },
+  { value: 'cny', label: '🧧 新春' },
+];
 
 export const THEME_NAV_ITEMS: ThemeNavItem[] = [
   { href: '/writing', label: '文章' },

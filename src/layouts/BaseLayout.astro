@@ -2,6 +2,7 @@
 import { SITE } from '../consts';
 import SiteFooter from '../components/theme/SiteFooter.astro';
 import SiteHeader from '../components/theme/SiteHeader.astro';
+import { DEFAULT_THEME, THEME_KEYS, THEME_STORAGE_KEY } from '../theme/config';
 import '../styles/theme-tokens.css';
 import '../styles/theme-components.css';
 
@@ -26,7 +27,7 @@ const BASE_URL = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme={DEFAULT_THEME}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -51,6 +52,20 @@ const BASE_URL = import.meta.env.BASE_URL;
 
     <title>{title}</title>
 
+    <script is:inline define:vars={{ DEFAULT_THEME, THEME_KEYS, THEME_STORAGE_KEY }}>
+      (() => {
+        const allowed = new Set(THEME_KEYS);
+        let saved = '';
+        try {
+          saved = localStorage.getItem(THEME_STORAGE_KEY) || '';
+        } catch {
+          // ignore storage errors (private mode / blocked)
+        }
+        const next = allowed.has(saved) ? saved : DEFAULT_THEME;
+        document.documentElement.dataset.theme = next;
+      })();
+    </script>
+
     <!-- Fonts (avoid render-blocking @import in CSS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -63,7 +78,7 @@ const BASE_URL = import.meta.env.BASE_URL;
 
     <slot name="head" />
   </head>
-  <body class="theme-default" data-base-url={BASE_URL}>
+  <body class="theme-default" data-base-url={BASE_URL} data-theme={DEFAULT_THEME}>
     <div class="ambient-glow"></div>
 
     <SiteHeader />
