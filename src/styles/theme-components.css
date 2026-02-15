@@ -94,6 +94,39 @@ main {
   font-size: 0.9rem;
 }
 
+.post-article {
+  max-width: 980px;
+}
+
+.post-title-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.post-title-plain {
+  margin: 0;
+}
+
+.post-draft-badge {
+  font-size: 0.85rem;
+  color: var(--theme-primary);
+  border: 1px solid rgba(124, 249, 255, 0.25);
+  border-radius: 999px;
+  padding: 2px 10px;
+  background: rgba(124, 249, 255, 0.08);
+}
+
+.post-draft-note {
+  margin-top: 10px;
+  color: var(--theme-muted);
+}
+
+.post-back-link {
+  margin-top: 18px;
+}
+
 .footer-gallery {
   width: 100%;
   margin: 32px 0 18px;
